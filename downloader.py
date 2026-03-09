@@ -195,41 +195,134 @@ def _get_page_count(driver):
     return 0
 
 
-def _extract_image_from_page(url, headless=True):
-    """Open a browser, load ONE page, extract the image URL, close browser."""
+def _extract_all_image_urls(url, headless=True):
+    """Open ONE browser and extract ALL image URLs for every page of the issue.
+    
+    The site uses obfuscated JS arrays + decoy images in #divImage.
+    Each page shows 3 <img> tags: 2 hidden decoys + 1 visible real image.
+    The auth tokens (rhlupa/rnvuka) in the URL are tied to the browser's UA.
+    
+    Strategy: Navigate page-by-page using the #selectPage dropdown,
+    capturing the VISIBLE image src each time. Waits for each image to
+    fully load before moving to next page.
+    
+    Returns dict {page_number: image_url}
+    """
+    from selenium.webdriver.support.ui import Select
     driver = None
     try:
         driver = _create_browser(headless)
         driver.get(url)
         
-        # Wait for #divImage to exist
+        # Wait for page to load
         WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.ID, "divImage"))
         )
+        time.sleep(2)
         
-        # Wait for an image with a blogspot src to appear (even if display:none)
-        # In one-page mode images have display:none but src IS set
-        for attempt in range(10):  # wait up to 5 seconds
-            # Use JavaScript to get ALL img srcs inside divImage (works even for hidden imgs)
-            srcs = driver.execute_script("""
+        # Check CAPTCHA
+        if 'are you human' in driver.page_source.lower():
+            log.warning("  [!!] CAPTCHA detectado - pulando")
+            return {}
+        
+        # Get total pages from dropdown
+        total_pages = _get_page_count(driver)
+        if total_pages == 0:
+            log.warning("  [!!] Nao encontrou seletor de paginas")
+            return {}
+        
+        log.info(f"  [OK] {total_pages} paginas detectadas")
+        
+        def _get_visible_image_src_loaded():
+            """Get the src of the visible image ONLY if it's fully loaded."""
+            return driver.execute_script("""
                 var imgs = document.querySelectorAll('#divImage img');
-                var urls = [];
                 for (var i = 0; i < imgs.length; i++) {
-                    var src = imgs[i].src || '';
-                    if (src && src.indexOf('blogspot') !== -1) {
-                        urls.push(src);
+                    if (imgs[i].style.display !== 'none') {
+                        var src = imgs[i].src || '';
+                        if (src && src.indexOf('blogspot') !== -1 && src.length > 50) {
+                            // Check if image is actually loaded (not just src set)
+                            if (imgs[i].complete && imgs[i].naturalWidth > 100) {
+                                return src;
+                            }
+                            // src is set but still loading — return special marker
+                            return '__loading__:' + src;
+                        }
                     }
                 }
-                return urls;
+                return null;
             """)
-            if srcs:
-                # Return the last blogspot URL (usually the higher quality one)
-                return srcs[-1]
-            time.sleep(0.5)
         
-        return None
-    except Exception:
-        return None
+        def _wait_for_loaded_image(page_num, prev_src, timeout_s=30):
+            """Wait for the visible image to have a NEW src and be fully loaded."""
+            for attempt in range(timeout_s * 2):  # check every 0.5s
+                result = _get_visible_image_src_loaded()
+                if result and result.startswith('__loading__:'):
+                    # src changed but image still loading — keep waiting
+                    new_src = result[len('__loading__:'):]
+                    if new_src != prev_src:
+                        # src already changed, just wait for complete
+                        time.sleep(0.5)
+                        continue
+                elif result and result != prev_src:
+                    # Fully loaded with new src
+                    return result.strip()
+                time.sleep(0.5)
+            
+            # Timeout — try to grab whatever src is there even if not fully loaded
+            fallback = driver.execute_script("""
+                var imgs = document.querySelectorAll('#divImage img');
+                for (var i = 0; i < imgs.length; i++) {
+                    if (imgs[i].style.display !== 'none') {
+                        var src = imgs[i].src || '';
+                        if (src && src.indexOf('blogspot') !== -1 && src.length > 50) {
+                            return src;
+                        }
+                    }
+                }
+                return null;
+            """)
+            if fallback and fallback != prev_src:
+                return fallback.strip()
+            return None
+        
+        image_urls = {}
+        
+        # Capture first page (already loaded)
+        src = _wait_for_loaded_image(1, '', timeout_s=20)
+        if src:
+            image_urls[1] = src
+        else:
+            log.warning("    Pagina 1: imagem nao encontrada")
+        
+        # Navigate through remaining pages via the selectPage dropdown
+        for page_num in range(2, total_pages + 1):
+            prev_src = image_urls.get(page_num - 1, '')
+            
+            try:
+                select_el = driver.find_element(By.ID, "selectPage")
+                Select(select_el).select_by_index(page_num - 1)
+            except Exception as e:
+                log.warning(f"    Pagina {page_num}: erro ao navegar: {e}")
+                continue
+            
+            # Wait for image to fully load
+            src = _wait_for_loaded_image(page_num, prev_src, timeout_s=30)
+            if src:
+                image_urls[page_num] = src
+            else:
+                log.warning(f"    Pagina {page_num}: imagem nao encontrada")
+            
+            # Progress log every 10 pages
+            if page_num % 10 == 0:
+                log.info(f"    ... {page_num}/{total_pages} paginas processadas")
+        
+        log.info(f"  [OK] {len(image_urls)}/{total_pages} URLs coletadas")
+        return image_urls
+    
+    except Exception as e:
+        log.error(f"  [ERRO] Extracao falhou: {e}")
+        return {}
     finally:
         if driver:
             try:
@@ -263,6 +356,14 @@ class ComicDownloader:
         try:
             resp = self.session.get(src, timeout=30, headers={
                 'Referer': 'https://readcomiconline.li/',
+                'Accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'sec-ch-ua': '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'Sec-Fetch-Dest': 'image',
+                'Sec-Fetch-Mode': 'no-cors',
+                'Sec-Fetch-Site': 'cross-site',
             })
             if resp.status_code == 200 and len(resp.content) > 1000:
                 with open(path, 'wb') as f:
@@ -273,7 +374,7 @@ class ComicDownloader:
         return 0
     
     def download_issue(self, title, issue, order, year=""):
-        """Download all pages of a comic issue using parallel browsers."""
+        """Download all pages of a comic issue using a single browser."""
         from concurrent.futures import ThreadPoolExecutor, as_completed
         
         url = build_issue_url(title, issue, year)
@@ -289,96 +390,54 @@ class ComicDownloader:
         
         log.info(f"  [->] Abrindo: {url}")
         
-        # Step 1: Scout — open one browser to get page count
-        scout = None
-        try:
-            scout = _create_browser(self.headless)
-            scout.get(url)
-            time.sleep(3)
-            
-            # Check CAPTCHA
-            if 'are you human' in scout.page_source.lower():
-                log.warning(f"  [!!] CAPTCHA detectado - pulando")
-                return False
-            
-            total_pages = _get_page_count(scout)
-            if total_pages == 0:
-                log.warning(f"  [!!] Nao encontrou seletor de paginas")
-                return False
-            
-            log.info(f"  [OK] {total_pages} paginas detectadas")
-        except Exception as e:
-            log.error(f"  [ERRO] Scout falhou: {e}")
+        # Step 1: Extract ALL image URLs using a single browser
+        all_image_urls = _extract_all_image_urls(url, self.headless)
+        
+        if not all_image_urls:
+            log.warning(f"  [!!] Nenhuma imagem encontrada")
             return False
-        finally:
-            if scout:
-                try:
-                    scout.quit()
-                except Exception:
-                    pass
+        
+        total_pages = len(all_image_urls)
+        log.info(f"  [OK] {total_pages} URLs de imagens coletadas")
         
         # Step 2: Figure out which pages we still need
-        pages_needed = []
-        for p in range(1, total_pages + 1):
-            page_path = os.path.join(issue_dir, f"page_{p:03d}.jpg")
-            if os.path.exists(page_path) and os.path.getsize(page_path) > 1000:
-                continue
-            pages_needed.append(p)
+        pages_to_download = {}
+        for page_num, src in all_image_urls.items():
+            # Check all possible extensions
+            found = False
+            for ext in ('.jpg', '.png', '.webp'):
+                page_path = os.path.join(issue_dir, f"page_{page_num:03d}{ext}")
+                if os.path.exists(page_path) and os.path.getsize(page_path) > 1000:
+                    found = True
+                    break
+            if not found:
+                pages_to_download[page_num] = src
         
-        if not pages_needed:
+        if not pages_to_download:
             log.info(f"  [OK] Todas as {total_pages} paginas ja baixadas")
             return True
         
-        log.info(f"  [>>] Baixando {len(pages_needed)} paginas ({self.chunk_size} browsers por vez)...")
+        log.info(f"  [>>] Baixando {len(pages_to_download)} paginas...")
         
-        # Step 3: Process in chunks — open N browsers in parallel
-        downloaded = total_pages - len(pages_needed)  # already existing
+        # Step 3: Download images in parallel via requests (fast!)
+        downloaded = total_pages - len(pages_to_download)
         
-        for chunk_start in range(0, len(pages_needed), self.chunk_size):
-            chunk = pages_needed[chunk_start:chunk_start + self.chunk_size]
+        with ThreadPoolExecutor(max_workers=min(10, len(pages_to_download))) as executor:
+            def dl(page_num, src):
+                ext = '.jpg'
+                if '.png' in src.lower(): ext = '.png'
+                elif '.webp' in src.lower(): ext = '.webp'
+                path = os.path.join(issue_dir, f"page_{page_num:03d}{ext}")
+                return page_num, self._download_image(src, path)
             
-            # Build URLs for this chunk: each page gets URL#pageNum
-            page_urls = {p: f"{url}#{p}" for p in chunk}
-            
-            # Open browsers in parallel, each extracts one image URL
-            image_urls = {}
-            with ThreadPoolExecutor(max_workers=len(chunk)) as executor:
-                futures = {
-                    executor.submit(_extract_image_from_page, page_urls[p], self.headless): p 
-                    for p in chunk
-                }
-                for future in as_completed(futures):
-                    page_num = futures[future]
-                    try:
-                        src = future.result()
-                        if src:
-                            image_urls[page_num] = src
-                        else:
-                            log.warning(f"    Pagina {page_num}: imagem nao encontrada")
-                    except Exception as e:
-                        log.error(f"    Pagina {page_num}: erro: {e}")
-            
-            # Download collected images (parallel with requests, very fast)
-            with ThreadPoolExecutor(max_workers=len(image_urls) or 1) as executor:
-                def dl(page_num, src):
-                
-                    ext = '.jpg'
-                    if '.png' in src.lower(): ext = '.png'
-                    elif '.webp' in src.lower(): ext = '.webp'
-                    path = os.path.join(issue_dir, f"page_{page_num:03d}{ext}")
-                    return page_num, self._download_image(src, path)
-                futures = {executor.submit(dl, p, s): p for p, s in image_urls.items()}
-                for future in as_completed(futures):
-                    page_num, size = future.result()
-                    if size > 0:
-                        downloaded += 1
-                        log.info(f"    Pagina {page_num}/{total_pages} ({size//1024}KB)")
-                    else:
-                        log.warning(f"    Pagina {page_num} falhou no download")
-            
-            # Small delay between chunks to be polite
-            if chunk_start + self.chunk_size < len(pages_needed):
-                time.sleep(1)
+            futures = {executor.submit(dl, p, s): p for p, s in pages_to_download.items()}
+            for future in as_completed(futures):
+                page_num, size = future.result()
+                if size > 0:
+                    downloaded += 1
+                    log.info(f"    Pagina {page_num}/{total_pages} ({size//1024}KB)")
+                else:
+                    log.warning(f"    Pagina {page_num} falhou no download")
         
         log.info(f"  [OK] {title} #{issue}: {downloaded}/{total_pages} paginas em {issue_dir}")
         return downloaded > 0
