@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0a0a0f">
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="manifest.json">
   <title>Marvel Comic Reader</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
@@ -229,8 +229,24 @@
 <!-- Status icons -->
 <div class="status-icons">
   <span class="menu-icon" id="menuIcon" title="Armazenamento">☰</span>
+  <span class="settings-icon" id="settingsIcon" title="Configurar servidor" style="cursor:pointer">⚙️</span>
   <span class="install-icon" id="installIcon" title="Instalar app">📲</span>
   <span id="connIndicator" title="Conectado">🟢</span>
+</div>
+
+<!-- ════ SERVER SETTINGS MODAL ════ -->
+<div id="serverSettingsModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:5000;align-items:center;justify-content:center;padding:16px">
+  <div style="background:#12121a;border:1px solid #2a2a3e;border-radius:12px;padding:24px;max-width:440px;width:100%;color:#e0e0f0;font-family:Inter,sans-serif">
+    <h3 style="color:#f0c040;font-size:1.1rem;margin-bottom:12px">⚙️ Servidor de Imagens</h3>
+    <p style="color:#8888aa;font-size:.8rem;margin-bottom:12px">URL do servidor que hospeda os comics e sincroniza bookmarks.</p>
+    <input id="serverUrlInput" type="url" placeholder="https://192.168.1.100:8000" style="width:100%;background:#1a1a2e;color:#e0e0f0;border:1px solid #2a2a3e;border-radius:8px;padding:10px 12px;font-size:.85rem;font-family:inherit;outline:none;margin-bottom:8px">
+    <div id="serverTestResult" style="font-size:.75rem;min-height:20px;margin-bottom:12px"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button id="serverTestBtn" style="background:#1a1a2e;color:#40a0e0;border:1px solid #40a0e0;border-radius:8px;padding:8px 16px;font-size:.8rem;cursor:pointer;font-family:inherit">🔗 Testar</button>
+      <button id="serverSaveBtn" style="background:linear-gradient(135deg,#f0c040,#e09030);color:#0a0a0f;border:none;border-radius:8px;padding:8px 16px;font-weight:600;font-size:.8rem;cursor:pointer;font-family:inherit">Salvar</button>
+      <button id="serverCloseBtn" style="background:#1a1a2e;color:#e0e0f0;border:1px solid #2a2a3e;border-radius:8px;padding:8px 16px;font-size:.8rem;cursor:pointer;font-family:inherit">Fechar</button>
+    </div>
+  </div>
 </div>
 
 <!-- ════ STORAGE MANAGEMENT PANEL ════ -->
@@ -377,12 +393,26 @@
 
 <script>
 // ═══════════════════════════════════════════════════════════
+//  API SERVER CONFIGURATION
+// ═══════════════════════════════════════════════════════════
+const IS_GITHUB_PAGES = location.hostname.endsWith('.github.io');
+const API_BASE = IS_GITHUB_PAGES ? (localStorage.getItem('marvel_api_server') || '') : '';
+function apiUrl(path) { return API_BASE + path; }
+
+// Show config prompt if on GitHub Pages with no server configured
+if (IS_GITHUB_PAGES && !API_BASE) {
+  setTimeout(() => {
+    document.getElementById('serverSettingsModal').style.display = 'flex';
+  }, 500);
+}
+
+// ═══════════════════════════════════════════════════════════
 //  SERVICE WORKER REGISTRATION
 // ═══════════════════════════════════════════════════════════
 let swReady = false;
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js', { scope: '/' })
+  navigator.serviceWorker.register('sw.js', { scope: './' })
     .then(reg => {
       console.log('SW registered:', reg.scope);
       swReady = true;
@@ -541,7 +571,7 @@ const Sync = {
     if (!this.online) return;
     try {
       // 1. Get server version
-      const res = await fetch('/api/sync/version', { signal: AbortSignal.timeout(5000) });
+      const res = await fetch(apiUrl('/api/sync/version'), { signal: AbortSignal.timeout(5000) });
       if (!res.ok) throw new Error('offline');
       const { version: serverVersion } = await res.json();
 
@@ -574,7 +604,7 @@ const Sync = {
 
   async pullFromServer() {
     try {
-      const res = await fetch('/api/sync/state', { signal: AbortSignal.timeout(10000) });
+      const res = await fetch(apiUrl('/api/sync/state'), { signal: AbortSignal.timeout(10000) });
       if (!res.ok) return;
       const state = await res.json();
 
@@ -598,7 +628,7 @@ const Sync = {
   async pushToServer() {
     try {
       const progress = await IDB.getAll('progress');
-      const res = await fetch('/api/sync/state', {
+      const res = await fetch(apiUrl('/api/sync/state'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ progress }),
@@ -616,7 +646,7 @@ const Sync = {
     while (this.pendingChanges.length > 0) {
       const change = this.pendingChanges[0];
       try {
-        await fetch(change.url, { method: change.method, signal: AbortSignal.timeout(5000) });
+        await fetch(change.url.startsWith('http') ? change.url : apiUrl(change.url), { method: change.method, signal: AbortSignal.timeout(5000) });
         this.pendingChanges.shift();
       } catch {
         break; // Stop flushing if still offline
@@ -671,7 +701,7 @@ let zoomLevel = 100;
 // ═══════════════════════════════════════════════════════════
 async function api(path, method = 'GET') {
   try {
-    const res = await fetch('/api' + path, { method });
+    const res = await fetch(apiUrl('/api' + path), { method });
     if (!res.ok) throw new Error(`API ${res.status}`);
     const data = await res.json();
     if (!Sync.online) Sync.setOnline(true);
@@ -926,7 +956,7 @@ async function toggleReadState(order) {
       const newState = library[idx].is_read ? 0 : 1;
       library[idx].is_read = newState;
       await Sync.saveProgressLocal(order, library[idx].current_page, newState);
-      Sync.queueChange('/api/progress/' + order + '/toggle-read', 'POST');
+      Sync.queueChange(apiUrl('/api/progress/' + order + '/toggle-read'), 'POST');
       renderLibrary();
     }
   }
@@ -963,7 +993,7 @@ async function markAllBefore() {
         await Sync.saveProgressLocal(iss.order_num, iss.current_page || 1, true);
       }
     }
-    Sync.queueChange('/api/progress/mark-before/' + (bm - 1), 'POST');
+    Sync.queueChange(apiUrl('/api/progress/mark-before/' + (bm - 1)), 'POST');
     renderLibrary();
   }
 }
@@ -1055,7 +1085,7 @@ function showPage(num) {
   loading.style.display = '';
   img.style.display = 'none';
 
-  const src = `/api/issues/${reader.order}/page/${num}`;
+  const src = apiUrl(`/api/issues/${reader.order}/page/${num}`);
   img.onload = () => {
     loading.style.display = 'none';
     img.style.display = '';
@@ -1072,7 +1102,7 @@ function showPage(num) {
 
   // Save progress (server + local)
   api(`/progress/${reader.order}?current_page=${num}`, 'POST').catch(() => {
-    Sync.queueChange(`/api/progress/${reader.order}?current_page=${num}`, 'POST');
+    Sync.queueChange(apiUrl(`/api/progress/${reader.order}?current_page=${num}`), 'POST');
   });
   Sync.saveProgressLocal(reader.order, num, null).catch(() => {});
 
@@ -1091,7 +1121,7 @@ function preloadPage(num) {
   if (num < 1 || num > reader.totalPages || reader.preloaded[num]) return;
   reader.preloaded[num] = true;
   const img = new Image();
-  img.src = `/api/issues/${reader.order}/page/${num}`;
+  img.src = apiUrl(`/api/issues/${reader.order}/page/${num}`);
 }
 
 function nextPage() {
@@ -1115,7 +1145,7 @@ function showIssueComplete() {
   // Auto-mark as read
   if (!reader.issue.is_read) {
     api(`/progress/${reader.order}?is_read=true`, 'POST').catch(() => {
-      Sync.queueChange(`/api/progress/${reader.order}?is_read=true`, 'POST');
+      Sync.queueChange(apiUrl(`/api/progress/${reader.order}?is_read=true`), 'POST');
     });
     Sync.saveProgressLocal(reader.order, reader.totalPages, true).catch(() => {});
     reader.issue.is_read = 1;
@@ -1192,7 +1222,7 @@ document.getElementById('markReadBtn').addEventListener('click', async () => {
     reader.issue.is_read = newState;
     updateMarkReadBtn(newState);
     Sync.saveProgressLocal(reader.order, reader.page, newState);
-    Sync.queueChange('/api/progress/' + reader.order + '/toggle-read', 'POST');
+    Sync.queueChange(apiUrl('/api/progress/' + reader.order + '/toggle-read'), 'POST');
   }
 });
 
@@ -1223,7 +1253,7 @@ function enterScrollMode() {
   for (let i = 1; i <= reader.totalPages; i++) {
     const img = document.createElement('img');
     img.className = 'comic-page-scroll';
-    img.src = `/api/issues/${reader.order}/page/${i}`;
+    img.src = apiUrl(`/api/issues/${reader.order}/page/${i}`);
     img.alt = `Página ${i}`;
     img.dataset.page = i;
     canvas.appendChild(img);
@@ -1282,7 +1312,7 @@ function onScrollTrack() {
     document.getElementById('pageSlider').value = closestPage;
     // Save progress
     api(`/progress/${reader.order}?current_page=${closestPage}`, 'POST').catch(() => {
-      Sync.queueChange(`/api/progress/${reader.order}?current_page=${closestPage}`, 'POST');
+      Sync.queueChange(apiUrl(`/api/progress/${reader.order}?current_page=${closestPage}`), 'POST');
     });
     Sync.saveProgressLocal(reader.order, closestPage, null).catch(() => {});
     history.replaceState(null, '', `#/read/${reader.order}/${closestPage}`);
@@ -1292,7 +1322,7 @@ function onScrollTrack() {
   if (canvas.scrollTop + canvas.clientHeight >= canvas.scrollHeight - 50) {
     if (!reader.issue.is_read) {
       api(`/progress/${reader.order}?is_read=true`, 'POST').catch(() => {
-        Sync.queueChange(`/api/progress/${reader.order}?is_read=true`, 'POST');
+        Sync.queueChange(apiUrl(`/api/progress/${reader.order}?is_read=true`), 'POST');
       });
       Sync.saveProgressLocal(reader.order, reader.totalPages, true).catch(() => {});
       reader.issue.is_read = 1;
@@ -1442,7 +1472,7 @@ function showInstallModal() {
       <div style="border-bottom:1px solid #2a2a3e;padding-bottom:16px;margin-bottom:16px">
         <p style="color:#40e080;font-weight:600;margin-bottom:8px">📦 Opção 1: Baixar APK (Recomendado)</p>
         <p style="color:#8888aa;font-size:.8rem;margin-bottom:10px">Instale diretamente como app nativo no seu celular.</p>
-        <a href="/download-apk" download="MarvelReader.apk"
+        <a href="${apiUrl('/download-apk')}" download="MarvelReader.apk"
            style="display:inline-block;background:linear-gradient(135deg,#40e080,#30b060);color:#000;border:none;border-radius:8px;
            padding:10px 20px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:inherit"
            onclick="setTimeout(()=>document.getElementById('installModal').remove(),500)">
@@ -1469,7 +1499,7 @@ function showInstallModal() {
       <div style="border-bottom:1px solid #2a2a3e;padding-bottom:16px;margin-bottom:16px">
         <p style="color:#40e080;font-weight:600;margin-bottom:8px">📦 Baixar APK (Android)</p>
         <p style="color:#8888aa;font-size:.8rem;margin-bottom:10px">Transfira para seu celular Android e instale.</p>
-        <a href="/download-apk" download="MarvelReader.apk"
+        <a href="${apiUrl('/download-apk')}" download="MarvelReader.apk"
            style="display:inline-block;background:linear-gradient(135deg,#40e080,#30b060);color:#000;border:none;border-radius:8px;
            padding:10px 20px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:inherit">
            ⬇️ Baixar APK
@@ -1554,7 +1584,7 @@ document.getElementById('reportSubmit').addEventListener('click', async () => {
   }
   const desc = document.getElementById('reportDesc').value.trim();
   try {
-    await fetch('/api/reports', {
+    await fetch(apiUrl('/api/reports'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1569,7 +1599,7 @@ document.getElementById('reportSubmit').addEventListener('click', async () => {
     closeReportModal();
   } catch {
     // Offline — save to local queue
-    Sync.queueChange('/api/reports', 'POST');
+    Sync.queueChange(apiUrl('/api/reports'), 'POST');
     flaggedIssues.add(reader.order);
     updateReportBtn();
     closeReportModal();
@@ -1599,7 +1629,7 @@ async function preCacheIssueImages(order, totalPages) {
   if (!navigator.serviceWorker || !navigator.serviceWorker.controller) return;
   const urls = [];
   for (let i = 1; i <= totalPages; i++) {
-    urls.push(`/api/issues/${order}/page/${i}`);
+    urls.push(apiUrl(`/api/issues/${order}/page/${i}`));
   }
   navigator.serviceWorker.controller.postMessage({ type: 'CACHE_IMAGES', urls });
 }
@@ -1839,7 +1869,7 @@ const StorageManager = {
     document.getElementById('downloadPhasesBtn').disabled = true;
     document.getElementById('downloadCancelBtn').style.display = '';
 
-    navigator.serviceWorker.controller.postMessage({ type: 'BATCH_CACHE_IMAGES', issues });
+    navigator.serviceWorker.controller.postMessage({ type: 'BATCH_CACHE_IMAGES', issues, apiBase: API_BASE });
   },
 
   cancelDownload() {
@@ -1884,6 +1914,62 @@ const StorageManager = {
 
 // Init storage manager
 StorageManager.init();
+
+// ═══════════════════════════════════════════════════════════
+//  SERVER SETTINGS MODAL
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const modal = document.getElementById('serverSettingsModal');
+  const input = document.getElementById('serverUrlInput');
+  const result = document.getElementById('serverTestResult');
+
+  input.value = localStorage.getItem('marvel_api_server') || '';
+
+  document.getElementById('settingsIcon').addEventListener('click', () => {
+    modal.style.display = 'flex';
+    input.value = localStorage.getItem('marvel_api_server') || '';
+    result.textContent = '';
+  });
+
+  document.getElementById('serverCloseBtn').addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+  });
+
+  document.getElementById('serverTestBtn').addEventListener('click', async () => {
+    const url = input.value.trim().replace(/\/+$/, '');
+    if (!url) { result.textContent = '⚠️ Digite a URL do servidor'; result.style.color = '#e04060'; return; }
+    result.textContent = '🔄 Testando...'; result.style.color = '#f0c040';
+    try {
+      const res = await fetch(url + '/api/stats', { signal: AbortSignal.timeout(5000) });
+      if (res.ok) {
+        const data = await res.json();
+        result.textContent = `✅ Conectado! ${data.total || 0} edições, ${data.read || 0} lidas`;
+        result.style.color = '#40e080';
+      } else {
+        result.textContent = '❌ Servidor respondeu com erro ' + res.status;
+        result.style.color = '#e04060';
+      }
+    } catch (e) {
+      result.innerHTML = '❌ Não foi possível conectar.<br><span style="font-size:.7rem;color:#888">Certifique-se de ter aceito o certificado SSL visitando o servidor diretamente no navegador primeiro.</span>';
+      result.style.color = '#e04060';
+    }
+  });
+
+  document.getElementById('serverSaveBtn').addEventListener('click', () => {
+    const url = input.value.trim().replace(/\/+$/, '');
+    if (url) {
+      localStorage.setItem('marvel_api_server', url);
+    } else {
+      localStorage.removeItem('marvel_api_server');
+    }
+    modal.style.display = 'none';
+    location.reload();
+  });
+})();
 </script>
 </body>
 </html>

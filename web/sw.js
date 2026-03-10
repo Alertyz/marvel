@@ -7,7 +7,7 @@ const IMG_CACHE = 'marvel-images-v1';
 const API_CACHE = 'marvel-api-v4';
 
 // App shell files to pre-cache
-const APP_SHELL = ['/', '/manifest.json', '/icon-192.png', '/icon-512.png'];
+const APP_SHELL = ['./', './manifest.json', './icon-192.png', './icon-512.png'];
 
 // Offline fallback HTML page (embedded to avoid extra request)
 const OFFLINE_HTML = `<!DOCTYPE html>
@@ -58,7 +58,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Comic page images: cache-first (large, rarely change)
+  // Comic page images: cache-first (large, rarely change) — works for both same-origin and cross-origin
   if (url.pathname.match(/^\/api\/issues\/\d+\/page\/\d+$/)) {
     event.respondWith(cacheFirst(event.request, IMG_CACHE));
     return;
@@ -72,8 +72,10 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // App shell (HTML, manifest): network-first
-  event.respondWith(networkFirst(event.request, APP_CACHE));
+  // Only cache same-origin requests for app shell
+  if (url.origin === self.location.origin) {
+    event.respondWith(networkFirst(event.request, APP_CACHE));
+  }
 });
 
 // ── Cache-first strategy (for images) ─────────────────────
@@ -219,6 +221,7 @@ self.addEventListener('message', (event) => {
   // Batch download: cache images for multiple issues with progress reporting
   if (event.data.type === 'BATCH_CACHE_IMAGES') {
     const issues = event.data.issues || []; // [{ orderNum, totalPages, title }]
+    const apiBase = event.data.apiBase || '';
     event.waitUntil(
       caches.open(IMG_CACHE).then(async (cache) => {
         let totalUrls = 0;
@@ -233,7 +236,7 @@ self.addEventListener('message', (event) => {
 
         for (const iss of issues) {
           for (let p = 1; p <= iss.totalPages; p++) {
-            const url = `/api/issues/${iss.orderNum}/page/${p}`;
+            const url = apiBase + `/api/issues/${iss.orderNum}/page/${p}`;
             const exists = await cache.match(url);
             if (exists) {
               skippedUrls++;
