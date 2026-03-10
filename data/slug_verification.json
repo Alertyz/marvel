@@ -1,0 +1,814 @@
+{
+  "results": [
+    {
+      "title": "Powers of X",
+      "slug": "Powers-of-X",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 6
+    },
+    {
+      "title": "House of X",
+      "slug": "House-of-X",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 6
+    },
+    {
+      "title": "X-Men",
+      "slug": "X-Men-2019",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 21
+    },
+    {
+      "title": "Marauders",
+      "slug": "Marauders-2019",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "X-Force",
+      "slug": "X-Force-2019",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "New Mutants",
+      "slug": "New-Mutants-2019",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 33
+    },
+    {
+      "title": "Excalibur",
+      "slug": "Excalibur-2019",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 26
+    },
+    {
+      "title": "Fallen Angels",
+      "slug": "Fallen-Angels-2019",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "X-Men/Fantastic Four",
+      "slug": "X-MenFantastic-Four",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Giant-Size X-Men: Jean Grey and Emma Frost",
+      "slug": "Giant-Size-X-Men-Jean-Grey-and-Emma-Frost",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Wolverine",
+      "slug": "Wolverine-2020",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 50
+    },
+    {
+      "title": "Cable",
+      "slug": "Cable-2020",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 12
+    },
+    {
+      "title": "X-Factor",
+      "slug": "X-Factor-2020",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "Hellions",
+      "slug": "Hellions-2020",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Giant-Size X-Men: Nightcrawler",
+      "slug": "Giant-Size-X-Men-Nightcrawler",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Giant-Size X-Men: Magneto",
+      "slug": "Giant-Size-X-Men-Magneto",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Giant-Size X-Men: Fantomex",
+      "slug": "Giant-Size-X-Men-Fantomex",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Giant-Size X-Men: Storm",
+      "slug": "Giant-Size-X-Men-Storm",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "X of Swords: Creation",
+      "slug": "X-of-Swords-Creation",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "X of Swords: Stasis",
+      "slug": "X-of-Swords-Stasis",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "X of Swords: Destruction",
+      "slug": "X-of-Swords-Destruction",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "S.W.O.R.D.",
+      "slug": "S-W-O-R-D-2020",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 11
+    },
+    {
+      "title": "Children of the Atom",
+      "slug": "Children-of-the-Atom",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 6
+    },
+    {
+      "title": "X-Corp",
+      "slug": "X-Corp-2021",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Way of X",
+      "slug": "Way-of-X",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Planet-Size X-Men",
+      "slug": "Planet-Size-X-Men",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "X-Men: The Trial of Magneto",
+      "slug": "X-Men-The-Trial-of-Magneto",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "X-Men (2021)",
+      "slug": "X-Men-2021",
+      "status": "OK",
+      "has_annuals": true,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 37
+    },
+    {
+      "title": "X-Men: The Onslaught Revelation",
+      "slug": "X-Men-The-Onslaught-Revelation",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Inferno",
+      "slug": "Inferno-2021",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "X Lives of Wolverine",
+      "slug": "X-Lives-of-Wolverine",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "X Deaths of Wolverine",
+      "slug": "X-Deaths-of-Wolverine",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Sabretooth",
+      "slug": "Sabretooth-2022",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Secret X-Men",
+      "slug": "Secret-X-Men",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Immortal X-Men",
+      "slug": "Immortal-X-Men",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 18
+    },
+    {
+      "title": "X-Men Red (2022)",
+      "slug": "X-Men-Red-2022",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 18
+    },
+    {
+      "title": "Knights of X",
+      "slug": "Knights-of-X",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Marauders (2022)",
+      "slug": "Marauders-2022",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 12
+    },
+    {
+      "title": "Legion of X",
+      "slug": "Legion-of-X",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "A.X.E.: Eve of Judgment",
+      "slug": "AXE-Eve-of-Judgment",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "A.X.E.: Judgment Day",
+      "slug": "AXE-Judgment-Day",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "A.X.E.: Death to the Mutants",
+      "slug": "AXE-Death-to-the-Mutants",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "A.X.E.: Judgment Day Omega",
+      "slug": "AXE-Judgment-Day-Omega",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "X-Terminators",
+      "slug": "X-Terminators-2022",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Betsy Braddock: Captain Britain",
+      "slug": "Betsy-Braddock-Captain-Britain",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Sins of Sinister",
+      "slug": "Sins-of-Sinister",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "Storm and the Brotherhood of Mutants",
+      "slug": "Storm-and-the-Brotherhood-of-Mutants",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Nightcrawlers",
+      "slug": "Nightcrawlers",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 3
+    },
+    {
+      "title": "Immoral X-Men",
+      "slug": "Immoral-X-Men",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 3
+    },
+    {
+      "title": "Sins of Sinister: Dominion",
+      "slug": "Sins-of-Sinister-Dominion",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "X-Men: Hellfire Gala (2023)",
+      "slug": "X-Men-Hellfire-Gala-2023",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "Invincible Iron Man",
+      "slug": "Invincible-Iron-Man-2022",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Uncanny Avengers (2023)",
+      "slug": "Uncanny-Avengers-2023",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Children of the Vault (2023)",
+      "slug": "Children-of-the-Vault-2023",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Dark X-Men",
+      "slug": "Dark-X-Men-2023",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Astonishing Iceman",
+      "slug": "Astonishing-Iceman",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Alpha Flight (2023)",
+      "slug": "Alpha-Flight-2023",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Realm of X",
+      "slug": "Realm-of-X",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "Ms. Marvel: The New Mutant",
+      "slug": "Ms-Marvel-The-New-Mutant",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "Jean Grey",
+      "slug": "Jean-Grey-2023",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "Cable (2024)",
+      "slug": "Cable-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "Fall of the House of X",
+      "slug": "Fall-of-the-House-of-X",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Rise of the Powers of X",
+      "slug": "Rise-of-the-Powers-of-X",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Dead X-Men",
+      "slug": "Dead-X-Men",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "Resurrection of Magneto",
+      "slug": "Resurrection-of-Magneto",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "X-Men Forever (2024)",
+      "slug": "X-Men-Forever-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "X-Men (2024)",
+      "slug": "X-Men-2024",
+      "status": "OK",
+      "has_annuals": true,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 27
+    },
+    {
+      "title": "Phoenix",
+      "slug": "Phoenix-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 15
+    },
+    {
+      "title": "NYX",
+      "slug": "NYX-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "X-Force (2024)",
+      "slug": "X-Force-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "Uncanny X-Men (2024)",
+      "slug": "Uncanny-X-Men-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 24
+    },
+    {
+      "title": "X-Factor (2024)",
+      "slug": "X-Factor-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "Exceptional X-Men",
+      "slug": "Exceptional-X-Men",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 13
+    },
+    {
+      "title": "Wolverine (2024)",
+      "slug": "Wolverine-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 17
+    },
+    {
+      "title": "Storm (2024)",
+      "slug": "Storm-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 12
+    },
+    {
+      "title": "Dazzler (2024)",
+      "slug": "Dazzler-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 4
+    },
+    {
+      "title": "Mystique (2024)",
+      "slug": "Mystique-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Sentinels (2024)",
+      "slug": "Sentinels-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 5
+    },
+    {
+      "title": "Laura Kinney: Wolverine",
+      "slug": "Laura-Kinney-Wolverine",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "Psylocke (2024)",
+      "slug": "Psylocke-2024",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "Magik",
+      "slug": "Magik-2025",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 10
+    },
+    {
+      "title": "Weapon X-Men",
+      "slug": "Weapon-X-Men-2025",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "X-Manhunt Omega",
+      "slug": "X-Manhunt-Omega",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "X-Men United",
+      "slug": "X-Men-United",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Inglorious X-Force",
+      "slug": "Inglorious-X-Force",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 2
+    },
+    {
+      "title": "Generation: X-23",
+      "slug": "Generation-X-23",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "Wade Wilson: Deadpool",
+      "slug": "Wade-Wilson-Deadpool",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "Moonstar",
+      "slug": "Moonstar",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    },
+    {
+      "title": "Storm: Earth's Mightiest Mutant",
+      "slug": "Storm-Earths-Mightiest-Mutant",
+      "status": "REDIRECTED",
+      "has_annuals": false,
+      "real_url": "https://readcomiconline.li/Error",
+      "suggestion": [],
+      "total_issues": 0
+    },
+    {
+      "title": "Magik and Colossus",
+      "slug": "Magik-and-Colossus",
+      "status": "OK",
+      "has_annuals": false,
+      "real_url": null,
+      "suggestion": [],
+      "total_issues": 1
+    }
+  ]
+}

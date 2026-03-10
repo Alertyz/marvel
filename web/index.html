@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="manifest" href="/manifest.json">
+  <title>Marvel Comic Reader</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a2e;--border:#2a2a3e;
+      --text:#e0e0f0;--text2:#8888aa;--accent:#f0c040;--danger:#e04060;
+      --success:#40e080;--info:#40a0e0;
+    }
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    a{color:var(--info);text-decoration:none}
+
+    /* ── LIBRARY VIEW ─────────────────────── */
+    .app{max-width:1400px;margin:0 auto;padding:16px}
+    header{text-align:center;padding:30px 16px 20px;position:relative}
+    header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:200px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+    h1{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#f0c040,#e04060,#8040e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px}
+    .subtitle{color:var(--text2);margin-top:6px;font-size:.85rem}
+    .conn-indicator{position:fixed;top:10px;right:12px;font-size:1.1rem;z-index:2000;line-height:1;transition:opacity .3s}
+
+    .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;text-align:center;min-width:110px}
+    .stat .num{font-size:1.6rem;font-weight:700;color:var(--accent)}
+    .stat .label{font-size:.7rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+    .stat.danger .num{color:var(--danger)}
+    .stat.success .num{color:var(--success)}
+
+    .progress-wrap{margin:16px auto;max-width:600px}
+    .progress-bar{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#40e080,#f0c040,#e04060);border-radius:3px;transition:width .5s ease}
+    .progress-label{display:flex;justify-content:space-between;margin-top:4px;font-size:.7rem;color:var(--text2)}
+
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0;align-items:center;justify-content:center}
+    .controls select,.controls input{background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.8rem;font-family:inherit;outline:none;transition:border .2s}
+    .controls select:focus,.controls input:focus{border-color:var(--accent)}
+    .controls input{width:200px}
+    .btn{background:linear-gradient(135deg,#f0c040,#e09030);color:#0a0a0f;border:none;border-radius:8px;padding:8px 16px;font-weight:600;font-size:.8rem;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s;white-space:nowrap}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(240,192,64,.3)}
+    .btn.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    .btn.danger{background:linear-gradient(135deg,#e04060,#a02040)}
+
+    .phase-section{margin:24px 0}
+    .phase-header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;user-select:none;transition:background .2s}
+    .phase-header:hover{background:var(--surface2)}
+    .phase-header .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .phase-header h2{font-size:.95rem;font-weight:600;flex:1}
+    .phase-header .count{font-size:.75rem;color:var(--text2);background:var(--surface2);padding:2px 8px;border-radius:20px}
+    .phase-header .arrow{font-size:1rem;color:var(--text2);transition:transform .3s}
+    .phase-header.open .arrow{transform:rotate(180deg)}
+
+    .issues-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px;padding:10px 0;max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0}
+    .issues-grid.open{max-height:none;opacity:1}
+
+    .issue-card{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+    .issue-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.4)}
+    .issue-card.read{opacity:.55}
+    .issue-card.has-pages{border-left:3px solid var(--success)}
+    .issue-card .series-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .issue-card .issue-info{flex:1;min-width:0}
+    .issue-card .issue-title{font-size:.78rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .issue-card .issue-num{font-size:.65rem;color:var(--text2)}
+    .issue-card .order-badge{font-size:.6rem;color:var(--text2);background:var(--surface2);padding:1px 5px;border-radius:10px;flex-shrink:0}
+    .issue-card .read-toggle{background:none;border:1px solid var(--border);color:var(--text2);border-radius:50%;width:22px;height:22px;font-size:.7rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;padding:0;line-height:1}
+    .issue-card .read-toggle:hover{border-color:var(--success);color:var(--success);background:rgba(64,224,128,.1)}
+    .issue-card.read .read-toggle{background:var(--success);color:#000;border-color:var(--success)}
+
+    .event-banner{grid-column:1/-1;padding:6px 14px;background:linear-gradient(90deg,var(--surface2),transparent);border-left:3px solid var(--accent);font-size:.75rem;font-weight:600;color:var(--accent);border-radius:4px;margin:2px 0}
+    .bookmark-banner{grid-column:1/-1;padding:10px 16px;background:linear-gradient(90deg,rgba(224,64,96,.15),transparent);border:1px solid var(--danger);border-radius:8px;text-align:center;font-weight:600;color:var(--danger);font-size:.85rem;margin:6px 0}
+
+    /* ── READER VIEW ──────────────────────── */
+    #reader-view{display:none;position:fixed;inset:0;background:#000;z-index:1000;flex-direction:column}
+    #reader-view.active{display:flex}
+
+    .reader-top{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(10,10,15,.9);backdrop-filter:blur(10px);z-index:10;transition:opacity .3s}
+    .reader-top.hidden{opacity:0;pointer-events:none}
+    .reader-top .back-btn{background:none;border:none;color:var(--text);font-size:1.3rem;cursor:pointer;padding:4px 8px}
+    .reader-top .reader-title{flex:1;font-size:.8rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .reader-top .page-info{font-size:.75rem;color:var(--text2);white-space:nowrap}
+
+    .reader-canvas{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;position:relative;-webkit-overflow-scrolling:touch}
+    .reader-canvas img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;display:block}
+    .reader-canvas .loading{color:var(--text2);font-size:.9rem}
+    .reader-canvas .nav-zone{position:absolute;top:0;bottom:0;width:30%;z-index:5;cursor:pointer}
+    .reader-canvas .nav-zone.left{left:0}
+    .reader-canvas .nav-zone.right{right:0}
+
+    .reader-bottom{display:flex;align-items:center;gap:6px;padding:8px 12px;background:rgba(10,10,15,.9);backdrop-filter:blur(10px);z-index:10;transition:opacity .3s;flex-wrap:wrap;justify-content:center}
+    .reader-bottom.hidden{opacity:0;pointer-events:none}
+    .reader-bottom .page-slider{flex:1;min-width:80px;-webkit-appearance:none;appearance:none;height:4px;background:var(--surface2);border-radius:2px;outline:none}
+    .reader-bottom .page-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer}
+    .reader-bottom .page-slider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:none}
+    .reader-bottom .nav-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 10px;font-size:.8rem;cursor:pointer;font-family:inherit}
+    .reader-bottom .nav-btn:hover{border-color:var(--accent)}
+    .reader-bottom .nav-btn:disabled{opacity:.3;cursor:default}
+    .reader-bottom .mark-read-btn{background:var(--success);color:#000;border:none;border-radius:6px;padding:6px 8px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:inherit}
+    .reader-bottom .mark-read-btn.is-read{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    .reader-bottom .mode-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 8px;font-size:.7rem;cursor:pointer;font-family:inherit;white-space:nowrap}
+    .reader-bottom .mode-btn.active{background:var(--info);color:#000;border-color:var(--info)}
+    .zoom-controls{display:flex;gap:4px;align-items:center}
+    .zoom-controls .zoom-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;width:28px;height:28px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;font-family:inherit;line-height:1}
+    .zoom-controls .zoom-btn:hover{border-color:var(--accent)}
+    .zoom-controls .zoom-label{font-size:.65rem;color:var(--text2);min-width:32px;text-align:center}
+
+    /* ── SCROLL MODE ─────────────────────── */
+    .reader-canvas.scroll-mode{flex-direction:column;align-items:stretch;overflow-y:auto;overflow-x:hidden;display:flex;justify-content:flex-start}
+    .reader-canvas.scroll-mode img.comic-page-scroll{max-width:100%;max-height:none;height:auto;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none;flex-shrink:0;transition:width .15s ease}
+    .reader-canvas.scroll-mode .nav-zone{display:none}
+    .reader-canvas.scroll-mode #comicPage{display:none !important}
+    .reader-canvas.scroll-mode #pageLoading{display:none !important}
+    .reader-canvas.scroll-mode .scroll-chapter-sep{width:100%;padding:20px;text-align:center;background:rgba(10,10,15,.95);color:var(--accent);font-weight:600;font-size:.9rem;border-top:2px solid var(--accent);border-bottom:2px solid var(--accent);flex-shrink:0;cursor:pointer}
+    .reader-bottom .next-chapter-btn{background:linear-gradient(135deg,#40a0e0,#6080e0);color:#fff;border:none;border-radius:6px;padding:6px 10px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;display:none}
+    .reader-bottom .next-chapter-btn.visible{display:block}
+
+    /* ── ISSUE COMPLETE OVERLAY ──────────── */
+    .issue-complete{display:none;position:absolute;inset:0;background:rgba(0,0,0,.85);z-index:20;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:20px}
+    .issue-complete.active{display:flex}
+    .issue-complete h3{font-size:1.2rem;color:var(--accent)}
+    .issue-complete p{color:var(--text2);font-size:.85rem}
+    .issue-complete .next-info{color:var(--info);font-size:.9rem;font-weight:500;margin-top:4px}
+    .issue-complete .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+    /* ── COLORS ────────────────────────────── */
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+    @media(max-width:600px){
+      h1{font-size:1.5rem}
+      .stats{gap:6px}
+      .stat{min-width:80px;padding:8px 10px}
+      .stat .num{font-size:1.2rem}
+      .issues-grid{grid-template-columns:1fr}
+      .controls{gap:6px}
+      .controls input{width:160px}
+      .controls select{max-width:140px}
+      .reader-bottom{gap:4px;padding:6px 8px}
+      .reader-bottom .page-slider{min-width:60px;order:10;flex-basis:100%}
+      .reader-bottom .nav-btn{padding:5px 8px;font-size:.75rem}
+      .zoom-controls .zoom-btn{width:26px;height:26px;font-size:.9rem}
+      .zoom-controls .zoom-label{font-size:.6rem;min-width:28px}
+      .reader-bottom .mark-read-btn{padding:5px 6px;font-size:.65rem}
+      .reader-bottom .mode-btn{padding:5px 6px;font-size:.65rem}
+      .reader-bottom .next-chapter-btn{padding:5px 6px;font-size:.65rem;max-width:120px;overflow:hidden;text-overflow:ellipsis}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Connection indicator -->
+<div class="conn-indicator" id="connIndicator" title="Conectado">🟢</div>
+
+<!-- ════ LIBRARY VIEW ════ -->
+<div id="library-view" class="app">
+  <header>
+    <h1>Marvel Comic Reader</h1>
+    <p class="subtitle">X-Men: Krakoa → From the Ashes → Shadows of Tomorrow</p>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label"><span id="progressRead"></span><span id="progressTotal"></span></div>
+  </div>
+
+  <div class="controls">
+    <select id="filterPhase"><option value="">Todas as Fases</option></select>
+    <select id="filterSeries"><option value="">Todas as Séries</option></select>
+    <input type="text" id="searchBox" placeholder="Buscar série ou edição...">
+    <button class="btn" id="jumpBookmark">Ir ao Bookmark</button>
+    <button class="btn secondary" id="markAllBefore">Marcar anteriores como lidos</button>
+  </div>
+
+  <div id="timeline"></div>
+</div>
+
+<!-- ════ READER VIEW ════ -->
+<div id="reader-view">
+  <div class="reader-top" id="readerTop">
+    <button class="back-btn" id="readerBack">&#x2190;</button>
+    <span class="reader-title" id="readerTitle"></span>
+    <span class="page-info" id="readerPageInfo"></span>
+  </div>
+
+  <div class="reader-canvas" id="readerCanvas">
+    <div class="nav-zone left" id="navLeft"></div>
+    <img id="comicPage" alt="Comic page">
+    <div class="nav-zone right" id="navRight"></div>
+    <span class="loading" id="pageLoading">Carregando...</span>
+
+    <div class="issue-complete" id="issueComplete">
+      <h3>Edição concluída!</h3>
+      <p id="completeInfo"></p>
+      <p class="next-info" id="nextIssueInfo"></p>
+      <div class="actions">
+        <button class="btn" id="nextIssueBtn">Próxima Edição &#x2192;</button>
+        <button class="btn secondary" id="backToLibrary">Voltar à Biblioteca</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="reader-bottom" id="readerBottom">
+    <button class="nav-btn" id="prevPageBtn">&#x25C0;</button>
+    <input type="range" class="page-slider" id="pageSlider" min="1" max="1" value="1">
+    <button class="nav-btn" id="nextPageBtn">&#x25B6;</button>
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoomOutBtn" title="Zoom out">&minus;</button>
+      <span class="zoom-label" id="zoomLabel">100%</span>
+      <button class="zoom-btn" id="zoomInBtn" title="Zoom in">&plus;</button>
+    </div>
+    <button class="mark-read-btn" id="markReadBtn">Lido</button>
+    <button class="next-chapter-btn" id="nextChapterBtn">Próximo &#x2192;</button>
+    <button class="mode-btn" id="scrollModeBtn" title="Modo scroll contínuo">📜 Scroll</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  SERVICE WORKER REGISTRATION
+// ═══════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js', { scope: '/' })
+    .then(r => console.log('SW registered:', r.scope))
+    .catch(e => console.warn('SW registration failed:', e));
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INDEXEDDB — Local offline storage
+// ═══════════════════════════════════════════════════════════
+const IDB = {
+  db: null,
+  DB_NAME: 'marvel-reader',
+  DB_VERSION: 1,
+
+  open() {
+    return new Promise((resolve, reject) => {
+      if (this.db) return resolve(this.db);
+      const req = indexedDB.open(this.DB_NAME, this.DB_VERSION);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('progress'))
+          db.createObjectStore('progress', { keyPath: 'issue_order' });
+        if (!db.objectStoreNames.contains('library'))
+          db.createObjectStore('library', { keyPath: 'order_num' });
+        if (!db.objectStoreNames.contains('meta'))
+          db.createObjectStore('meta', { keyPath: 'key' });
+      };
+      req.onsuccess = (e) => { this.db = e.target.result; resolve(this.db); };
+      req.onerror = (e) => reject(e);
+    });
+  },
+
+  async getAll(store) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(store, 'readonly');
+      const req = tx.objectStore(store).getAll();
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  },
+
+  async get(store, key) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(store, 'readonly');
+      const req = tx.objectStore(store).get(key);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  },
+
+  async put(store, value) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(store, 'readwrite');
+      tx.objectStore(store).put(value);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  },
+
+  async putAll(store, items) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(store, 'readwrite');
+      const os = tx.objectStore(store);
+      items.forEach(item => os.put(item));
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  },
+
+  async clear(store) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(store, 'readwrite');
+      tx.objectStore(store).clear();
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  },
+};
+
+// ═══════════════════════════════════════════════════════════
+//  CONNECTION & SYNC MANAGER
+// ═══════════════════════════════════════════════════════════
+const Sync = {
+  online: navigator.onLine,
+  syncInterval: null,
+  pendingChanges: [],
+
+  init() {
+    window.addEventListener('online', () => this.setOnline(true));
+    window.addEventListener('offline', () => this.setOnline(false));
+    this.updateIndicator();
+    // Periodic sync check every 30s
+    this.syncInterval = setInterval(() => this.checkSync(), 30000);
+    // Initial sync
+    this.checkSync();
+  },
+
+  setOnline(val) {
+    this.online = val;
+    this.updateIndicator();
+    if (val) this.checkSync();
+  },
+
+  updateIndicator() {
+    const el = document.getElementById('connIndicator');
+    if (this.online) {
+      el.textContent = '🟢';
+      el.title = 'Conectado';
+    } else {
+      el.textContent = '🔴';
+      el.title = 'Sem conexão';
+    }
+  },
+
+  async checkSync() {
+    if (!this.online) return;
+    try {
+      // 1. Get server version
+      const res = await fetch('/api/sync/version', { signal: AbortSignal.timeout(5000) });
+      if (!res.ok) throw new Error('offline');
+      const { version: serverVersion } = await res.json();
+
+      // 2. Get local version
+      const localMeta = await IDB.get('meta', 'sync_version');
+      const localVersion = localMeta ? localMeta.value : null;
+
+      if (!localVersion) {
+        // First time — pull everything from server
+        await this.pullFromServer();
+      } else if (serverVersion > localVersion) {
+        // Server is newer — overwrite local
+        await this.pullFromServer();
+      } else if (localVersion > serverVersion) {
+        // Local is newer — push to server
+        await this.pushToServer();
+      }
+      // else: versions match, nothing to do
+
+      // Flush any queued offline changes
+      await this.flushPending();
+
+      if (!this.online) return;
+      this.setOnline(true);
+    } catch (e) {
+      // Can't reach server — go offline mode
+      this.setOnline(false);
+    }
+  },
+
+  async pullFromServer() {
+    try {
+      const res = await fetch('/api/sync/state', { signal: AbortSignal.timeout(10000) });
+      if (!res.ok) return;
+      const state = await res.json();
+
+      // Save progress to local DB
+      if (state.progress && state.progress.length > 0) {
+        await IDB.clear('progress');
+        await IDB.putAll('progress', state.progress);
+      }
+      // Save version
+      await IDB.put('meta', { key: 'sync_version', value: state.version });
+
+      // Save image counts for verification
+      if (state.image_counts) {
+        await IDB.put('meta', { key: 'image_counts', value: JSON.stringify(state.image_counts) });
+      }
+    } catch (e) {
+      console.warn('Pull failed:', e);
+    }
+  },
+
+  async pushToServer() {
+    try {
+      const progress = await IDB.getAll('progress');
+      const res = await fetch('/api/sync/state', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ progress }),
+        signal: AbortSignal.timeout(10000),
+      });
+      if (!res.ok) return;
+      const { version } = await res.json();
+      await IDB.put('meta', { key: 'sync_version', value: version });
+    } catch (e) {
+      console.warn('Push failed:', e);
+    }
+  },
+
+  async flushPending() {
+    while (this.pendingChanges.length > 0) {
+      const change = this.pendingChanges[0];
+      try {
+        await fetch(change.url, { method: change.method, signal: AbortSignal.timeout(5000) });
+        this.pendingChanges.shift();
+      } catch {
+        break; // Stop flushing if still offline
+      }
+    }
+  },
+
+  // Queue a change when offline
+  queueChange(url, method) {
+    this.pendingChanges.push({ url, method });
+  },
+
+  // Save progress locally and bump local version
+  async saveProgressLocal(orderNum, currentPage, isRead) {
+    const now = new Date().toISOString();
+    const existing = await IDB.get('progress', orderNum);
+    const entry = {
+      issue_order: orderNum,
+      current_page: currentPage !== null && currentPage !== undefined ? currentPage : (existing ? existing.current_page : 1),
+      is_read: isRead !== null && isRead !== undefined ? (isRead ? 1 : 0) : (existing ? existing.is_read : 0),
+      last_read_at: now,
+    };
+    await IDB.put('progress', entry);
+    await IDB.put('meta', { key: 'sync_version', value: now });
+  },
+};
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+const SERIES_COLORS = {};
+const PALETTE = [
+  '#e04060','#40a0e0','#40e080','#f0c040','#c060e0','#e08040','#60e0c0','#e060a0',
+  '#80a0e0','#a0e040','#e0a060','#6080e0','#e06060','#40c0c0','#c0a040','#e040c0',
+  '#60c060','#a060e0','#e0c080','#4080c0','#c06040','#80e080','#a040a0','#e08080'
+];
+let colorIdx = 0;
+function seriesColor(s) {
+  if (!SERIES_COLORS[s]) { SERIES_COLORS[s] = PALETTE[colorIdx++ % PALETTE.length]; }
+  return SERIES_COLORS[s];
+}
+
+let library = [];
+let stats = {};
+let reader = { order: 0, page: 1, totalPages: 0, issue: null, preloaded: {} };
+let controlsVisible = true;
+let scrollMode = false;
+let zoomLevel = 100;
+
+// ═══════════════════════════════════════════════════════════
+//  API — with offline fallback
+// ═══════════════════════════════════════════════════════════
+async function api(path, method = 'GET') {
+  try {
+    const res = await fetch('/api' + path, { method });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const data = await res.json();
+    if (!Sync.online) Sync.setOnline(true);
+    return data;
+  } catch (e) {
+    // If it was a network error, mark offline
+    if (e.name === 'TypeError' || e.message === 'Failed to fetch') {
+      Sync.setOnline(false);
+    }
+    throw e;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ROUTING
+// ═══════════════════════════════════════════════════════════
+function navigate(hash) { window.location.hash = hash; }
+
+window.addEventListener('hashchange', handleRoute);
+window.addEventListener('load', handleRoute);
+
+function handleRoute() {
+  const hash = window.location.hash || '#/';
+  const m = hash.match(/^#\/read\/(\d+)(?:\/(\d+))?$/);
+  if (m) {
+    openReader(parseInt(m[1]), parseInt(m[2]) || 1);
+  } else {
+    closeReader();
+    loadLibrary();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LIBRARY
+// ═══════════════════════════════════════════════════════════
+async function loadLibrary() {
+  try {
+    const [lib, st, eras] = await Promise.all([
+      api('/library'), api('/stats'), api('/eras'),
+    ]);
+    library = lib;
+    stats = st;
+    // Save library to IndexedDB for offline use
+    IDB.putAll('library', lib).catch(() => {});
+    populateFilters(lib, eras);
+    renderLibrary();
+  } catch (e) {
+    console.warn('Load from server failed, trying local...', e);
+    // Offline fallback: load from IndexedDB
+    try {
+      const localLib = await IDB.getAll('library');
+      const localProgress = await IDB.getAll('progress');
+      if (localLib.length > 0) {
+        // Merge local progress into library
+        const progMap = {};
+        localProgress.forEach(p => { progMap[p.issue_order] = p; });
+        localLib.forEach(item => {
+          const p = progMap[item.order_num];
+          if (p) {
+            item.current_page = p.current_page;
+            item.is_read = p.is_read;
+            item.last_read_at = p.last_read_at;
+          }
+        });
+        library = localLib;
+        const readCount = library.filter(i => i.is_read).length;
+        stats = {
+          total_issues: library.length,
+          read_issues: readCount,
+          unread_issues: library.length - readCount,
+          downloaded_issues: 0,
+          progress_percent: library.length > 0 ? Math.round(readCount / library.length * 100 * 10) / 10 : 0,
+        };
+        const eraMap = {};
+        library.forEach(i => {
+          if (!eraMap[i.phase]) eraMap[i.phase] = { phase: i.phase, count: 0, read_count: 0, downloaded_count: 0 };
+          eraMap[i.phase].count++;
+          if (i.is_read) eraMap[i.phase].read_count++;
+        });
+        populateFilters(library, Object.values(eraMap));
+        renderLibrary();
+      }
+    } catch (err) {
+      console.error('Local load also failed:', err);
+    }
+  }
+}
+
+function populateFilters(lib, eras) {
+  const pSel = document.getElementById('filterPhase');
+  const sSel = document.getElementById('filterSeries');
+  // Keep current selections
+  const pVal = pSel.value, sVal = sSel.value;
+  pSel.innerHTML = '<option value="">Todas as Fases</option>';
+  sSel.innerHTML = '<option value="">Todas as Séries</option>';
+  const phases = eras.map(e => e.phase);
+  const series = [...new Set(lib.map(i => i.title))].sort();
+  phases.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; pSel.appendChild(o); });
+  series.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sSel.appendChild(o); });
+  pSel.value = pVal; sSel.value = sVal;
+}
+
+function getFiltered() {
+  const phase = document.getElementById('filterPhase').value;
+  const series = document.getElementById('filterSeries').value;
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  return library.filter(i => {
+    if (phase && i.phase !== phase) return false;
+    if (series && i.title !== series) return false;
+    if (search && !(i.title.toLowerCase().includes(search) || String(i.issue).includes(search) || (i.event||'').toLowerCase().includes(search))) return false;
+    return true;
+  });
+}
+
+function renderLibrary() {
+  const issues = getFiltered();
+  const total = library.length;
+  const readCount = library.filter(i => i.is_read).length;
+  const unread = total - readCount;
+  const pct = total > 0 ? Math.round(readCount / total * 100) : 0;
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="label">Total</div></div>
+    <div class="stat success"><div class="num">${readCount}</div><div class="label">Lidas</div></div>
+    <div class="stat danger"><div class="num">${unread}</div><div class="label">Faltam</div></div>
+    <div class="stat"><div class="num">${stats.downloaded_issues||0}</div><div class="label">Baixadas</div></div>
+    <div class="stat"><div class="num">${pct}%</div><div class="label">Progresso</div></div>
+  `;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressRead').textContent = readCount + ' lidas';
+  document.getElementById('progressTotal').textContent = total + ' total';
+
+  // Group by phase
+  const phases = [];
+  let cur = null;
+  issues.forEach(iss => {
+    if (!cur || cur.name !== iss.phase) { cur = { name: iss.phase, issues: [] }; phases.push(cur); }
+    cur.issues.push(iss);
+  });
+
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = '';
+
+  phases.forEach(phase => {
+    const section = document.createElement('div');
+    section.className = 'phase-section';
+    const color = seriesColor(phase.name);
+    const readInPhase = phase.issues.filter(i => i.is_read).length;
+
+    const header = document.createElement('div');
+    header.className = 'phase-header open';
+    header.innerHTML = `
+      <div class="dot" style="background:${color}"></div>
+      <h2>${phase.name}</h2>
+      <span class="count">${readInPhase}/${phase.issues.length}</span>
+      <span class="arrow">&#x25BC;</span>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'issues-grid open';
+
+    let lastEvent = '';
+    let bookmarkShown = false;
+
+    phase.issues.forEach(iss => {
+      // Event banner
+      if (iss.event && iss.event !== lastEvent) {
+        lastEvent = iss.event;
+        const eb = document.createElement('div');
+        eb.className = 'event-banner';
+        eb.textContent = iss.event;
+        grid.appendChild(eb);
+      } else if (!iss.event && lastEvent) {
+        lastEvent = '';
+      }
+
+      // Bookmark banner
+      const isBookmark = !iss.is_read && !bookmarkShown && getBookmarkOrder() === iss.order_num;
+      if (isBookmark) {
+        bookmarkShown = true;
+        const bb = document.createElement('div');
+        bb.className = 'bookmark-banner';
+        bb.textContent = '📍 Continuar leitura aqui';
+        bb.id = 'bookmark-' + iss.order_num;
+        grid.appendChild(bb);
+      }
+
+      const card = document.createElement('div');
+      card.className = 'issue-card' + (iss.is_read ? ' read' : '') + (iss.total_pages > 0 ? ' has-pages' : '');
+      const sColor = seriesColor(iss.title);
+      card.innerHTML = `
+        <div class="series-dot" style="background:${sColor}"></div>
+        <div class="issue-info">
+          <div class="issue-title">${iss.title} #${iss.issue}</div>
+          <div class="issue-num">${iss.year}${iss.total_pages > 0 ? ' · ' + iss.total_pages + ' pgs' : ''}</div>
+        </div>
+        <span class="order-badge">#${iss.order_num}</span>
+        <button class="read-toggle" title="${iss.is_read ? 'Marcar como não lido' : 'Marcar como lido'}">${iss.is_read ? '✓' : '○'}</button>
+      `;
+      card.querySelector('.read-toggle').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleReadState(iss.order_num);
+      });
+      card.addEventListener('click', (e) => {
+        if (iss.total_pages > 0) {
+          navigate('#/read/' + iss.order_num + '/' + (iss.is_read ? 1 : iss.current_page));
+        } else {
+          toggleReadState(iss.order_num);
+        }
+      });
+      card.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        toggleReadState(iss.order_num);
+      });
+      grid.appendChild(card);
+    });
+
+    header.addEventListener('click', () => {
+      header.classList.toggle('open');
+      grid.classList.toggle('open');
+    });
+
+    section.appendChild(header);
+    section.appendChild(grid);
+    timeline.appendChild(section);
+  });
+}
+
+function getBookmarkOrder() {
+  for (const iss of library) {
+    if (!iss.is_read) return iss.order_num;
+  }
+  return null;
+}
+
+async function toggleReadState(order) {
+  try {
+    const res = await api('/progress/' + order + '/toggle-read', 'POST');
+    const idx = library.findIndex(i => i.order_num === order);
+    if (idx >= 0) library[idx].is_read = res.is_read ? 1 : 0;
+    // Save locally too
+    const iss = library[idx];
+    if (iss) Sync.saveProgressLocal(order, iss.current_page, res.is_read);
+    renderLibrary();
+  } catch (e) {
+    // Offline: toggle locally
+    const idx = library.findIndex(i => i.order_num === order);
+    if (idx >= 0) {
+      const newState = library[idx].is_read ? 0 : 1;
+      library[idx].is_read = newState;
+      await Sync.saveProgressLocal(order, library[idx].current_page, newState);
+      Sync.queueChange('/api/progress/' + order + '/toggle-read', 'POST');
+      renderLibrary();
+    }
+  }
+}
+
+async function jumpToBookmark() {
+  try {
+    const bm = await api('/bookmark');
+    if (bm.order_num) {
+      const el = document.getElementById('bookmark-' + bm.order_num);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  } catch (e) { console.error(e); }
+}
+
+async function markAllBefore() {
+  const bm = getBookmarkOrder();
+  if (!bm) return;
+  if (!confirm(`Marcar edições #1 até #${bm - 1} como lidas?`)) return;
+  try {
+    await api('/progress/mark-before/' + (bm - 1), 'POST');
+    // Also save locally
+    for (const iss of library) {
+      if (iss.order_num < bm) {
+        await Sync.saveProgressLocal(iss.order_num, iss.current_page || 1, true);
+      }
+    }
+    await loadLibrary();
+  } catch (e) {
+    // Offline: mark locally
+    for (const iss of library) {
+      if (iss.order_num < bm) {
+        iss.is_read = 1;
+        await Sync.saveProgressLocal(iss.order_num, iss.current_page || 1, true);
+      }
+    }
+    Sync.queueChange('/api/progress/mark-before/' + (bm - 1), 'POST');
+    renderLibrary();
+  }
+}
+
+// Bind controls
+document.getElementById('filterPhase').addEventListener('change', renderLibrary);
+document.getElementById('filterSeries').addEventListener('change', renderLibrary);
+document.getElementById('searchBox').addEventListener('input', renderLibrary);
+document.getElementById('jumpBookmark').addEventListener('click', jumpToBookmark);
+document.getElementById('markAllBefore').addEventListener('click', markAllBefore);
+
+// ═══════════════════════════════════════════════════════════
+//  READER
+// ═══════════════════════════════════════════════════════════
+async function openReader(order, page) {
+  document.getElementById('library-view').style.display = 'none';
+  const rv = document.getElementById('reader-view');
+  rv.classList.add('active');
+
+  // Reset scroll mode when opening a new issue
+  if (scrollMode) {
+    scrollMode = false;
+    document.getElementById('scrollModeBtn').classList.remove('active');
+    const canvas = document.getElementById('readerCanvas');
+    canvas.classList.remove('scroll-mode');
+    canvas.removeEventListener('scroll', onScrollTrack);
+    canvas.querySelectorAll('.comic-page-scroll, .scroll-chapter-sep').forEach(el => el.remove());
+    document.getElementById('pageSlider').disabled = false;
+    document.getElementById('nextChapterBtn').classList.remove('visible');
+  }
+
+  try {
+    // Ensure library is loaded (needed for next chapter button)
+    if (library.length === 0) {
+      library = await api('/library');
+    }
+
+    const issue = await api('/issues/' + order);
+    reader.order = order;
+    reader.issue = issue;
+    reader.totalPages = issue.available_pages || issue.total_pages || 0;
+    reader.page = Math.min(page, reader.totalPages) || 1;
+    reader.preloaded = {};
+
+    document.getElementById('readerTitle').textContent = `${issue.title} #${issue.issue}`;
+    document.getElementById('pageSlider').max = reader.totalPages;
+
+    resetZoom();
+    updateMarkReadBtn(issue.is_read);
+    showPage(reader.page);
+    showControls(true);
+    updateNextChapterBtn();
+    // Pre-cache all pages for offline
+    preCacheIssueImages(order, reader.totalPages);
+  } catch (e) {
+    console.error('Open reader failed:', e);
+    navigate('#/');
+  }
+}
+
+function closeReader() {
+  // Reset scroll mode if active
+  if (scrollMode) {
+    scrollMode = false;
+    document.getElementById('scrollModeBtn').classList.remove('active');
+    const canvas = document.getElementById('readerCanvas');
+    canvas.classList.remove('scroll-mode');
+    canvas.removeEventListener('scroll', onScrollTrack);
+    canvas.querySelectorAll('.comic-page-scroll, .scroll-chapter-sep').forEach(el => el.remove());
+    document.getElementById('pageSlider').disabled = false;
+    document.getElementById('nextChapterBtn').classList.remove('visible');
+  }
+  document.getElementById('reader-view').classList.remove('active');
+  document.getElementById('library-view').style.display = '';
+  document.getElementById('issueComplete').classList.remove('active');
+}
+
+function showPage(num) {
+  if (num < 1 || num > reader.totalPages) return;
+  reader.page = num;
+
+  const img = document.getElementById('comicPage');
+  const loading = document.getElementById('pageLoading');
+  const complete = document.getElementById('issueComplete');
+  complete.classList.remove('active');
+
+  loading.style.display = '';
+  img.style.display = 'none';
+
+  const src = `/api/issues/${reader.order}/page/${num}`;
+  img.onload = () => {
+    loading.style.display = 'none';
+    img.style.display = '';
+  };
+  img.onerror = () => {
+    loading.textContent = 'Página não encontrada';
+  };
+  img.src = src;
+
+  document.getElementById('readerPageInfo').textContent = `${num} / ${reader.totalPages}`;
+  document.getElementById('pageSlider').value = num;
+  document.getElementById('prevPageBtn').disabled = (num <= 1);
+  document.getElementById('nextPageBtn').disabled = (num >= reader.totalPages);
+
+  // Save progress (server + local)
+  api(`/progress/${reader.order}?current_page=${num}`, 'POST').catch(() => {
+    Sync.queueChange(`/api/progress/${reader.order}?current_page=${num}`, 'POST');
+  });
+  Sync.saveProgressLocal(reader.order, num, null).catch(() => {});
+
+  // Preload adjacent pages
+  preloadPage(num + 1);
+  preloadPage(num + 2);
+
+  // Update hash without triggering route
+  const newHash = `#/read/${reader.order}/${num}`;
+  if (window.location.hash !== newHash) {
+    history.replaceState(null, '', newHash);
+  }
+}
+
+function preloadPage(num) {
+  if (num < 1 || num > reader.totalPages || reader.preloaded[num]) return;
+  reader.preloaded[num] = true;
+  const img = new Image();
+  img.src = `/api/issues/${reader.order}/page/${num}`;
+}
+
+function nextPage() {
+  if (reader.page < reader.totalPages) {
+    showPage(reader.page + 1);
+  } else {
+    showIssueComplete();
+  }
+}
+
+function prevPage() {
+  if (reader.page > 1) showPage(reader.page - 1);
+}
+
+function showIssueComplete() {
+  const complete = document.getElementById('issueComplete');
+  complete.classList.add('active');
+  document.getElementById('completeInfo').textContent =
+    `${reader.issue.title} #${reader.issue.issue} — ${reader.totalPages} páginas`;
+
+  // Auto-mark as read
+  if (!reader.issue.is_read) {
+    api(`/progress/${reader.order}?is_read=true`, 'POST').catch(() => {
+      Sync.queueChange(`/api/progress/${reader.order}?is_read=true`, 'POST');
+    });
+    Sync.saveProgressLocal(reader.order, reader.totalPages, true).catch(() => {});
+    reader.issue.is_read = 1;
+    updateMarkReadBtn(true);
+  }
+
+  // Find next issue with pages and show its name
+  const nextOrder = findNextReadableIssue(reader.order);
+  const nextBtn = document.getElementById('nextIssueBtn');
+  const nextInfo = document.getElementById('nextIssueInfo');
+  if (nextOrder) {
+    const nextIss = library.find(i => i.order_num === nextOrder);
+    nextBtn.style.display = '';
+    nextBtn.textContent = `Próxima Edição →`;
+    nextInfo.textContent = nextIss ? `Próximo: ${nextIss.title} #${nextIss.issue}` : '';
+    nextBtn.onclick = () => navigate('#/read/' + nextOrder);
+  } else {
+    nextBtn.style.display = 'none';
+    nextInfo.textContent = 'Você chegou ao fim! 🎉';
+  }
+}
+
+function findNextReadableIssue(currentOrder) {
+  for (const iss of library) {
+    if (iss.order_num > currentOrder && iss.total_pages > 0) return iss.order_num;
+  }
+  return null;
+}
+
+function toggleControls() {
+  controlsVisible = !controlsVisible;
+  showControls(controlsVisible);
+}
+
+function showControls(show) {
+  controlsVisible = show;
+  document.getElementById('readerTop').classList.toggle('hidden', !show);
+  document.getElementById('readerBottom').classList.toggle('hidden', !show);
+}
+
+function updateMarkReadBtn(isRead) {
+  const btn = document.getElementById('markReadBtn');
+  btn.textContent = isRead ? '✓ Lido' : 'Marcar Lido';
+  btn.classList.toggle('is-read', !!isRead);
+}
+
+// ── Reader Controls ────────────────────────
+document.getElementById('readerBack').addEventListener('click', () => navigate('#/'));
+document.getElementById('backToLibrary').addEventListener('click', () => { navigate('#/'); loadLibrary(); });
+document.getElementById('prevPageBtn').addEventListener('click', prevPage);
+document.getElementById('nextPageBtn').addEventListener('click', nextPage);
+document.getElementById('pageSlider').addEventListener('input', (e) => {
+  const page = parseInt(e.target.value);
+  if (scrollMode) {
+    // In scroll mode, scroll to that page instead
+    const canvas = document.getElementById('readerCanvas');
+    const targetImg = canvas.querySelector(`img[data-page="${page}"]`);
+    if (targetImg) targetImg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    showPage(page);
+  }
+});
+document.getElementById('navLeft').addEventListener('click', prevPage);
+document.getElementById('navRight').addEventListener('click', nextPage);
+document.getElementById('markReadBtn').addEventListener('click', async () => {
+  try {
+    const res = await api('/progress/' + reader.order + '/toggle-read', 'POST');
+    reader.issue.is_read = res.is_read ? 1 : 0;
+    updateMarkReadBtn(res.is_read);
+    Sync.saveProgressLocal(reader.order, reader.page, res.is_read);
+  } catch (e) {
+    // Offline toggle
+    const newState = reader.issue.is_read ? 0 : 1;
+    reader.issue.is_read = newState;
+    updateMarkReadBtn(newState);
+    Sync.saveProgressLocal(reader.order, reader.page, newState);
+    Sync.queueChange('/api/progress/' + reader.order + '/toggle-read', 'POST');
+  }
+});
+
+// ── Scroll mode toggle ─────────────────────
+document.getElementById('scrollModeBtn').addEventListener('click', () => {
+  scrollMode = !scrollMode;
+  document.getElementById('scrollModeBtn').classList.toggle('active', scrollMode);
+  if (scrollMode) {
+    enterScrollMode();
+  } else {
+    exitScrollMode();
+  }
+});
+
+function enterScrollMode() {
+  const canvas = document.getElementById('readerCanvas');
+  canvas.classList.add('scroll-mode');
+  resetZoom();
+
+  // Remove existing scroll pages if any
+  canvas.querySelectorAll('.comic-page-scroll, .scroll-chapter-sep').forEach(el => el.remove());
+
+  // Hide single-page elements
+  document.getElementById('comicPage').style.display = 'none';
+  document.getElementById('pageLoading').style.display = 'none';
+
+  // Load all pages
+  for (let i = 1; i <= reader.totalPages; i++) {
+    const img = document.createElement('img');
+    img.className = 'comic-page-scroll';
+    img.src = `/api/issues/${reader.order}/page/${i}`;
+    img.alt = `Página ${i}`;
+    img.dataset.page = i;
+    canvas.appendChild(img);
+  }
+
+  // Add "next chapter" separator at the end
+  const nextOrder = findNextReadableIssue(reader.order);
+  if (nextOrder) {
+    const nextIss = library.find(i => i.order_num === nextOrder);
+    const sep = document.createElement('div');
+    sep.className = 'scroll-chapter-sep';
+    sep.innerHTML = `Próximo: <strong>${nextIss ? nextIss.title + ' #' + nextIss.issue : 'Próxima Edição'}</strong>`;
+    sep.addEventListener('click', () => navigate('#/read/' + nextOrder));
+    canvas.appendChild(sep);
+  }
+
+  // Show next chapter button in bottom bar
+  updateNextChapterBtn();
+
+  // Slider works in scroll mode — jumps to that page on change
+  document.getElementById('pageSlider').disabled = false;
+  document.getElementById('prevPageBtn').disabled = true;
+  document.getElementById('nextPageBtn').disabled = true;
+
+  // Track scroll position to update page indicator
+  canvas.addEventListener('scroll', onScrollTrack);
+
+  // Scroll to current page
+  const targetImg = canvas.querySelector(`img[data-page="${reader.page}"]`);
+  if (targetImg) {
+    setTimeout(() => targetImg.scrollIntoView({ behavior: 'instant' }), 50);
+  }
+}
+
+function onScrollTrack() {
+  const canvas = document.getElementById('readerCanvas');
+  const scrollPages = canvas.querySelectorAll('.comic-page-scroll');
+  const canvasRect = canvas.getBoundingClientRect();
+  const canvasCenter = canvasRect.top + canvasRect.height / 2;
+
+  let closestPage = 1;
+  let closestDist = Infinity;
+  scrollPages.forEach(img => {
+    const rect = img.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const dist = Math.abs(center - canvasCenter);
+    if (dist < closestDist) {
+      closestDist = dist;
+      closestPage = parseInt(img.dataset.page);
+    }
+  });
+
+  if (closestPage !== reader.page) {
+    reader.page = closestPage;
+    document.getElementById('readerPageInfo').textContent = `${closestPage} / ${reader.totalPages}`;
+    document.getElementById('pageSlider').value = closestPage;
+    // Save progress
+    api(`/progress/${reader.order}?current_page=${closestPage}`, 'POST').catch(() => {
+      Sync.queueChange(`/api/progress/${reader.order}?current_page=${closestPage}`, 'POST');
+    });
+    Sync.saveProgressLocal(reader.order, closestPage, null).catch(() => {});
+    history.replaceState(null, '', `#/read/${reader.order}/${closestPage}`);
+  }
+
+  // Auto-complete when scrolled to the end
+  if (canvas.scrollTop + canvas.clientHeight >= canvas.scrollHeight - 50) {
+    if (!reader.issue.is_read) {
+      api(`/progress/${reader.order}?is_read=true`, 'POST').catch(() => {
+        Sync.queueChange(`/api/progress/${reader.order}?is_read=true`, 'POST');
+      });
+      Sync.saveProgressLocal(reader.order, reader.totalPages, true).catch(() => {});
+      reader.issue.is_read = 1;
+      updateMarkReadBtn(true);
+    }
+  }
+}
+
+function exitScrollMode() {
+  const canvas = document.getElementById('readerCanvas');
+  canvas.classList.remove('scroll-mode');
+  canvas.removeEventListener('scroll', onScrollTrack);
+
+  // Remove scroll pages and separators
+  canvas.querySelectorAll('.comic-page-scroll, .scroll-chapter-sep').forEach(el => el.remove());
+
+  // Re-enable controls & hide next chapter btn
+  document.getElementById('pageSlider').disabled = false;
+  document.getElementById('nextChapterBtn').classList.remove('visible');
+
+  // Show current page in single-page mode
+  resetZoom();
+  showPage(reader.page);
+}
+
+function updateNextChapterBtn() {
+  const btn = document.getElementById('nextChapterBtn');
+  const nextOrder = findNextReadableIssue(reader.order);
+  if (nextOrder) {
+    const nextIss = library.find(i => i.order_num === nextOrder);
+    btn.textContent = `${nextIss ? nextIss.title + ' #' + nextIss.issue : 'Próximo'} →`;
+    btn.classList.add('visible');
+    btn.onclick = () => navigate('#/read/' + nextOrder);
+  } else {
+    btn.classList.remove('visible');
+  }
+}
+
+// ── Zoom controls ──────────────────────────
+function applyZoom() {
+  document.getElementById('zoomLabel').textContent = zoomLevel + '%';
+  if (scrollMode) {
+    const canvas = document.getElementById('readerCanvas');
+    const imgs = document.querySelectorAll('.comic-page-scroll');
+    imgs.forEach(img => {
+      img.style.width = zoomLevel + '%';
+      img.style.margin = '0 auto';
+    });
+    // Center images when zoomed out, stretch when zoomed in
+    canvas.style.alignItems = zoomLevel <= 100 ? 'center' : 'stretch';
+  } else {
+    const img = document.getElementById('comicPage');
+    if (zoomLevel === 100) {
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = '100%';
+      img.style.width = '';
+      img.style.margin = '';
+    } else {
+      img.style.maxWidth = 'none';
+      img.style.maxHeight = 'none';
+      img.style.width = zoomLevel + '%';
+      img.style.margin = '0 auto';
+    }
+  }
+}
+
+function resetZoom() {
+  zoomLevel = 100;
+  applyZoom();
+}
+
+document.getElementById('zoomInBtn').addEventListener('click', () => {
+  if (zoomLevel < 300) { zoomLevel += 25; applyZoom(); }
+});
+
+document.getElementById('zoomOutBtn').addEventListener('click', () => {
+  if (zoomLevel > 25) { zoomLevel -= 25; applyZoom(); }
+});
+
+// ── Tap center to toggle controls ──────────
+document.getElementById('readerCanvas').addEventListener('click', (e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width;
+  if (x > 0.3 && x < 0.7) toggleControls();
+});
+
+// ── Keyboard navigation ────────────────────
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('reader-view').classList.contains('active')) return;
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextPage(); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); prevPage(); }
+  else if (e.key === 'Escape') { navigate('#/'); }
+});
+
+// ── Swipe navigation ──────────────────────
+let touchStartX = 0, touchStartY = 0;
+document.getElementById('readerCanvas').addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.getElementById('readerCanvas').addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+    if (dx < 0) nextPage();
+    else prevPage();
+  }
+}, { passive: true });
+
+// ═══════════════════════════════════════════════════════════
+//  INIT SYNC
+// ═══════════════════════════════════════════════════════════
+IDB.open().then(() => {
+  Sync.init();
+}).catch(e => console.warn('IDB init failed:', e));
+
+// Pre-cache images of current reading issue after opening reader
+async function preCacheIssueImages(order, totalPages) {
+  if (!navigator.serviceWorker || !navigator.serviceWorker.controller) return;
+  const urls = [];
+  for (let i = 1; i <= totalPages; i++) {
+    urls.push(`/api/issues/${order}/page/${i}`);
+  }
+  navigator.serviceWorker.controller.postMessage({ type: 'CACHE_IMAGES', urls });
+}
+</script>
+</body>
+</html>

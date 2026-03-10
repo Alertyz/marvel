@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Generate reading_order.json for the complete X-Men mutant saga."""
 import json
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_PATH = PROJECT_ROOT / "data" / "reading_order.json"
 
 issues = []
 n = 0
@@ -300,10 +304,11 @@ for t,i in [("X-Men (2024)",21),("Uncanny X-Men (2024)",19),("Wolverine (2024)",
     add(t,i,P,year="2026")
 
 # Save
-with open("reading_order.json", "w", encoding="utf-8") as f:
+OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
     json.dump({"bookmark_note": "User stopped at the 2nd Hellfire Gala (2023). Issues with bookmark=true mark the stopping point.",
                "eras": ["House of X / Powers of X", "Dawn of X", "Reign of X", "Destiny of X", "Fall of X", "From the Ashes", "Shadows of Tomorrow"],
                "total_issues": len(issues),
                "issues": issues}, f, indent=2, ensure_ascii=False)
 
-print(f"Generated {len(issues)} issues in reading_order.json")
+print(f"Generated {len(issues)} issues in {OUTPUT_PATH}")

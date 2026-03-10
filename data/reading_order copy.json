@@ -9,7 +9,7 @@
     "From the Ashes",
     "Shadows of Tomorrow"
   ],
-  "total_issues": 653,
+  "total_issues": 780,
   "issues": [
     {
       "order": 1,
@@ -3238,6 +3238,38 @@
     },
     {
       "order": 404,
+      "title": "Astonishing Iceman",
+      "issue": 2,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 405,
+      "title": "Astonishing Iceman",
+      "issue": 3,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 406,
+      "title": "Astonishing Iceman",
+      "issue": 4,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 407,
+      "title": "Astonishing Iceman",
+      "issue": 5,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 408,
       "title": "Alpha Flight (2023)",
       "issue": 1,
       "phase": "Fall of X",
@@ -3245,7 +3277,7 @@
       "year": "2023"
     },
     {
-      "order": 405,
+      "order": 409,
       "title": "Realm of X",
       "issue": 1,
       "phase": "Fall of X",
@@ -3253,7 +3285,7 @@
       "year": "2023"
     },
     {
-      "order": 406,
+      "order": 410,
       "title": "Ms. Marvel: The New Mutant",
       "issue": 1,
       "phase": "Fall of X",
@@ -3261,47 +3293,47 @@
       "year": "2023"
     },
     {
-      "order": 407,
-      "title": "Ms. Marvel: The New Mutant",
-      "issue": 2,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 408,
-      "title": "Ms. Marvel: The New Mutant",
-      "issue": 3,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 409,
-      "title": "Ms. Marvel: The New Mutant",
-      "issue": 4,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 410,
-      "title": "Children of the Vault (2023)",
-      "issue": 2,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
       "order": 411,
-      "title": "Children of the Vault (2023)",
-      "issue": 3,
+      "title": "Ms. Marvel: The New Mutant",
+      "issue": 2,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 412,
+      "title": "Ms. Marvel: The New Mutant",
+      "issue": 3,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 413,
+      "title": "Ms. Marvel: The New Mutant",
+      "issue": 4,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 414,
+      "title": "Children of the Vault (2023)",
+      "issue": 2,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 415,
+      "title": "Children of the Vault (2023)",
+      "issue": 3,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 416,
       "title": "Children of the Vault (2023)",
       "issue": 4,
       "phase": "Fall of X",
@@ -3309,40 +3341,8 @@
       "year": "2023"
     },
     {
-      "order": 413,
-      "title": "Uncanny Avengers (2023)",
-      "issue": 2,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 414,
-      "title": "Uncanny Avengers (2023)",
-      "issue": 3,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 415,
-      "title": "Dark X-Men",
-      "issue": 2,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 416,
-      "title": "Dark X-Men",
-      "issue": 3,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
       "order": 417,
-      "title": "Alpha Flight (2023)",
+      "title": "Uncanny Avengers (2023)",
       "issue": 2,
       "phase": "Fall of X",
       "event": "",
@@ -3350,7 +3350,7 @@
     },
     {
       "order": 418,
-      "title": "Alpha Flight (2023)",
+      "title": "Uncanny Avengers (2023)",
       "issue": 3,
       "phase": "Fall of X",
       "event": "",
@@ -3358,23 +3358,23 @@
     },
     {
       "order": 419,
-      "title": "Alpha Flight (2023)",
-      "issue": 4,
+      "title": "Dark X-Men",
+      "issue": 2,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 420,
-      "title": "Alpha Flight (2023)",
-      "issue": 5,
+      "title": "Dark X-Men",
+      "issue": 3,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 421,
-      "title": "Realm of X",
+      "title": "Alpha Flight (2023)",
       "issue": 2,
       "phase": "Fall of X",
       "event": "",
@@ -3382,7 +3382,7 @@
     },
     {
       "order": 422,
-      "title": "Realm of X",
+      "title": "Alpha Flight (2023)",
       "issue": 3,
       "phase": "Fall of X",
       "event": "",
@@ -3390,7 +3390,7 @@
     },
     {
       "order": 423,
-      "title": "Realm of X",
+      "title": "Alpha Flight (2023)",
       "issue": 4,
       "phase": "Fall of X",
       "event": "",
@@ -3398,6 +3398,38 @@
     },
     {
       "order": 424,
+      "title": "Alpha Flight (2023)",
+      "issue": 5,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 425,
+      "title": "Realm of X",
+      "issue": 2,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 426,
+      "title": "Realm of X",
+      "issue": 3,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 427,
+      "title": "Realm of X",
+      "issue": 4,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 428,
       "title": "Immortal X-Men",
       "issue": 16,
       "phase": "Fall of X",
@@ -3405,7 +3437,7 @@
       "year": "2023"
     },
     {
-      "order": 425,
+      "order": 429,
       "title": "X-Men (2021)",
       "issue": 26,
       "phase": "Fall of X",
@@ -3413,7 +3445,7 @@
       "year": "2023"
     },
     {
-      "order": 426,
+      "order": 430,
       "title": "X-Men (2021)",
       "issue": 27,
       "phase": "Fall of X",
@@ -3421,7 +3453,7 @@
       "year": "2023"
     },
     {
-      "order": 427,
+      "order": 431,
       "title": "X-Men (2021)",
       "issue": 28,
       "phase": "Fall of X",
@@ -3429,7 +3461,7 @@
       "year": "2023"
     },
     {
-      "order": 428,
+      "order": 432,
       "title": "X-Men (2021)",
       "issue": 29,
       "phase": "Fall of X",
@@ -3437,7 +3469,7 @@
       "year": "2023"
     },
     {
-      "order": 429,
+      "order": 433,
       "title": "X-Men Red (2022)",
       "issue": 16,
       "phase": "Fall of X",
@@ -3445,7 +3477,7 @@
       "year": "2023"
     },
     {
-      "order": 430,
+      "order": 434,
       "title": "X-Men Red (2022)",
       "issue": 17,
       "phase": "Fall of X",
@@ -3453,7 +3485,7 @@
       "year": "2023"
     },
     {
-      "order": 431,
+      "order": 435,
       "title": "X-Men Red (2022)",
       "issue": 18,
       "phase": "Fall of X",
@@ -3461,7 +3493,7 @@
       "year": "2023"
     },
     {
-      "order": 432,
+      "order": 436,
       "title": "Jean Grey",
       "issue": 1,
       "phase": "Fall of X",
@@ -3469,7 +3501,7 @@
       "year": "2023"
     },
     {
-      "order": 433,
+      "order": 437,
       "title": "Jean Grey",
       "issue": 2,
       "phase": "Fall of X",
@@ -3477,7 +3509,7 @@
       "year": "2023"
     },
     {
-      "order": 434,
+      "order": 438,
       "title": "Jean Grey",
       "issue": 3,
       "phase": "Fall of X",
@@ -3485,7 +3517,7 @@
       "year": "2023"
     },
     {
-      "order": 435,
+      "order": 439,
       "title": "Jean Grey",
       "issue": 4,
       "phase": "Fall of X",
@@ -3493,7 +3525,7 @@
       "year": "2023"
     },
     {
-      "order": 436,
+      "order": 440,
       "title": "Dark X-Men",
       "issue": 4,
       "phase": "Fall of X",
@@ -3501,7 +3533,7 @@
       "year": "2023"
     },
     {
-      "order": 437,
+      "order": 441,
       "title": "Dark X-Men",
       "issue": 5,
       "phase": "Fall of X",
@@ -3509,7 +3541,7 @@
       "year": "2023"
     },
     {
-      "order": 438,
+      "order": 442,
       "title": "Immortal X-Men",
       "issue": 17,
       "phase": "Fall of X",
@@ -3517,41 +3549,9 @@
       "year": "2023"
     },
     {
-      "order": 439,
+      "order": 443,
       "title": "Immortal X-Men",
       "issue": 18,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 440,
-      "title": "X-Force",
-      "issue": 44,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 441,
-      "title": "X-Force",
-      "issue": 45,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 442,
-      "title": "X-Force",
-      "issue": 46,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 443,
-      "title": "X-Force",
-      "issue": 47,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3559,7 +3559,7 @@
     {
       "order": 444,
       "title": "X-Force",
-      "issue": 48,
+      "issue": 44,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3567,7 +3567,7 @@
     {
       "order": 445,
       "title": "X-Force",
-      "issue": 49,
+      "issue": 45,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3575,39 +3575,39 @@
     {
       "order": 446,
       "title": "X-Force",
-      "issue": 50,
+      "issue": 46,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 447,
-      "title": "Wolverine",
-      "issue": 36,
+      "title": "X-Force",
+      "issue": 47,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 448,
-      "title": "Wolverine",
-      "issue": 37,
+      "title": "X-Force",
+      "issue": 48,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 449,
-      "title": "Wolverine",
-      "issue": 38,
+      "title": "X-Force",
+      "issue": 49,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 450,
-      "title": "Wolverine",
-      "issue": 39,
+      "title": "X-Force",
+      "issue": 50,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3615,7 +3615,7 @@
     {
       "order": 451,
       "title": "Wolverine",
-      "issue": 40,
+      "issue": 36,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3623,7 +3623,7 @@
     {
       "order": 452,
       "title": "Wolverine",
-      "issue": 41,
+      "issue": 37,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3631,7 +3631,7 @@
     {
       "order": 453,
       "title": "Wolverine",
-      "issue": 42,
+      "issue": 38,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3639,7 +3639,7 @@
     {
       "order": 454,
       "title": "Wolverine",
-      "issue": 43,
+      "issue": 39,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3647,7 +3647,7 @@
     {
       "order": 455,
       "title": "Wolverine",
-      "issue": 44,
+      "issue": 40,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3655,7 +3655,7 @@
     {
       "order": 456,
       "title": "Wolverine",
-      "issue": 45,
+      "issue": 41,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3663,7 +3663,7 @@
     {
       "order": 457,
       "title": "Wolverine",
-      "issue": 46,
+      "issue": 42,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3671,7 +3671,7 @@
     {
       "order": 458,
       "title": "Wolverine",
-      "issue": 47,
+      "issue": 43,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3679,7 +3679,7 @@
     {
       "order": 459,
       "title": "Wolverine",
-      "issue": 48,
+      "issue": 44,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3687,7 +3687,7 @@
     {
       "order": 460,
       "title": "Wolverine",
-      "issue": 49,
+      "issue": 45,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3695,13 +3695,45 @@
     {
       "order": 461,
       "title": "Wolverine",
-      "issue": 50,
+      "issue": 46,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 462,
+      "title": "Wolverine",
+      "issue": 47,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 463,
+      "title": "Wolverine",
+      "issue": 48,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 464,
+      "title": "Wolverine",
+      "issue": 49,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 465,
+      "title": "Wolverine",
+      "issue": 50,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 466,
       "title": "Cable (2024)",
       "issue": 1,
       "phase": "Fall of X",
@@ -3709,7 +3741,7 @@
       "year": "2023"
     },
     {
-      "order": 463,
+      "order": 467,
       "title": "Cable (2024)",
       "issue": 2,
       "phase": "Fall of X",
@@ -3717,7 +3749,7 @@
       "year": "2023"
     },
     {
-      "order": 464,
+      "order": 468,
       "title": "Cable (2024)",
       "issue": 3,
       "phase": "Fall of X",
@@ -3725,41 +3757,9 @@
       "year": "2023"
     },
     {
-      "order": 465,
+      "order": 469,
       "title": "Cable (2024)",
       "issue": 4,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 466,
-      "title": "Invincible Iron Man",
-      "issue": 10,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 467,
-      "title": "Invincible Iron Man",
-      "issue": 11,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 468,
-      "title": "Invincible Iron Man",
-      "issue": 12,
-      "phase": "Fall of X",
-      "event": "",
-      "year": "2023"
-    },
-    {
-      "order": 469,
-      "title": "Invincible Iron Man",
-      "issue": 13,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
@@ -3767,13 +3767,45 @@
     {
       "order": 470,
       "title": "Invincible Iron Man",
-      "issue": 14,
+      "issue": 10,
       "phase": "Fall of X",
       "event": "",
       "year": "2023"
     },
     {
       "order": 471,
+      "title": "Invincible Iron Man",
+      "issue": 11,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 472,
+      "title": "Invincible Iron Man",
+      "issue": 12,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 473,
+      "title": "Invincible Iron Man",
+      "issue": 13,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 474,
+      "title": "Invincible Iron Man",
+      "issue": 14,
+      "phase": "Fall of X",
+      "event": "",
+      "year": "2023"
+    },
+    {
+      "order": 475,
       "title": "X-Men (2021)",
       "issue": 30,
       "phase": "Fall of X",
@@ -3781,40 +3813,8 @@
       "year": "2023"
     },
     {
-      "order": 472,
-      "title": "Fall of the House of X",
-      "issue": 1,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 473,
-      "title": "Rise of the Powers of X",
-      "issue": 1,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 474,
-      "title": "Invincible Iron Man",
-      "issue": 15,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 475,
-      "title": "Invincible Iron Man",
-      "issue": 16,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
       "order": 476,
-      "title": "Dead X-Men",
+      "title": "Fall of the House of X",
       "issue": 1,
       "phase": "Fall of X",
       "event": "Fall of the House of X",
@@ -3822,6 +3822,38 @@
     },
     {
       "order": 477,
+      "title": "Rise of the Powers of X",
+      "issue": 1,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 478,
+      "title": "Invincible Iron Man",
+      "issue": 15,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 479,
+      "title": "Invincible Iron Man",
+      "issue": 16,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 480,
+      "title": "Dead X-Men",
+      "issue": 1,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 481,
       "title": "X-Men (2021)",
       "issue": 31,
       "phase": "Fall of X",
@@ -3829,7 +3861,7 @@
       "year": "2024"
     },
     {
-      "order": 478,
+      "order": 482,
       "title": "X-Men (2021)",
       "issue": 32,
       "phase": "Fall of X",
@@ -3837,41 +3869,9 @@
       "year": "2024"
     },
     {
-      "order": 479,
-      "title": "Fall of the House of X",
-      "issue": 2,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 480,
-      "title": "Rise of the Powers of X",
-      "issue": 2,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 481,
-      "title": "Resurrection of Magneto",
-      "issue": 1,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 482,
-      "title": "Resurrection of Magneto",
-      "issue": 2,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
       "order": 483,
       "title": "Fall of the House of X",
-      "issue": 3,
+      "issue": 2,
       "phase": "Fall of X",
       "event": "Fall of the House of X",
       "year": "2024"
@@ -3879,30 +3879,30 @@
     {
       "order": 484,
       "title": "Rise of the Powers of X",
-      "issue": 3,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 485,
-      "title": "Dead X-Men",
       "issue": 2,
       "phase": "Fall of X",
       "event": "Fall of the House of X",
       "year": "2024"
     },
     {
+      "order": 485,
+      "title": "Resurrection of Magneto",
+      "issue": 1,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
       "order": 486,
-      "title": "Dead X-Men",
-      "issue": 3,
+      "title": "Resurrection of Magneto",
+      "issue": 2,
       "phase": "Fall of X",
       "event": "Fall of the House of X",
       "year": "2024"
     },
     {
       "order": 487,
-      "title": "Resurrection of Magneto",
+      "title": "Fall of the House of X",
       "issue": 3,
       "phase": "Fall of X",
       "event": "Fall of the House of X",
@@ -3910,8 +3910,8 @@
     },
     {
       "order": 488,
-      "title": "Resurrection of Magneto",
-      "issue": 4,
+      "title": "Rise of the Powers of X",
+      "issue": 3,
       "phase": "Fall of X",
       "event": "Fall of the House of X",
       "year": "2024"
@@ -3919,13 +3919,45 @@
     {
       "order": 489,
       "title": "Dead X-Men",
-      "issue": 4,
+      "issue": 2,
       "phase": "Fall of X",
       "event": "Fall of the House of X",
       "year": "2024"
     },
     {
       "order": 490,
+      "title": "Dead X-Men",
+      "issue": 3,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 491,
+      "title": "Resurrection of Magneto",
+      "issue": 3,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 492,
+      "title": "Resurrection of Magneto",
+      "issue": 4,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 493,
+      "title": "Dead X-Men",
+      "issue": 4,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 494,
       "title": "X-Men Forever (2024)",
       "issue": 1,
       "phase": "Fall of X",
@@ -3933,7 +3965,7 @@
       "year": "2024"
     },
     {
-      "order": 491,
+      "order": 495,
       "title": "Invincible Iron Man",
       "issue": 17,
       "phase": "Fall of X",
@@ -3941,7 +3973,7 @@
       "year": "2024"
     },
     {
-      "order": 492,
+      "order": 496,
       "title": "Invincible Iron Man",
       "issue": 18,
       "phase": "Fall of X",
@@ -3949,7 +3981,7 @@
       "year": "2024"
     },
     {
-      "order": 493,
+      "order": 497,
       "title": "X-Men (2021)",
       "issue": 33,
       "phase": "Fall of X",
@@ -3957,40 +3989,8 @@
       "year": "2024"
     },
     {
-      "order": 494,
-      "title": "Fall of the House of X",
-      "issue": 4,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 495,
-      "title": "Rise of the Powers of X",
-      "issue": 4,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 496,
-      "title": "X-Men Forever (2024)",
-      "issue": 2,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
-      "order": 497,
-      "title": "X-Men Forever (2024)",
-      "issue": 3,
-      "phase": "Fall of X",
-      "event": "Fall of the House of X",
-      "year": "2024"
-    },
-    {
       "order": 498,
-      "title": "X-Men Forever (2024)",
+      "title": "Fall of the House of X",
       "issue": 4,
       "phase": "Fall of X",
       "event": "Fall of the House of X",
@@ -3998,6 +3998,38 @@
     },
     {
       "order": 499,
+      "title": "Rise of the Powers of X",
+      "issue": 4,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 500,
+      "title": "X-Men Forever (2024)",
+      "issue": 2,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 501,
+      "title": "X-Men Forever (2024)",
+      "issue": 3,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 502,
+      "title": "X-Men Forever (2024)",
+      "issue": 4,
+      "phase": "Fall of X",
+      "event": "Fall of the House of X",
+      "year": "2024"
+    },
+    {
+      "order": 503,
       "title": "X-Men (2021)",
       "issue": 34,
       "phase": "Fall of X",
@@ -4005,7 +4037,7 @@
       "year": "2024"
     },
     {
-      "order": 500,
+      "order": 504,
       "title": "Fall of the House of X",
       "issue": 5,
       "phase": "Fall of X",
@@ -4013,7 +4045,7 @@
       "year": "2024"
     },
     {
-      "order": 501,
+      "order": 505,
       "title": "Rise of the Powers of X",
       "issue": 5,
       "phase": "Fall of X",
@@ -4021,7 +4053,7 @@
       "year": "2024"
     },
     {
-      "order": 502,
+      "order": 506,
       "title": "X-Men (2021)",
       "issue": 35,
       "phase": "Fall of X",
@@ -4029,40 +4061,8 @@
       "year": "2024"
     },
     {
-      "order": 503,
-      "title": "X-Men (2024)",
-      "issue": 1,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 504,
-      "title": "Phoenix",
-      "issue": 1,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 505,
-      "title": "NYX",
-      "issue": 1,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 506,
-      "title": "X-Force (2024)",
-      "issue": 1,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
       "order": 507,
-      "title": "Uncanny X-Men (2024)",
+      "title": "X-Men (2024)",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4070,7 +4070,7 @@
     },
     {
       "order": 508,
-      "title": "X-Factor (2024)",
+      "title": "Phoenix",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4078,7 +4078,7 @@
     },
     {
       "order": 509,
-      "title": "Exceptional X-Men",
+      "title": "NYX",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4086,7 +4086,7 @@
     },
     {
       "order": 510,
-      "title": "Wolverine (2024)",
+      "title": "X-Force (2024)",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4094,7 +4094,7 @@
     },
     {
       "order": 511,
-      "title": "Storm (2024)",
+      "title": "Uncanny X-Men (2024)",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4102,7 +4102,7 @@
     },
     {
       "order": 512,
-      "title": "Dazzler (2024)",
+      "title": "X-Factor (2024)",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4110,7 +4110,7 @@
     },
     {
       "order": 513,
-      "title": "Mystique (2024)",
+      "title": "Exceptional X-Men",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4118,7 +4118,7 @@
     },
     {
       "order": 514,
-      "title": "Sentinels (2024)",
+      "title": "Wolverine (2024)",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4126,7 +4126,7 @@
     },
     {
       "order": 515,
-      "title": "Psylocke (2024)",
+      "title": "Storm (2024)",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4134,7 +4134,7 @@
     },
     {
       "order": 516,
-      "title": "Laura Kinney: Wolverine",
+      "title": "Dazzler (2024)",
       "issue": 1,
       "phase": "From the Ashes",
       "event": "",
@@ -4142,7 +4142,7 @@
     },
     {
       "order": 517,
-      "title": "X-Men (2024)",
+      "title": "Dazzler (2024)",
       "issue": 2,
       "phase": "From the Ashes",
       "event": "",
@@ -4150,7 +4150,7 @@
     },
     {
       "order": 518,
-      "title": "X-Men (2024)",
+      "title": "Dazzler (2024)",
       "issue": 3,
       "phase": "From the Ashes",
       "event": "",
@@ -4158,7 +4158,7 @@
     },
     {
       "order": 519,
-      "title": "X-Men (2024)",
+      "title": "Dazzler (2024)",
       "issue": 4,
       "phase": "From the Ashes",
       "event": "",
@@ -4166,118 +4166,222 @@
     },
     {
       "order": 520,
-      "title": "X-Men (2024)",
-      "issue": 5,
+      "title": "Mystique (2024)",
+      "issue": 1,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 521,
-      "title": "X-Men (2024)",
-      "issue": 6,
+      "title": "Mystique (2024)",
+      "issue": 2,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 522,
-      "title": "X-Men (2024)",
-      "issue": 7,
+      "title": "Mystique (2024)",
+      "issue": 3,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 523,
-      "title": "X-Men (2024)",
-      "issue": 8,
+      "title": "Mystique (2024)",
+      "issue": 4,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 524,
-      "title": "Uncanny X-Men (2024)",
-      "issue": 2,
+      "title": "Mystique (2024)",
+      "issue": 5,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 525,
-      "title": "Uncanny X-Men (2024)",
-      "issue": 3,
+      "title": "Sentinels (2024)",
+      "issue": 1,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 526,
-      "title": "Uncanny X-Men (2024)",
-      "issue": 4,
+      "title": "Sentinels (2024)",
+      "issue": 2,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 527,
-      "title": "Uncanny X-Men (2024)",
-      "issue": 5,
+      "title": "Sentinels (2024)",
+      "issue": 3,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 528,
-      "title": "Uncanny X-Men (2024)",
-      "issue": 6,
+      "title": "Sentinels (2024)",
+      "issue": 4,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 529,
-      "title": "Uncanny X-Men (2024)",
-      "issue": 7,
+      "title": "Sentinels (2024)",
+      "issue": 5,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 530,
-      "title": "Phoenix",
-      "issue": 2,
+      "title": "Psylocke (2024)",
+      "issue": 1,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 531,
-      "title": "Phoenix",
-      "issue": 3,
+      "title": "Laura Kinney: Wolverine",
+      "issue": 1,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 532,
-      "title": "Phoenix",
-      "issue": 4,
+      "title": "X-Men (2024)",
+      "issue": 2,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 533,
-      "title": "Phoenix",
-      "issue": 5,
+      "title": "X-Men (2024)",
+      "issue": 3,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 534,
+      "title": "X-Men (2024)",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 535,
+      "title": "X-Men (2024)",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 536,
+      "title": "X-Men (2024)",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 537,
+      "title": "X-Men (2024)",
+      "issue": 7,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 538,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 539,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 540,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 541,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 542,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 543,
+      "title": "Phoenix",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 544,
+      "title": "Phoenix",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 545,
+      "title": "Phoenix",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 546,
+      "title": "Phoenix",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 547,
       "title": "Phoenix",
       "issue": 6,
       "phase": "From the Ashes",
@@ -4285,120 +4389,16 @@
       "year": "2024"
     },
     {
-      "order": 535,
-      "title": "NYX",
-      "issue": 2,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 536,
-      "title": "NYX",
-      "issue": 3,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 537,
-      "title": "NYX",
-      "issue": 4,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 538,
-      "title": "NYX",
-      "issue": 5,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 539,
-      "title": "NYX",
-      "issue": 6,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 540,
-      "title": "X-Force (2024)",
-      "issue": 2,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 541,
-      "title": "X-Force (2024)",
-      "issue": 3,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 542,
-      "title": "X-Force (2024)",
-      "issue": 4,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 543,
-      "title": "X-Force (2024)",
-      "issue": 5,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 544,
-      "title": "X-Force (2024)",
-      "issue": 6,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 545,
-      "title": "Exceptional X-Men",
-      "issue": 2,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 546,
-      "title": "Exceptional X-Men",
-      "issue": 3,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
-      "order": 547,
-      "title": "Exceptional X-Men",
-      "issue": 4,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2024"
-    },
-    {
       "order": 548,
-      "title": "Exceptional X-Men",
-      "issue": 5,
+      "title": "Phoenix",
+      "issue": 7,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 549,
-      "title": "Wolverine (2024)",
+      "title": "NYX",
       "issue": 2,
       "phase": "From the Ashes",
       "event": "",
@@ -4406,7 +4406,7 @@
     },
     {
       "order": 550,
-      "title": "Wolverine (2024)",
+      "title": "NYX",
       "issue": 3,
       "phase": "From the Ashes",
       "event": "",
@@ -4414,7 +4414,7 @@
     },
     {
       "order": 551,
-      "title": "Wolverine (2024)",
+      "title": "NYX",
       "issue": 4,
       "phase": "From the Ashes",
       "event": "",
@@ -4422,7 +4422,7 @@
     },
     {
       "order": 552,
-      "title": "Wolverine (2024)",
+      "title": "NYX",
       "issue": 5,
       "phase": "From the Ashes",
       "event": "",
@@ -4430,31 +4430,31 @@
     },
     {
       "order": 553,
-      "title": "Storm (2024)",
-      "issue": 2,
+      "title": "NYX",
+      "issue": 6,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 554,
-      "title": "Storm (2024)",
-      "issue": 3,
+      "title": "NYX",
+      "issue": 7,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 555,
-      "title": "Storm (2024)",
-      "issue": 4,
+      "title": "NYX",
+      "issue": 8,
       "phase": "From the Ashes",
       "event": "",
       "year": "2024"
     },
     {
       "order": 556,
-      "title": "X-Factor (2024)",
+      "title": "X-Force (2024)",
       "issue": 2,
       "phase": "From the Ashes",
       "event": "",
@@ -4462,7 +4462,7 @@
     },
     {
       "order": 557,
-      "title": "X-Factor (2024)",
+      "title": "X-Force (2024)",
       "issue": 3,
       "phase": "From the Ashes",
       "event": "",
@@ -4470,7 +4470,7 @@
     },
     {
       "order": 558,
-      "title": "X-Factor (2024)",
+      "title": "X-Force (2024)",
       "issue": 4,
       "phase": "From the Ashes",
       "event": "",
@@ -4478,6 +4478,182 @@
     },
     {
       "order": 559,
+      "title": "X-Force (2024)",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 560,
+      "title": "X-Force (2024)",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 561,
+      "title": "X-Force (2024)",
+      "issue": 7,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 562,
+      "title": "X-Force (2024)",
+      "issue": 8,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 563,
+      "title": "Exceptional X-Men",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 564,
+      "title": "Exceptional X-Men",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 565,
+      "title": "Exceptional X-Men",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 566,
+      "title": "Exceptional X-Men",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 567,
+      "title": "Wolverine (2024)",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 568,
+      "title": "Wolverine (2024)",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 569,
+      "title": "Wolverine (2024)",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 570,
+      "title": "Wolverine (2024)",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 571,
+      "title": "Storm (2024)",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 572,
+      "title": "Storm (2024)",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 573,
+      "title": "Storm (2024)",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 574,
+      "title": "Storm (2024)",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 575,
+      "title": "X-Factor (2024)",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 576,
+      "title": "X-Factor (2024)",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 577,
+      "title": "X-Factor (2024)",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 578,
+      "title": "X-Factor (2024)",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 579,
+      "title": "X-Factor (2024)",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 580,
+      "title": "X-Factor (2024)",
+      "issue": 7,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 581,
       "title": "X-Men (2024)",
       "issue": 8,
       "phase": "From the Ashes",
@@ -4485,7 +4661,7 @@
       "year": "2024"
     },
     {
-      "order": 560,
+      "order": 582,
       "title": "Uncanny X-Men (2024)",
       "issue": 7,
       "phase": "From the Ashes",
@@ -4493,7 +4669,7 @@
       "year": "2024"
     },
     {
-      "order": 561,
+      "order": 583,
       "title": "X-Men (2024)",
       "issue": 9,
       "phase": "From the Ashes",
@@ -4501,7 +4677,31 @@
       "year": "2024"
     },
     {
-      "order": 562,
+      "order": 584,
+      "title": "X-Men (2024)",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 585,
+      "title": "X-Men (2024)",
+      "issue": 11,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 586,
+      "title": "X-Men (2024)",
+      "issue": 12,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 587,
       "title": "Uncanny X-Men (2024)",
       "issue": 8,
       "phase": "From the Ashes",
@@ -4509,7 +4709,23 @@
       "year": "2024"
     },
     {
-      "order": 563,
+      "order": 588,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 9,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 589,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 590,
       "title": "Magik",
       "issue": 1,
       "phase": "From the Ashes",
@@ -4517,7 +4733,7 @@
       "year": "2025"
     },
     {
-      "order": 564,
+      "order": 591,
       "title": "Weapon X-Men",
       "issue": 1,
       "phase": "From the Ashes",
@@ -4525,7 +4741,7 @@
       "year": "2025"
     },
     {
-      "order": 565,
+      "order": 592,
       "title": "Uncanny X-Men (2024)",
       "issue": 11,
       "phase": "From the Ashes",
@@ -4533,7 +4749,7 @@
       "year": "2025"
     },
     {
-      "order": 566,
+      "order": 593,
       "title": "NYX",
       "issue": 9,
       "phase": "From the Ashes",
@@ -4541,7 +4757,15 @@
       "year": "2025"
     },
     {
-      "order": 567,
+      "order": 594,
+      "title": "NYX",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 595,
       "title": "Storm (2024)",
       "issue": 6,
       "phase": "From the Ashes",
@@ -4549,7 +4773,7 @@
       "year": "2025"
     },
     {
-      "order": 568,
+      "order": 596,
       "title": "X-Men (2024)",
       "issue": 13,
       "phase": "From the Ashes",
@@ -4557,7 +4781,7 @@
       "year": "2025"
     },
     {
-      "order": 569,
+      "order": 597,
       "title": "X-Factor (2024)",
       "issue": 8,
       "phase": "From the Ashes",
@@ -4565,7 +4789,23 @@
       "year": "2025"
     },
     {
-      "order": 570,
+      "order": 598,
+      "title": "X-Factor (2024)",
+      "issue": 9,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 599,
+      "title": "X-Factor (2024)",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 600,
       "title": "X-Force (2024)",
       "issue": 9,
       "phase": "From the Ashes",
@@ -4573,7 +4813,15 @@
       "year": "2025"
     },
     {
-      "order": 571,
+      "order": 601,
+      "title": "X-Force (2024)",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 602,
       "title": "Exceptional X-Men",
       "issue": 7,
       "phase": "From the Ashes",
@@ -4581,7 +4829,7 @@
       "year": "2025"
     },
     {
-      "order": 572,
+      "order": 603,
       "title": "X-Manhunt Omega",
       "issue": 1,
       "phase": "From the Ashes",
@@ -4589,7 +4837,7 @@
       "year": "2025"
     },
     {
-      "order": 573,
+      "order": 604,
       "title": "X-Men (2024)",
       "issue": 14,
       "phase": "From the Ashes",
@@ -4597,7 +4845,7 @@
       "year": "2025"
     },
     {
-      "order": 574,
+      "order": 605,
       "title": "X-Men (2024)",
       "issue": 15,
       "phase": "From the Ashes",
@@ -4605,7 +4853,7 @@
       "year": "2025"
     },
     {
-      "order": 575,
+      "order": 606,
       "title": "X-Men (2024)",
       "issue": 16,
       "phase": "From the Ashes",
@@ -4613,7 +4861,7 @@
       "year": "2025"
     },
     {
-      "order": 576,
+      "order": 607,
       "title": "X-Men (2024)",
       "issue": 17,
       "phase": "From the Ashes",
@@ -4621,7 +4869,7 @@
       "year": "2025"
     },
     {
-      "order": 577,
+      "order": 608,
       "title": "X-Men (2024)",
       "issue": 18,
       "phase": "From the Ashes",
@@ -4629,7 +4877,7 @@
       "year": "2025"
     },
     {
-      "order": 578,
+      "order": 609,
       "title": "X-Men (2024)",
       "issue": 19,
       "phase": "From the Ashes",
@@ -4637,7 +4885,31 @@
       "year": "2025"
     },
     {
-      "order": 579,
+      "order": 610,
+      "title": "X-Men (2024)",
+      "issue": 20,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 611,
+      "title": "X-Men (2024)",
+      "issue": 21,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 612,
+      "title": "X-Men (2024)",
+      "issue": 22,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 613,
       "title": "Uncanny X-Men (2024)",
       "issue": 12,
       "phase": "From the Ashes",
@@ -4645,7 +4917,7 @@
       "year": "2025"
     },
     {
-      "order": 580,
+      "order": 614,
       "title": "Uncanny X-Men (2024)",
       "issue": 13,
       "phase": "From the Ashes",
@@ -4653,7 +4925,7 @@
       "year": "2025"
     },
     {
-      "order": 581,
+      "order": 615,
       "title": "Uncanny X-Men (2024)",
       "issue": 14,
       "phase": "From the Ashes",
@@ -4661,7 +4933,7 @@
       "year": "2025"
     },
     {
-      "order": 582,
+      "order": 616,
       "title": "Uncanny X-Men (2024)",
       "issue": 15,
       "phase": "From the Ashes",
@@ -4669,7 +4941,7 @@
       "year": "2025"
     },
     {
-      "order": 583,
+      "order": 617,
       "title": "Uncanny X-Men (2024)",
       "issue": 16,
       "phase": "From the Ashes",
@@ -4677,7 +4949,7 @@
       "year": "2025"
     },
     {
-      "order": 584,
+      "order": 618,
       "title": "Uncanny X-Men (2024)",
       "issue": 17,
       "phase": "From the Ashes",
@@ -4685,7 +4957,39 @@
       "year": "2025"
     },
     {
-      "order": 585,
+      "order": 619,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 18,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 620,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 19,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 621,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 20,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 622,
+      "title": "Uncanny X-Men (2024)",
+      "issue": 21,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 623,
       "title": "Phoenix",
       "issue": 8,
       "phase": "From the Ashes",
@@ -4693,7 +4997,7 @@
       "year": "2025"
     },
     {
-      "order": 586,
+      "order": 624,
       "title": "Phoenix",
       "issue": 9,
       "phase": "From the Ashes",
@@ -4701,7 +5005,7 @@
       "year": "2025"
     },
     {
-      "order": 587,
+      "order": 625,
       "title": "Phoenix",
       "issue": 10,
       "phase": "From the Ashes",
@@ -4709,7 +5013,7 @@
       "year": "2025"
     },
     {
-      "order": 588,
+      "order": 626,
       "title": "Phoenix",
       "issue": 11,
       "phase": "From the Ashes",
@@ -4717,7 +5021,7 @@
       "year": "2025"
     },
     {
-      "order": 589,
+      "order": 627,
       "title": "Phoenix",
       "issue": 12,
       "phase": "From the Ashes",
@@ -4725,7 +5029,7 @@
       "year": "2025"
     },
     {
-      "order": 590,
+      "order": 628,
       "title": "Phoenix",
       "issue": 13,
       "phase": "From the Ashes",
@@ -4733,7 +5037,7 @@
       "year": "2025"
     },
     {
-      "order": 591,
+      "order": 629,
       "title": "Phoenix",
       "issue": 14,
       "phase": "From the Ashes",
@@ -4741,7 +5045,7 @@
       "year": "2025"
     },
     {
-      "order": 592,
+      "order": 630,
       "title": "Phoenix",
       "issue": 15,
       "phase": "From the Ashes",
@@ -4749,312 +5053,8 @@
       "year": "2025"
     },
     {
-      "order": 593,
-      "title": "Storm (2024)",
-      "issue": 6,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 594,
-      "title": "Storm (2024)",
-      "issue": 7,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 595,
-      "title": "Storm (2024)",
-      "issue": 8,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 596,
-      "title": "Storm (2024)",
-      "issue": 9,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 597,
-      "title": "Storm (2024)",
-      "issue": 10,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 598,
-      "title": "Storm (2024)",
-      "issue": 11,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 599,
-      "title": "Storm (2024)",
-      "issue": 12,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 600,
-      "title": "Exceptional X-Men",
-      "issue": 6,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 601,
-      "title": "Exceptional X-Men",
-      "issue": 7,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 602,
-      "title": "Exceptional X-Men",
-      "issue": 8,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 603,
-      "title": "Exceptional X-Men",
-      "issue": 9,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 604,
-      "title": "Exceptional X-Men",
-      "issue": 10,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 605,
-      "title": "Exceptional X-Men",
-      "issue": 11,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 606,
-      "title": "Exceptional X-Men",
-      "issue": 12,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 607,
-      "title": "Exceptional X-Men",
-      "issue": 13,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 608,
-      "title": "Wolverine (2024)",
-      "issue": 6,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 609,
-      "title": "Wolverine (2024)",
-      "issue": 7,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 610,
-      "title": "Wolverine (2024)",
-      "issue": 8,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 611,
-      "title": "Wolverine (2024)",
-      "issue": 9,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 612,
-      "title": "Wolverine (2024)",
-      "issue": 10,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 613,
-      "title": "Magik",
-      "issue": 2,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 614,
-      "title": "Magik",
-      "issue": 3,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 615,
-      "title": "Magik",
-      "issue": 4,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 616,
-      "title": "Magik",
-      "issue": 5,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 617,
-      "title": "Magik",
-      "issue": 6,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 618,
-      "title": "Magik",
-      "issue": 7,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 619,
-      "title": "Magik",
-      "issue": 8,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 620,
-      "title": "Magik",
-      "issue": 9,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 621,
-      "title": "Magik",
-      "issue": 10,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 622,
-      "title": "Weapon X-Men",
-      "issue": 2,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 623,
-      "title": "Weapon X-Men",
-      "issue": 3,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 624,
-      "title": "Weapon X-Men",
-      "issue": 4,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 625,
-      "title": "Weapon X-Men",
-      "issue": 5,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 626,
-      "title": "Psylocke (2024)",
-      "issue": 2,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 627,
-      "title": "Psylocke (2024)",
-      "issue": 3,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 628,
-      "title": "Psylocke (2024)",
-      "issue": 4,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 629,
-      "title": "Psylocke (2024)",
-      "issue": 5,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
-      "order": 630,
-      "title": "Psylocke (2024)",
-      "issue": 6,
-      "phase": "From the Ashes",
-      "event": "",
-      "year": "2025"
-    },
-    {
       "order": 631,
-      "title": "Psylocke (2024)",
+      "title": "Storm (2024)",
       "issue": 7,
       "phase": "From the Ashes",
       "event": "",
@@ -5062,7 +5062,7 @@
     },
     {
       "order": 632,
-      "title": "Psylocke (2024)",
+      "title": "Storm (2024)",
       "issue": 8,
       "phase": "From the Ashes",
       "event": "",
@@ -5070,7 +5070,7 @@
     },
     {
       "order": 633,
-      "title": "Psylocke (2024)",
+      "title": "Storm (2024)",
       "issue": 9,
       "phase": "From the Ashes",
       "event": "",
@@ -5078,7 +5078,7 @@
     },
     {
       "order": 634,
-      "title": "Psylocke (2024)",
+      "title": "Storm (2024)",
       "issue": 10,
       "phase": "From the Ashes",
       "event": "",
@@ -5086,6 +5086,318 @@
     },
     {
       "order": 635,
+      "title": "Storm (2024)",
+      "issue": 11,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 636,
+      "title": "Storm (2024)",
+      "issue": 12,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 637,
+      "title": "Exceptional X-Men",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 638,
+      "title": "Exceptional X-Men",
+      "issue": 8,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 639,
+      "title": "Exceptional X-Men",
+      "issue": 9,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 640,
+      "title": "Exceptional X-Men",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 641,
+      "title": "Exceptional X-Men",
+      "issue": 11,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 642,
+      "title": "Exceptional X-Men",
+      "issue": 12,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 643,
+      "title": "Exceptional X-Men",
+      "issue": 13,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 644,
+      "title": "Wolverine (2024)",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 645,
+      "title": "Wolverine (2024)",
+      "issue": 7,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 646,
+      "title": "Wolverine (2024)",
+      "issue": 8,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 647,
+      "title": "Wolverine (2024)",
+      "issue": 9,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 648,
+      "title": "Wolverine (2024)",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 649,
+      "title": "Wolverine (2024)",
+      "issue": 11,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 650,
+      "title": "Wolverine (2024)",
+      "issue": 12,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 651,
+      "title": "Wolverine (2024)",
+      "issue": 13,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 652,
+      "title": "Magik",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 653,
+      "title": "Magik",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 654,
+      "title": "Magik",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 655,
+      "title": "Magik",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 656,
+      "title": "Magik",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 657,
+      "title": "Magik",
+      "issue": 7,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 658,
+      "title": "Magik",
+      "issue": 8,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 659,
+      "title": "Magik",
+      "issue": 9,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 660,
+      "title": "Magik",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 661,
+      "title": "Weapon X-Men",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 662,
+      "title": "Weapon X-Men",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 663,
+      "title": "Weapon X-Men",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 664,
+      "title": "Weapon X-Men",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 665,
+      "title": "Psylocke (2024)",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 666,
+      "title": "Psylocke (2024)",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 667,
+      "title": "Psylocke (2024)",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 668,
+      "title": "Psylocke (2024)",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 669,
+      "title": "Psylocke (2024)",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 670,
+      "title": "Psylocke (2024)",
+      "issue": 7,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 671,
+      "title": "Psylocke (2024)",
+      "issue": 8,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 672,
+      "title": "Psylocke (2024)",
+      "issue": 9,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 673,
+      "title": "Psylocke (2024)",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 674,
       "title": "Laura Kinney: Wolverine",
       "issue": 2,
       "phase": "From the Ashes",
@@ -5093,7 +5405,7 @@
       "year": "2025"
     },
     {
-      "order": 636,
+      "order": 675,
       "title": "Laura Kinney: Wolverine",
       "issue": 3,
       "phase": "From the Ashes",
@@ -5101,7 +5413,7 @@
       "year": "2025"
     },
     {
-      "order": 637,
+      "order": 676,
       "title": "Laura Kinney: Wolverine",
       "issue": 4,
       "phase": "From the Ashes",
@@ -5109,7 +5421,7 @@
       "year": "2025"
     },
     {
-      "order": 638,
+      "order": 677,
       "title": "Laura Kinney: Wolverine",
       "issue": 5,
       "phase": "From the Ashes",
@@ -5117,7 +5429,7 @@
       "year": "2025"
     },
     {
-      "order": 639,
+      "order": 678,
       "title": "Laura Kinney: Wolverine",
       "issue": 6,
       "phase": "From the Ashes",
@@ -5125,7 +5437,7 @@
       "year": "2025"
     },
     {
-      "order": 640,
+      "order": 679,
       "title": "Laura Kinney: Wolverine",
       "issue": 7,
       "phase": "From the Ashes",
@@ -5133,7 +5445,7 @@
       "year": "2025"
     },
     {
-      "order": 641,
+      "order": 680,
       "title": "Laura Kinney: Wolverine",
       "issue": 8,
       "phase": "From the Ashes",
@@ -5141,7 +5453,7 @@
       "year": "2025"
     },
     {
-      "order": 642,
+      "order": 681,
       "title": "Laura Kinney: Wolverine",
       "issue": 9,
       "phase": "From the Ashes",
@@ -5149,7 +5461,7 @@
       "year": "2025"
     },
     {
-      "order": 643,
+      "order": 682,
       "title": "Laura Kinney: Wolverine",
       "issue": 10,
       "phase": "From the Ashes",
@@ -5157,31 +5469,719 @@
       "year": "2025"
     },
     {
-      "order": 644,
+      "order": 683,
+      "title": "Hellverine",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 684,
+      "title": "Hellverine",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 685,
+      "title": "Hellverine",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 686,
+      "title": "Hellverine",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 687,
+      "title": "Hellverine",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 688,
+      "title": "Hellverine",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 689,
+      "title": "Hellverine",
+      "issue": 7,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 690,
+      "title": "Hellverine",
+      "issue": 8,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 691,
+      "title": "Hellverine",
+      "issue": 9,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 692,
+      "title": "Hellverine",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 693,
+      "title": "Timeslide",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2024"
+    },
+    {
+      "order": 694,
+      "title": "Deadpool/Wolverine",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 695,
+      "title": "Deadpool/Wolverine",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 696,
+      "title": "Deadpool/Wolverine",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 697,
+      "title": "Deadpool/Wolverine",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 698,
+      "title": "Deadpool/Wolverine",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 699,
+      "title": "Deadpool/Wolverine",
+      "issue": 6,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 700,
+      "title": "Deadpool/Wolverine",
+      "issue": 7,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 701,
+      "title": "Deadpool/Wolverine",
+      "issue": 8,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 702,
+      "title": "Deadpool/Wolverine",
+      "issue": 9,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 703,
+      "title": "Deadpool/Wolverine",
+      "issue": 10,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 704,
+      "title": "Cable: Love and Chrome",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 705,
+      "title": "Cable: Love and Chrome",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 706,
+      "title": "Cable: Love and Chrome",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 707,
+      "title": "Cable: Love and Chrome",
+      "issue": 4,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 708,
+      "title": "Cable: Love and Chrome",
+      "issue": 5,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 709,
+      "title": "X-Men: Xavier's Secret",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 710,
+      "title": "X-Men: Hellfire Vigil",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 711,
+      "title": "X-Men: Tooth and Claw",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 712,
+      "title": "X-Men: Demons and Death",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "",
+      "year": "2025"
+    },
+    {
+      "order": 713,
+      "title": "Giant-Size X-Men (2025)",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Giant-Size X-Men Anniversary",
+      "year": "2025"
+    },
+    {
+      "order": 714,
+      "title": "Giant-Size Dark Phoenix Saga",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Giant-Size X-Men Anniversary",
+      "year": "2025"
+    },
+    {
+      "order": 715,
+      "title": "Giant-Size Age of Apocalypse",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Giant-Size X-Men Anniversary",
+      "year": "2025"
+    },
+    {
+      "order": 716,
+      "title": "Giant-Size House of M",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Giant-Size X-Men Anniversary",
+      "year": "2025"
+    },
+    {
+      "order": 717,
+      "title": "Giant-Size X-Men (2025)",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Giant-Size X-Men Anniversary",
+      "year": "2025"
+    },
+    {
+      "order": 718,
+      "title": "X-Men: Age of Revelation Overture",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 719,
+      "title": "World of Revelation",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 720,
+      "title": "Amazing X-Men (2025)",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 721,
+      "title": "Amazing X-Men (2025)",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 722,
+      "title": "Amazing X-Men (2025)",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 723,
+      "title": "Binary",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 724,
+      "title": "Binary",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 725,
+      "title": "Binary",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 726,
+      "title": "Laura Kinney: Sabretooth",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 727,
+      "title": "Laura Kinney: Sabretooth",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 728,
+      "title": "Laura Kinney: Sabretooth",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 729,
+      "title": "Longshots",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 730,
+      "title": "Longshots",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 731,
+      "title": "Longshots",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 732,
+      "title": "Unbreakable X-Men",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 733,
+      "title": "Unbreakable X-Men",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 734,
+      "title": "Unbreakable X-Men",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 735,
+      "title": "Rogue Storm",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 736,
+      "title": "Rogue Storm",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 737,
+      "title": "Rogue Storm",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 738,
+      "title": "Iron & Frost",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 739,
+      "title": "Iron & Frost",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 740,
+      "title": "Iron & Frost",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 741,
+      "title": "Sinister's Six",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 742,
+      "title": "Sinister's Six",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 743,
+      "title": "Sinister's Six",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 744,
+      "title": "The Last Wolverine",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 745,
+      "title": "The Last Wolverine",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 746,
+      "title": "The Last Wolverine",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 747,
+      "title": "Omega Kids",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 748,
+      "title": "Omega Kids",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 749,
+      "title": "Omega Kids",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 750,
+      "title": "Radioactive Spider-Man",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 751,
+      "title": "Radioactive Spider-Man",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 752,
+      "title": "Radioactive Spider-Man",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 753,
+      "title": "X-Men: Book of Revelation",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 754,
+      "title": "X-Men: Book of Revelation",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 755,
+      "title": "X-Men: Book of Revelation",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 756,
+      "title": "Cloak or Dagger",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 757,
+      "title": "Cloak or Dagger",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 758,
+      "title": "Cloak or Dagger",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 759,
+      "title": "Expatriate X-Men",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 760,
+      "title": "Expatriate X-Men",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 761,
+      "title": "Expatriate X-Men",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 762,
+      "title": "Undeadpool",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 763,
+      "title": "Undeadpool",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 764,
+      "title": "Undeadpool",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 765,
+      "title": "X-Vengers",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 766,
+      "title": "X-Vengers",
+      "issue": 2,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 767,
+      "title": "X-Vengers",
+      "issue": 3,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 768,
+      "title": "X-Men: Age of Revelation Finale",
+      "issue": 1,
+      "phase": "From the Ashes",
+      "event": "Age of Revelation",
+      "year": "2025"
+    },
+    {
+      "order": 769,
       "title": "X-Men (2024)",
-      "issue": 21,
+      "issue": 23,
       "phase": "Shadows of Tomorrow",
       "event": "",
       "year": "2026"
     },
     {
-      "order": 645,
+      "order": 770,
       "title": "Uncanny X-Men (2024)",
-      "issue": 19,
+      "issue": 22,
       "phase": "Shadows of Tomorrow",
       "event": "",
       "year": "2026"
     },
     {
-      "order": 646,
+      "order": 771,
       "title": "Wolverine (2024)",
-      "issue": 11,
+      "issue": 14,
       "phase": "Shadows of Tomorrow",
       "event": "",
       "year": "2026"
     },
     {
-      "order": 647,
+      "order": 772,
       "title": "X-Men United",
       "issue": 1,
       "phase": "Shadows of Tomorrow",
@@ -5189,7 +6189,7 @@
       "year": "2026"
     },
     {
-      "order": 648,
+      "order": 773,
       "title": "Inglorious X-Force",
       "issue": 1,
       "phase": "Shadows of Tomorrow",
@@ -5197,7 +6197,7 @@
       "year": "2026"
     },
     {
-      "order": 649,
+      "order": 774,
       "title": "Generation: X-23",
       "issue": 1,
       "phase": "Shadows of Tomorrow",
@@ -5205,7 +6205,7 @@
       "year": "2026"
     },
     {
-      "order": 650,
+      "order": 775,
       "title": "Wade Wilson: Deadpool",
       "issue": 1,
       "phase": "Shadows of Tomorrow",
@@ -5213,7 +6213,7 @@
       "year": "2026"
     },
     {
-      "order": 651,
+      "order": 776,
       "title": "Moonstar",
       "issue": 1,
       "phase": "Shadows of Tomorrow",
@@ -5221,7 +6221,7 @@
       "year": "2026"
     },
     {
-      "order": 652,
+      "order": 777,
       "title": "Storm: Earth's Mightiest Mutant",
       "issue": 1,
       "phase": "Shadows of Tomorrow",
@@ -5229,8 +6229,24 @@
       "year": "2026"
     },
     {
-      "order": 653,
+      "order": 778,
       "title": "Magik and Colossus",
+      "issue": 1,
+      "phase": "Shadows of Tomorrow",
+      "event": "",
+      "year": "2026"
+    },
+    {
+      "order": 779,
+      "title": "Cyclops (2026)",
+      "issue": 1,
+      "phase": "Shadows of Tomorrow",
+      "event": "",
+      "year": "2026"
+    },
+    {
+      "order": 780,
+      "title": "Rogue (2026)",
       "issue": 1,
       "phase": "Shadows of Tomorrow",
       "event": "",
