@@ -58,7 +58,13 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Comic page images: cache-first (large, rarely change) — works for both same-origin and cross-origin
+  // Only intercept same-origin requests in the Service Worker.
+  // Cross-origin requests (e.g. to the API server from GitHub Pages)
+  // must go directly to the network without SW interference,
+  // otherwise self-signed cert failures get swallowed as 503.
+  if (url.origin !== self.location.origin) return;
+
+  // Comic page images: cache-first (large, rarely change)
   if (url.pathname.match(/^\/api\/issues\/\d+\/page\/\d+$/)) {
     event.respondWith(cacheFirst(event.request, IMG_CACHE));
     return;
@@ -72,10 +78,8 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Only cache same-origin requests for app shell
-  if (url.origin === self.location.origin) {
-    event.respondWith(networkFirst(event.request, APP_CACHE));
-  }
+  // App shell (HTML, manifest): network-first
+  event.respondWith(networkFirst(event.request, APP_CACHE));
 });
 
 // ── Cache-first strategy (for images) ─────────────────────

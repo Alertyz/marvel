@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Marvel Comic Reader — Start the server with HTTPS for PWA support."""
+"""Marvel Comic Reader — Start the server with HTTPS + HTTP for PWA and remote access."""
 import socket
 import ssl
 import sys
+import threading
 from pathlib import Path
 
 import uvicorn
@@ -89,8 +90,9 @@ if __name__ == "__main__":
     print("  ╔═══════════════════════════════════════════════╗")
     print("  ║         Marvel Comic Reader                   ║")
     print("  ╠═══════════════════════════════════════════════╣")
-    print(f"  ║  Local:   https://localhost:8000              ║")
-    print(f"  ║  Rede:    https://{ip:<15}:8000        ║")
+    print(f"  ║  HTTPS:   https://localhost:8000              ║")
+    print(f"  ║  HTTPS:   https://{ip:<15}:8000        ║")
+    print(f"  ║  HTTP:    http://{ip:<15}:8080         ║")
     print("  ╠═══════════════════════════════════════════════╣")
     print("  ║  📱 CELULAR — Duas opções:                     ║")
     print("  ║                                               ║")
@@ -103,14 +105,30 @@ if __name__ == "__main__":
     print("  ║  1. Acesse o link da Rede no celular          ║")
     print("  ║  2. Aceite o aviso de certificado             ║")
     print("  ║  3. Menu ⋮ → Instalar app                     ║")
+    print("  ╠═══════════════════════════════════════════════╣")
+    print("  ║  🌐 GitHub Pages: use HTTP (porta 8080) como  ║")
+    print("  ║     servidor de imagens para evitar problemas  ║")
+    print("  ║     com certificado SSL.                      ║")
     print("  ╚═══════════════════════════════════════════════╝")
     print()
 
+    # Start HTTP server on port 8080 in background thread (for GitHub Pages cross-origin access)
+    def run_http():
+        uvicorn.run(
+            "server.app:app",
+            host="0.0.0.0",
+            port=8080,
+            log_level="warning",
+        )
+
+    http_thread = threading.Thread(target=run_http, daemon=True)
+    http_thread.start()
+
+    # Start HTTPS server on port 8000 (main, for local PWA + mobile)
     uvicorn.run(
         "server.app:app",
         host="0.0.0.0",
         port=8000,
-        reload=True,
         ssl_keyfile=str(KEY_FILE),
         ssl_certfile=str(CERT_FILE),
     )
