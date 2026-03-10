@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Open book icon -->
+    <path
+        android:fillColor="#F0C040"
+        android:pathData="M33,30 L54,24 L54,78 L33,72 Z" />
+    <path
+        android:fillColor="#DAA520"
+        android:pathData="M54,24 L75,30 L75,72 L54,78 Z" />
+    <!-- Spine -->
+    <path
+        android:fillColor="#B8860B"
+        android:pathData="M53,24 L55,24 L55,78 L53,78 Z" />
+</vector>
