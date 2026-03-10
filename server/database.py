@@ -16,6 +16,7 @@ class ReaderDB:
         self._init_schema()
         self._ensure_populated()
         self._ensure_sync_table()
+        self._ensure_reports_table()
 
     def _conn(self):
         if not hasattr(self._local, "conn"):
@@ -276,6 +277,80 @@ class ReaderDB:
             "downloaded_issues": downloaded,
             "progress_percent": round(read_count / total * 100, 1) if total > 0 else 0,
         }
+
+    # ── Reports ─────────────────────────────────────────────
+    def _ensure_reports_table(self):
+        c = self._conn()
+        c.executescript("""
+            CREATE TABLE IF NOT EXISTS reports (
+                id           INTEGER PRIMARY KEY AUTOINCREMENT,
+                issue_order  INTEGER NOT NULL,
+                page_num     INTEGER,
+                report_type  TEXT NOT NULL,
+                description  TEXT,
+                created_at   TEXT NOT NULL,
+                resolved     INTEGER DEFAULT 0,
+                resolved_at  TEXT,
+                FOREIGN KEY (issue_order) REFERENCES issues(order_num)
+            );
+        """)
+        c.commit()
+
+    def add_report(self, issue_order, page_num, report_type, description=""):
+        c = self._conn()
+        now = datetime.now().isoformat()
+        with self._write_lock:
+            c.execute("""
+                INSERT INTO reports (issue_order, page_num, report_type, description, created_at)
+                VALUES (?, ?, ?, ?, ?)
+            """, (issue_order, page_num, report_type, description, now))
+            c.commit()
+        return c.execute("SELECT last_insert_rowid()").fetchone()[0]
+
+    def get_reports(self, resolved=None):
+        q = """
+            SELECT r.id, r.issue_order, r.page_num, r.report_type, r.description,
+                   r.created_at, r.resolved, r.resolved_at,
+                   i.title, i.issue
+            FROM reports r
+            JOIN issues i ON i.order_num = r.issue_order
+        """
+        params = []
+        if resolved is not None:
+            q += " WHERE r.resolved = ?"
+            params.append(int(resolved))
+        q += " ORDER BY r.created_at DESC"
+        return [dict(r) for r in self._conn().execute(q, params).fetchall()]
+
+    def get_issue_reports(self, issue_order):
+        q = """
+            SELECT id, page_num, report_type, description, created_at, resolved
+            FROM reports WHERE issue_order = ? ORDER BY created_at DESC
+        """
+        return [dict(r) for r in self._conn().execute(q, (issue_order,)).fetchall()]
+
+    def resolve_report(self, report_id):
+        c = self._conn()
+        now = datetime.now().isoformat()
+        with self._write_lock:
+            c.execute(
+                "UPDATE reports SET resolved = 1, resolved_at = ? WHERE id = ?",
+                (now, report_id),
+            )
+            c.commit()
+
+    def delete_report(self, report_id):
+        c = self._conn()
+        with self._write_lock:
+            c.execute("DELETE FROM reports WHERE id = ?", (report_id,))
+            c.commit()
+
+    def get_flagged_issues(self):
+        """Return set of issue order_nums that have unresolved reports."""
+        rows = self._conn().execute(
+            "SELECT DISTINCT issue_order FROM reports WHERE resolved = 0"
+        ).fetchall()
+        return {r["issue_order"] for r in rows}
 
     # ── Sync ────────────────────────────────────────────────
     def _ensure_sync_table(self):

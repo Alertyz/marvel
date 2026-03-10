@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from .config import BASE_DIR
 from .routers import api
 
@@ -43,3 +43,47 @@ async def service_worker():
 async def manifest():
     return FileResponse(str(BASE_DIR / "web" / "manifest.json"),
                         media_type="application/manifest+json")
+
+
+@app.get("/icon-192.png")
+async def icon_192():
+    return FileResponse(str(BASE_DIR / "web" / "icon-192.png"),
+                        media_type="image/png",
+                        headers={"Cache-Control": "public, max-age=604800"})
+
+
+@app.get("/icon-512.png")
+async def icon_512():
+    return FileResponse(str(BASE_DIR / "web" / "icon-512.png"),
+                        media_type="image/png",
+                        headers={"Cache-Control": "public, max-age=604800"})
+
+
+@app.get("/cert")
+async def download_cert():
+    """Download the self-signed certificate for mobile trust installation."""
+    cert_path = BASE_DIR / ".certs" / "cert.pem"
+    if cert_path.exists():
+        return FileResponse(
+            str(cert_path),
+            media_type="application/x-pem-file",
+            filename="marvel-reader-cert.pem",
+            headers={"Content-Disposition": "attachment; filename=marvel-reader-cert.pem"},
+        )
+    return Response(content="Certificate not found", status_code=404)
+
+
+@app.get("/download-apk")
+async def download_apk():
+    """Serve the built APK for mobile installation."""
+    apk_path = BASE_DIR / "web" / "marvel-reader.apk"
+    if apk_path.exists():
+        return FileResponse(
+            str(apk_path),
+            media_type="application/vnd.android.package-archive",
+            filename="MarvelReader.apk",
+        )
+    return Response(
+        content="APK ainda não foi compilado. Execute: python build_apk.py",
+        status_code=404,
+    )

@@ -108,3 +108,51 @@ def push_sync_state(payload: dict = Body(...)):
         raise HTTPException(400, "progress must be a list")
     new_version = db.apply_sync_state(progress)
     return {"version": new_version, "ok": True}
+
+
+# ── Reports ───────────────────────────────────────────────
+REPORT_TYPES = {"missing_images", "wrong_order", "bad_quality", "wrong_issue", "other"}
+
+
+@router.post("/reports")
+def create_report(payload: dict = Body(...)):
+    issue_order = payload.get("issue_order")
+    page_num = payload.get("page_num")
+    report_type = payload.get("report_type", "other")
+    description = payload.get("description", "")
+    if not issue_order:
+        raise HTTPException(400, "issue_order is required")
+    if report_type not in REPORT_TYPES:
+        raise HTTPException(400, f"report_type must be one of {REPORT_TYPES}")
+    issue = db.get_issue(issue_order)
+    if not issue:
+        raise HTTPException(404, "Issue not found")
+    rid = db.add_report(issue_order, page_num, report_type, description[:500] if description else "")
+    return {"id": rid, "ok": True}
+
+
+@router.get("/reports")
+def get_reports(resolved: bool = None):
+    return db.get_reports(resolved=resolved)
+
+
+@router.get("/reports/flagged")
+def get_flagged_issues():
+    return list(db.get_flagged_issues())
+
+
+@router.get("/issues/{order_num}/reports")
+def get_issue_reports(order_num: int):
+    return db.get_issue_reports(order_num)
+
+
+@router.post("/reports/{report_id}/resolve")
+def resolve_report(report_id: int):
+    db.resolve_report(report_id)
+    return {"ok": True}
+
+
+@router.delete("/reports/{report_id}")
+def delete_report(report_id: int):
+    db.delete_report(report_id)
+    return {"ok": True}
