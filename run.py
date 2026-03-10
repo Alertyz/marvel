@@ -112,23 +112,26 @@ if __name__ == "__main__":
     print("  ╚═══════════════════════════════════════════════╝")
     print()
 
-    # Start HTTP server on port 8080 in background thread (for GitHub Pages cross-origin access)
-    def run_http():
-        uvicorn.run(
-            "server.app:app",
-            host="0.0.0.0",
-            port=8080,
-            log_level="warning",
-        )
+    # Start HTTPS server on port 8000 in background thread (for local PWA + mobile)
+    def run_https():
+        try:
+            uvicorn.run(
+                "server.app:app",
+                host="0.0.0.0",
+                port=8000,
+                ssl_keyfile=str(KEY_FILE),
+                ssl_certfile=str(CERT_FILE),
+            )
+        except Exception as e:
+            print(f"  ⚠  HTTPS (porta 8000) falhou: {e}")
+            print(f"  ℹ  HTTP na porta 8080 continua funcionando.")
 
-    http_thread = threading.Thread(target=run_http, daemon=True)
-    http_thread.start()
+    https_thread = threading.Thread(target=run_https, daemon=True)
+    https_thread.start()
 
-    # Start HTTPS server on port 8000 (main, for local PWA + mobile)
+    # Start HTTP server on port 8080 in main thread (for GitHub Pages cross-origin access)
     uvicorn.run(
         "server.app:app",
         host="0.0.0.0",
-        port=8000,
-        ssl_keyfile=str(KEY_FILE),
-        ssl_certfile=str(CERT_FILE),
+        port=8080,
     )
