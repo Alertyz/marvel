@@ -3,11 +3,12 @@ import re
 import sqlite3
 import threading
 from datetime import datetime
+from pathlib import Path
 from .config import DB_PATH, READING_ORDER_PATH, COMICS_DIR
 
 
 class ReaderDB:
-    """Database for the comic reader: issues + reading progress."""
+    """Database for the comic reader: issues, reading progress, reports, sync."""
 
     def __init__(self, db_path=None):
         self.db_path = str(db_path or DB_PATH)
@@ -15,8 +16,6 @@ class ReaderDB:
         self._write_lock = threading.Lock()
         self._init_schema()
         self._ensure_populated()
-        self._ensure_sync_table()
-        self._ensure_reports_table()
 
     def _conn(self):
         if not hasattr(self._local, "conn"):
@@ -37,23 +36,8 @@ class ReaderDB:
                 phase        TEXT,
                 event        TEXT,
                 year         TEXT,
-                slug         TEXT,
-                url          TEXT,
                 total_pages  INTEGER DEFAULT 0,
-                scrape_status TEXT DEFAULT 'pending',
-                scraped_at   TEXT,
                 bookmark     INTEGER DEFAULT 0
-            );
-            CREATE TABLE IF NOT EXISTS pages (
-                issue_order  INTEGER NOT NULL,
-                page_num     INTEGER NOT NULL,
-                image_url    TEXT NOT NULL,
-                file_path    TEXT,
-                downloaded   INTEGER DEFAULT 0,
-                file_size    INTEGER DEFAULT 0,
-                downloaded_at TEXT,
-                PRIMARY KEY (issue_order, page_num),
-                FOREIGN KEY (issue_order) REFERENCES issues(order_num)
             );
             CREATE TABLE IF NOT EXISTS reading_progress (
                 issue_order  INTEGER PRIMARY KEY,
@@ -62,8 +46,36 @@ class ReaderDB:
                 last_read_at TEXT,
                 FOREIGN KEY (issue_order) REFERENCES issues(order_num)
             );
+            CREATE TABLE IF NOT EXISTS reports (
+                id           INTEGER PRIMARY KEY AUTOINCREMENT,
+                issue_order  INTEGER NOT NULL,
+                page_num     INTEGER,
+                report_type  TEXT NOT NULL,
+                description  TEXT,
+                created_at   TEXT NOT NULL,
+                resolved     INTEGER DEFAULT 0,
+                resolved_at  TEXT,
+                FOREIGN KEY (issue_order) REFERENCES issues(order_num)
+            );
+            CREATE TABLE IF NOT EXISTS sync_meta (
+                key   TEXT PRIMARY KEY,
+                value TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS settings (
+                key   TEXT PRIMARY KEY,
+                value TEXT NOT NULL
+            );
         """)
         c.commit()
+        # Ensure sync version exists
+        row = c.execute("SELECT value FROM sync_meta WHERE key = 'version'").fetchone()
+        if not row:
+            with self._write_lock:
+                c.execute(
+                    "INSERT OR IGNORE INTO sync_meta (key, value) VALUES ('version', ?)",
+                    (datetime.now().isoformat(),),
+                )
+                c.commit()
 
     def _ensure_populated(self):
         c = self._conn()
@@ -90,11 +102,16 @@ class ReaderDB:
                 ))
             c.commit()
 
-    # ── Queries ─────────────────────────────────────────────
+    def _bump_version(self):
+        now = datetime.now().isoformat()
+        self._conn().execute("UPDATE sync_meta SET value = ? WHERE key = 'version'", (now,))
+        return now
+
+    # ── Library queries ─────────────────────────────────────
     def get_library(self, phase=None, series=None, search=None):
         q = """
             SELECT i.order_num, i.title, i.issue, i.phase, i.event, i.year,
-                   i.total_pages, i.scrape_status, i.bookmark,
+                   i.total_pages, i.bookmark,
                    COALESCE(rp.current_page, 1) as current_page,
                    COALESCE(rp.is_read, 0) as is_read,
                    rp.last_read_at
@@ -118,7 +135,7 @@ class ReaderDB:
     def get_issue(self, order_num):
         q = """
             SELECT i.order_num, i.title, i.issue, i.phase, i.event, i.year,
-                   i.total_pages, i.scrape_status, i.bookmark,
+                   i.total_pages, i.bookmark,
                    COALESCE(rp.current_page, 1) as current_page,
                    COALESCE(rp.is_read, 0) as is_read,
                    rp.last_read_at
@@ -132,8 +149,7 @@ class ReaderDB:
     def get_eras(self):
         q = """
             SELECT i.phase, COUNT(*) as count,
-                   SUM(CASE WHEN rp.is_read = 1 THEN 1 ELSE 0 END) as read_count,
-                   SUM(CASE WHEN i.scrape_status = 'done' THEN 1 ELSE 0 END) as downloaded_count
+                   SUM(CASE WHEN rp.is_read = 1 THEN 1 ELSE 0 END) as read_count
             FROM issues i
             LEFT JOIN reading_progress rp ON rp.issue_order = i.order_num
             GROUP BY i.phase
@@ -142,30 +158,12 @@ class ReaderDB:
         return [dict(r) for r in self._conn().execute(q).fetchall()]
 
     def get_series_list(self):
-        q = "SELECT DISTINCT title FROM issues ORDER BY title"
-        return [r["title"] for r in self._conn().execute(q).fetchall()]
-
-    def get_issue_page_count(self, order_num):
-        """Get number of downloaded pages for an issue."""
-        row = self._conn().execute(
-            "SELECT COUNT(*) as c FROM pages WHERE issue_order = ? AND downloaded = 1",
-            (order_num,),
-        ).fetchone()
-        return row["c"] if row else 0
+        return [r["title"] for r in self._conn().execute(
+            "SELECT DISTINCT title FROM issues ORDER BY title"
+        ).fetchall()]
 
     def get_issue_page_path(self, order_num, page_num):
-        """Get local file path for a specific page, trying DB first then filesystem."""
-        # Try DB
-        row = self._conn().execute(
-            "SELECT file_path FROM pages WHERE issue_order = ? AND page_num = ? AND downloaded = 1",
-            (order_num, page_num),
-        ).fetchone()
-        if row and row["file_path"]:
-            from pathlib import Path
-            if Path(row["file_path"]).exists():
-                return row["file_path"]
-
-        # Fallback: construct path from issue data
+        """Get local file path for a page from the comics/ directory."""
         issue = self.get_issue(order_num)
         if not issue:
             return None
@@ -176,6 +174,31 @@ class ReaderDB:
             if fpath.exists():
                 return str(fpath)
         return None
+
+    def get_issue_total_pages(self, order_num):
+        """Count available pages on disk for an issue."""
+        issue = self.get_issue(order_num)
+        if not issue:
+            return 0
+        safe = re.sub(r'[<>:"/\\|?*]', '_', issue["title"])
+        issue_dir = COMICS_DIR / safe / f"Issue_{issue['issue']:03d}"
+        if not issue_dir.exists():
+            return 0
+        return sum(1 for f in issue_dir.iterdir()
+                   if f.suffix.lower() in (".jpg", ".png", ".webp"))
+
+    def get_available_issues(self):
+        """Return list of issues that have images on disk."""
+        result = []
+        for row in self._conn().execute("SELECT order_num, title, issue FROM issues ORDER BY order_num").fetchall():
+            safe = re.sub(r'[<>:"/\\|?*]', '_', row["title"])
+            issue_dir = COMICS_DIR / safe / f"Issue_{row['issue']:03d}"
+            if issue_dir.exists():
+                pages = sum(1 for f in issue_dir.iterdir()
+                            if f.suffix.lower() in (".jpg", ".png", ".webp"))
+                if pages > 0:
+                    result.append({"order_num": row["order_num"], "pages": pages})
+        return result
 
     # ── Progress ────────────────────────────────────────────
     def update_progress(self, order_num, current_page=None, is_read=None):
@@ -248,15 +271,13 @@ class ReaderDB:
             return bool(new_val)
 
     def get_bookmark(self):
-        q = """
+        row = self._conn().execute("""
             SELECT i.order_num, i.title, i.issue, i.phase
             FROM issues i
             LEFT JOIN reading_progress rp ON rp.issue_order = i.order_num
             WHERE COALESCE(rp.is_read, 0) = 0
-            ORDER BY i.order_num
-            LIMIT 1
-        """
-        row = self._conn().execute(q).fetchone()
+            ORDER BY i.order_num LIMIT 1
+        """).fetchone()
         return dict(row) if row else None
 
     def get_stats(self):
@@ -265,37 +286,14 @@ class ReaderDB:
         read_count = c.execute(
             "SELECT COUNT(*) FROM reading_progress WHERE is_read = 1"
         ).fetchone()[0]
-        downloaded = c.execute(
-            "SELECT COUNT(DISTINCT i.order_num) FROM issues i "
-            "JOIN pages p ON p.issue_order = i.order_num "
-            "WHERE p.downloaded = 1"
-        ).fetchone()[0]
         return {
             "total_issues": total,
             "read_issues": read_count,
             "unread_issues": total - read_count,
-            "downloaded_issues": downloaded,
             "progress_percent": round(read_count / total * 100, 1) if total > 0 else 0,
         }
 
     # ── Reports ─────────────────────────────────────────────
-    def _ensure_reports_table(self):
-        c = self._conn()
-        c.executescript("""
-            CREATE TABLE IF NOT EXISTS reports (
-                id           INTEGER PRIMARY KEY AUTOINCREMENT,
-                issue_order  INTEGER NOT NULL,
-                page_num     INTEGER,
-                report_type  TEXT NOT NULL,
-                description  TEXT,
-                created_at   TEXT NOT NULL,
-                resolved     INTEGER DEFAULT 0,
-                resolved_at  TEXT,
-                FOREIGN KEY (issue_order) REFERENCES issues(order_num)
-            );
-        """)
-        c.commit()
-
     def add_report(self, issue_order, page_num, report_type, description=""):
         c = self._conn()
         now = datetime.now().isoformat()
@@ -310,10 +308,8 @@ class ReaderDB:
     def get_reports(self, resolved=None):
         q = """
             SELECT r.id, r.issue_order, r.page_num, r.report_type, r.description,
-                   r.created_at, r.resolved, r.resolved_at,
-                   i.title, i.issue
-            FROM reports r
-            JOIN issues i ON i.order_num = r.issue_order
+                   r.created_at, r.resolved, r.resolved_at, i.title, i.issue
+            FROM reports r JOIN issues i ON i.order_num = r.issue_order
         """
         params = []
         if resolved is not None:
@@ -323,61 +319,32 @@ class ReaderDB:
         return [dict(r) for r in self._conn().execute(q, params).fetchall()]
 
     def get_issue_reports(self, issue_order):
-        q = """
-            SELECT id, page_num, report_type, description, created_at, resolved
-            FROM reports WHERE issue_order = ? ORDER BY created_at DESC
-        """
-        return [dict(r) for r in self._conn().execute(q, (issue_order,)).fetchall()]
+        return [dict(r) for r in self._conn().execute(
+            "SELECT id, page_num, report_type, description, created_at, resolved "
+            "FROM reports WHERE issue_order = ? ORDER BY created_at DESC",
+            (issue_order,),
+        ).fetchall()]
 
     def resolve_report(self, report_id):
-        c = self._conn()
-        now = datetime.now().isoformat()
         with self._write_lock:
-            c.execute(
+            self._conn().execute(
                 "UPDATE reports SET resolved = 1, resolved_at = ? WHERE id = ?",
-                (now, report_id),
+                (datetime.now().isoformat(), report_id),
             )
-            c.commit()
+            self._conn().commit()
 
     def delete_report(self, report_id):
-        c = self._conn()
         with self._write_lock:
-            c.execute("DELETE FROM reports WHERE id = ?", (report_id,))
-            c.commit()
+            self._conn().execute("DELETE FROM reports WHERE id = ?", (report_id,))
+            self._conn().commit()
 
     def get_flagged_issues(self):
-        """Return set of issue order_nums that have unresolved reports."""
         rows = self._conn().execute(
             "SELECT DISTINCT issue_order FROM reports WHERE resolved = 0"
         ).fetchall()
         return {r["issue_order"] for r in rows}
 
-    # ── Sync ────────────────────────────────────────────────
-    def _ensure_sync_table(self):
-        c = self._conn()
-        c.executescript("""
-            CREATE TABLE IF NOT EXISTS sync_meta (
-                key   TEXT PRIMARY KEY,
-                value TEXT NOT NULL
-            );
-        """)
-        c.commit()
-        row = c.execute("SELECT value FROM sync_meta WHERE key = 'version'").fetchone()
-        if not row:
-            with self._write_lock:
-                c.execute(
-                    "INSERT OR IGNORE INTO sync_meta (key, value) VALUES ('version', ?)",
-                    (datetime.now().isoformat(),),
-                )
-                c.commit()
-
-    def _bump_version(self):
-        c = self._conn()
-        now = datetime.now().isoformat()
-        c.execute("UPDATE sync_meta SET value = ? WHERE key = 'version'", (now,))
-        c.commit()
-        return now
-
+    # ── Sync (PC ↔ App) ────────────────────────────────────
     def get_sync_version(self):
         row = self._conn().execute(
             "SELECT value FROM sync_meta WHERE key = 'version'"
@@ -385,30 +352,24 @@ class ReaderDB:
         return row["value"] if row else datetime.now().isoformat()
 
     def get_sync_state(self):
-        """Return full sync state: version + all reading progress."""
+        """Full state for sync: progress + reports + settings."""
         c = self._conn()
-        version = self.get_sync_version()
-        progress = [
-            dict(r)
-            for r in c.execute(
-                "SELECT issue_order, current_page, is_read, last_read_at FROM reading_progress"
-            ).fetchall()
-        ]
-        image_counts = [
-            dict(r)
-            for r in c.execute(
-                "SELECT issue_order, COUNT(*) as page_count "
-                "FROM pages WHERE downloaded = 1 GROUP BY issue_order"
-            ).fetchall()
-        ]
         return {
-            "version": version,
-            "progress": progress,
-            "image_counts": image_counts,
+            "version": self.get_sync_version(),
+            "progress": [dict(r) for r in c.execute(
+                "SELECT issue_order, current_page, is_read, last_read_at FROM reading_progress"
+            ).fetchall()],
+            "reports": [dict(r) for r in c.execute(
+                "SELECT id, issue_order, page_num, report_type, description, created_at, resolved "
+                "FROM reports"
+            ).fetchall()],
+            "settings": {r["key"]: r["value"] for r in c.execute(
+                "SELECT key, value FROM settings"
+            ).fetchall()},
         }
 
-    def apply_sync_state(self, progress_list):
-        """Overwrite all reading progress from a client push. Returns new version."""
+    def apply_sync_state(self, progress_list, reports_list=None, settings_dict=None):
+        """Merge sync state from the app. Last-write-wins on progress."""
         c = self._conn()
         with self._write_lock:
             for p in progress_list:
@@ -416,15 +377,58 @@ class ReaderDB:
                     INSERT INTO reading_progress (issue_order, current_page, is_read, last_read_at)
                     VALUES (?, ?, ?, ?)
                     ON CONFLICT(issue_order) DO UPDATE SET
-                        current_page = excluded.current_page,
-                        is_read = excluded.is_read,
-                        last_read_at = excluded.last_read_at
+                        current_page = CASE
+                            WHEN excluded.last_read_at > COALESCE(reading_progress.last_read_at, '')
+                            THEN excluded.current_page ELSE reading_progress.current_page END,
+                        is_read = CASE
+                            WHEN excluded.last_read_at > COALESCE(reading_progress.last_read_at, '')
+                            THEN excluded.is_read ELSE reading_progress.is_read END,
+                        last_read_at = MAX(excluded.last_read_at, COALESCE(reading_progress.last_read_at, ''))
                 """, (
                     p["issue_order"],
                     p.get("current_page", 1),
                     int(p.get("is_read", 0)),
                     p.get("last_read_at", datetime.now().isoformat()),
                 ))
+            if reports_list:
+                for r in reports_list:
+                    # Only insert new reports (won't duplicate by checking existing)
+                    existing = c.execute(
+                        "SELECT id FROM reports WHERE issue_order = ? AND page_num = ? "
+                        "AND report_type = ? AND created_at = ?",
+                        (r["issue_order"], r.get("page_num"), r["report_type"], r["created_at"]),
+                    ).fetchone()
+                    if not existing:
+                        c.execute("""
+                            INSERT INTO reports (issue_order, page_num, report_type, description, created_at, resolved)
+                            VALUES (?, ?, ?, ?, ?, ?)
+                        """, (
+                            r["issue_order"], r.get("page_num"), r["report_type"],
+                            r.get("description", ""), r["created_at"], int(r.get("resolved", 0)),
+                        ))
+            if settings_dict:
+                for k, v in settings_dict.items():
+                    c.execute(
+                        "INSERT INTO settings (key, value) VALUES (?, ?) "
+                        "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+                        (str(k), str(v)),
+                    )
             new_version = self._bump_version()
             c.commit()
         return new_version
+
+    # ── Settings ────────────────────────────────────────────
+    def get_settings(self):
+        return {r["key"]: r["value"] for r in self._conn().execute(
+            "SELECT key, value FROM settings"
+        ).fetchall()}
+
+    def set_setting(self, key, value):
+        with self._write_lock:
+            self._conn().execute(
+                "INSERT INTO settings (key, value) VALUES (?, ?) "
+                "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+                (str(key), str(value)),
+            )
+            self._bump_version()
+            self._conn().commit()

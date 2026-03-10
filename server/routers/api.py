@@ -1,4 +1,4 @@
-import re
+"""Web reader API — library, pages, progress, reports."""
 import os
 from fastapi import APIRouter, HTTPException, Query, Body
 from fastapi.responses import FileResponse
@@ -9,6 +9,7 @@ router = APIRouter()
 db = ReaderDB()
 
 
+# ── Library ───────────────────────────────────────────────
 @router.get("/library")
 def get_library(phase: str = None, series: str = None, search: str = None):
     return db.get_library(phase=phase, series=series, search=search)
@@ -37,23 +38,23 @@ def get_bookmark():
     return bm
 
 
+# ── Issue + Pages ─────────────────────────────────────────
 @router.get("/issues/{order_num}")
 def get_issue(order_num: int):
     issue = db.get_issue(order_num)
     if not issue:
         raise HTTPException(404, "Issue not found")
-    issue["available_pages"] = db.get_issue_page_count(order_num)
+    issue["available_pages"] = db.get_issue_total_pages(order_num)
     return issue
 
 
 @router.get("/issues/{order_num}/page/{page_num}")
 def get_page_image(order_num: int, page_num: int):
-    """Serve a comic page image securely by constructing the path from issue data."""
+    """Serve a comic page image from the comics/ directory."""
     fpath = db.get_issue_page_path(order_num, page_num)
     if not fpath or not os.path.exists(fpath):
         raise HTTPException(404, "Page not found")
 
-    # Verify the resolved path is under COMICS_DIR
     real_path = os.path.realpath(fpath)
     comics_real = os.path.realpath(str(COMICS_DIR))
     if not real_path.startswith(comics_real):
@@ -62,6 +63,7 @@ def get_page_image(order_num: int, page_num: int):
     return FileResponse(real_path, headers={"Cache-Control": "public, max-age=86400"})
 
 
+# ── Progress ──────────────────────────────────────────────
 @router.post("/progress/{order_num}")
 def update_progress(
     order_num: int,
@@ -88,26 +90,6 @@ def toggle_read(order_num: int):
 def mark_all_before(order_num: int):
     count = db.mark_all_before_as_read(order_num)
     return {"marked": count}
-
-
-# ── Sync ──────────────────────────────────────────────────
-@router.get("/sync/version")
-def get_sync_version():
-    return {"version": db.get_sync_version()}
-
-
-@router.get("/sync/state")
-def get_sync_state():
-    return db.get_sync_state()
-
-
-@router.post("/sync/state")
-def push_sync_state(payload: dict = Body(...)):
-    progress = payload.get("progress", [])
-    if not isinstance(progress, list):
-        raise HTTPException(400, "progress must be a list")
-    new_version = db.apply_sync_state(progress)
-    return {"version": new_version, "ok": True}
 
 
 # ── Reports ───────────────────────────────────────────────

@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0a0a0f">
-  <link rel="manifest" href="manifest.json">
   <title>Marvel Comic Reader</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
@@ -25,8 +22,6 @@
     header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:200px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
     h1{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#f0c040,#e04060,#8040e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px}
     .subtitle{color:var(--text2);margin-top:6px;font-size:.85rem}
-    .status-icons{position:fixed;top:10px;right:12px;display:flex;gap:6px;font-size:1.1rem;z-index:2000;line-height:1;align-items:center}
-    .status-icons .install-icon{cursor:pointer}
 
     .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
     .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;text-align:center;min-width:110px}
@@ -147,60 +142,9 @@
     .report-modal .modal-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
     .report-modal .page-hint{font-size:.7rem;color:var(--text2);margin-bottom:8px}
 
-    /* ── COLORS ────────────────────────────── */
     ::-webkit-scrollbar{width:5px}
     ::-webkit-scrollbar-track{background:var(--bg)}
     ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-
-    /* ── STORAGE MANAGEMENT ─────────────── */
-    .menu-icon{cursor:pointer;font-size:1.2rem;user-select:none;line-height:1}
-    .storage-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:3000;justify-content:flex-end}
-    .storage-overlay.active{display:flex}
-    .storage-panel{width:min(380px,88vw);height:100%;background:var(--surface);border-left:1px solid var(--border);overflow-y:auto;padding:0;display:flex;flex-direction:column;animation:slideIn .25s ease}
-    @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
-    .storage-header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 12px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:1}
-    .storage-header h3{font-size:1rem;font-weight:700;color:var(--accent)}
-    .storage-close{background:none;border:none;color:var(--text2);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1}
-    .storage-close:hover{color:var(--text)}
-    .storage-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:16px}
-    .storage-stat-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;text-align:center}
-    .storage-stat-box .sval{font-size:1.2rem;font-weight:700;color:var(--info)}
-    .storage-stat-box .slbl{font-size:.65rem;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-    .storage-stat-box.full-width{grid-column:1/-1}
-    .storage-note{margin:0 16px 12px;padding:12px;background:rgba(64,160,224,.08);border:1px solid rgba(64,160,224,.2);border-radius:8px;font-size:.75rem;color:var(--text2);line-height:1.5}
-    .storage-note strong{color:var(--success)}
-    .storage-actions{padding:0 16px 12px;display:flex;gap:8px}
-    .storage-actions .btn{flex:1;text-align:center;font-size:.75rem}
-    .storage-issues-title{padding:8px 16px;font-size:.75rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;border-top:1px solid var(--border)}
-    .storage-issue-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:4px}
-    .storage-issue-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;font-size:.75rem}
-    .storage-issue-item .si-info{flex:1;min-width:0}
-    .storage-issue-item .si-title{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .storage-issue-item .si-detail{font-size:.65rem;color:var(--text2);margin-top:1px}
-    .storage-issue-item .si-delete{background:none;border:1px solid var(--border);color:var(--danger);border-radius:4px;padding:3px 6px;font-size:.65rem;cursor:pointer;white-space:nowrap;font-family:inherit}
-    .storage-issue-item .si-delete:hover{background:rgba(224,64,96,.15);border-color:var(--danger)}
-    .storage-loading{text-align:center;padding:20px;color:var(--text2);font-size:.8rem}
-    .storage-empty{text-align:center;padding:20px;color:var(--text2);font-size:.8rem}
-
-    /* ── DOWNLOAD SECTION ─────────────── */
-    .storage-section-title{padding:12px 16px 6px;font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:600;border-top:1px solid var(--border)}
-    .download-phases{padding:0 16px 8px;display:flex;flex-direction:column;gap:4px}
-    .download-phase-item{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;font-size:.75rem;cursor:pointer;user-select:none;transition:border-color .2s}
-    .download-phase-item:hover{border-color:var(--info)}
-    .download-phase-item.selected{border-color:var(--info);background:rgba(64,160,224,.1)}
-    .download-phase-item input[type=checkbox]{accent-color:var(--info);width:14px;height:14px;cursor:pointer}
-    .download-phase-item .dp-name{flex:1;font-weight:500}
-    .download-phase-item .dp-count{font-size:.65rem;color:var(--text2)}
-    .download-actions{padding:4px 16px 12px;display:flex;gap:8px;align-items:center}
-    .download-actions .btn{font-size:.75rem}
-    .download-progress{padding:0 16px 12px;display:none}
-    .download-progress.active{display:block}
-    .download-progress-bar{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
-    .download-progress-fill{height:100%;background:linear-gradient(90deg,var(--info),var(--success));border-radius:3px;transition:width .3s ease;width:0}
-    .download-progress-text{display:flex;justify-content:space-between;margin-top:4px;font-size:.65rem;color:var(--text2)}
-    .download-cancel-btn{background:none;border:1px solid var(--border);color:var(--danger);border-radius:4px;padding:3px 8px;font-size:.65rem;cursor:pointer;font-family:inherit;white-space:nowrap}
-    .download-cancel-btn:hover{background:rgba(224,64,96,.15);border-color:var(--danger)}
 
     @media(max-width:600px){
       h1{font-size:1.5rem}
@@ -220,92 +164,10 @@
       .reader-bottom .mode-btn{padding:5px 6px;font-size:.65rem}
       .reader-bottom .report-btn{padding:5px 6px;font-size:.65rem}
       .reader-bottom .next-chapter-btn{padding:5px 6px;font-size:.65rem;max-width:120px;overflow:hidden;text-overflow:ellipsis}
-      .storage-panel{width:100vw}
     }
   </style>
 </head>
 <body>
-
-<!-- Status icons -->
-<div class="status-icons">
-  <span class="menu-icon" id="menuIcon" title="Armazenamento">☰</span>
-  <span class="settings-icon" id="settingsIcon" title="Configurar servidor" style="cursor:pointer">⚙️</span>
-  <span class="install-icon" id="installIcon" title="Instalar app">📲</span>
-  <span id="connIndicator" title="Conectado">🟢</span>
-</div>
-
-<!-- ════ SERVER SETTINGS MODAL ════ -->
-<div id="serverSettingsModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:5000;align-items:center;justify-content:center;padding:16px">
-  <div style="background:#12121a;border:1px solid #2a2a3e;border-radius:12px;padding:24px;max-width:440px;width:100%;color:#e0e0f0;font-family:Inter,sans-serif">
-    <h3 style="color:#f0c040;font-size:1.1rem;margin-bottom:12px">⚙️ Servidor de Imagens</h3>
-    <p style="color:#8888aa;font-size:.8rem;margin-bottom:12px">URL do servidor que hospeda os comics e sincroniza bookmarks.</p>
-    <input id="serverUrlInput" type="url" placeholder="http://192.168.1.100:8080" style="width:100%;background:#1a1a2e;color:#e0e0f0;border:1px solid #2a2a3e;border-radius:8px;padding:10px 12px;font-size:.85rem;font-family:inherit;outline:none;margin-bottom:8px">
-    <div id="serverTestResult" style="font-size:.75rem;min-height:20px;margin-bottom:12px"></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
-      <button id="serverAcceptCertBtn" style="background:#1a1a2e;color:#e09030;border:1px solid #e09030;border-radius:8px;padding:8px 16px;font-size:.8rem;cursor:pointer;font-family:inherit">🔓 Aceitar Certificado</button>
-      <button id="serverTestBtn" style="background:#1a1a2e;color:#40a0e0;border:1px solid #40a0e0;border-radius:8px;padding:8px 16px;font-size:.8rem;cursor:pointer;font-family:inherit">🔗 Testar</button>
-      <button id="serverSaveBtn" style="background:linear-gradient(135deg,#f0c040,#e09030);color:#0a0a0f;border:none;border-radius:8px;padding:8px 16px;font-weight:600;font-size:.8rem;cursor:pointer;font-family:inherit">Salvar</button>
-      <button id="serverCloseBtn" style="background:#1a1a2e;color:#e0e0f0;border:1px solid #2a2a3e;border-radius:8px;padding:8px 16px;font-size:.8rem;cursor:pointer;font-family:inherit">Fechar</button>
-    </div>
-    <p style="color:#666;font-size:.68rem;margin-top:10px;line-height:1.4">💡 Use <b>http://IP:8080</b> (sem SSL, mais fácil).<br>Se usar https://, clique "Aceitar Certificado" primeiro.<br>Após testar com sucesso, clique "Salvar".</p>
-  </div>
-</div>
-
-<!-- ════ STORAGE MANAGEMENT PANEL ════ -->
-<div class="storage-overlay" id="storageOverlay">
-  <div class="storage-panel">
-    <div class="storage-header">
-      <h3>💾 Armazenamento</h3>
-      <button class="storage-close" id="storageClose">✕</button>
-    </div>
-    <div class="storage-stats" id="storageStats">
-      <div class="storage-stat-box">
-        <div class="sval" id="storageCachedCount">--</div>
-        <div class="slbl">Imagens em cache</div>
-      </div>
-      <div class="storage-stat-box">
-        <div class="sval" id="storageUsedSize">--</div>
-        <div class="slbl">Espaço usado</div>
-      </div>
-      <div class="storage-stat-box">
-        <div class="sval" id="storageAvailable">--</div>
-        <div class="slbl">Disponível</div>
-      </div>
-      <div class="storage-stat-box">
-        <div class="sval" id="storageCachedIssues">--</div>
-        <div class="slbl">Edições em cache</div>
-      </div>
-    </div>
-    <div class="storage-note">
-      📱 As imagens são <strong>baixadas automaticamente</strong> conforme você lê cada edição e ficam salvas no cache do navegador.<br><br>
-      ✅ Elas <strong>não desaparecem</strong> sozinhas — permanecem disponíveis para leitura offline até você limpar manualmente aqui.
-    </div>
-    <div class="storage-actions">
-      <button class="btn danger" id="clearAllCacheBtn">🗑️ Limpar Todo o Cache</button>
-    </div>
-
-    <div class="storage-section-title">⬇️ Baixar por Fase</div>
-    <div class="download-phases" id="downloadPhases">
-      <div class="storage-loading">Carregando fases...</div>
-    </div>
-    <div class="download-actions" id="downloadActions">
-      <button class="btn" id="downloadPhasesBtn" disabled>⬇️ Baixar Selecionadas</button>
-      <button class="download-cancel-btn" id="downloadCancelBtn" style="display:none">✕ Cancelar</button>
-    </div>
-    <div class="download-progress" id="downloadProgress">
-      <div class="download-progress-bar"><div class="download-progress-fill" id="downloadProgressFill"></div></div>
-      <div class="download-progress-text">
-        <span id="downloadProgressLabel">Preparando...</span>
-        <span id="downloadProgressPct">0%</span>
-      </div>
-    </div>
-
-    <div class="storage-issues-title">Edições em cache</div>
-    <div class="storage-issue-list" id="storageIssueList">
-      <div class="storage-loading">Carregando detalhes do cache...</div>
-    </div>
-  </div>
-</div>
 
 <!-- ════ LIBRARY VIEW ════ -->
 <div id="library-view" class="app">
@@ -395,286 +257,18 @@
 
 <script>
 // ═══════════════════════════════════════════════════════════
-//  API SERVER CONFIGURATION
+//  API
 // ═══════════════════════════════════════════════════════════
-const IS_GITHUB_PAGES = location.hostname.endsWith('.github.io');
-const API_BASE = IS_GITHUB_PAGES ? (localStorage.getItem('marvel_api_server') || '') : '';
-function apiUrl(path) { return API_BASE + path; }
-
-// Show config prompt if on GitHub Pages with no server configured
-if (IS_GITHUB_PAGES && !API_BASE) {
-  setTimeout(() => {
-    document.getElementById('serverSettingsModal').style.display = 'flex';
-  }, 500);
+async function api(path, method = 'GET', body = null) {
+  const opts = { method };
+  if (body) {
+    opts.headers = { 'Content-Type': 'application/json' };
+    opts.body = JSON.stringify(body);
+  }
+  const res = await fetch('/api' + path, opts);
+  if (!res.ok) throw new Error(`API ${res.status}`);
+  return res.json();
 }
-
-// ═══════════════════════════════════════════════════════════
-//  SERVICE WORKER REGISTRATION
-// ═══════════════════════════════════════════════════════════
-let swReady = false;
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js', { scope: './' })
-    .then(reg => {
-      console.log('SW registered:', reg.scope);
-      swReady = true;
-
-      // Check for updates periodically
-      reg.addEventListener('updatefound', () => {
-        const newWorker = reg.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'activated') {
-            console.log('SW updated — reloading for new version');
-            location.reload();
-          }
-        });
-      });
-
-      // Force update check every 60 min
-      setInterval(() => reg.update(), 60 * 60 * 1000);
-    })
-    .catch(e => {
-      console.warn('SW registration failed:', e);
-      swReady = false;
-      showSwWarning();
-    });
-} else {
-  showSwWarning();
-}
-
-function showSwWarning() {
-  // Show a small non-blocking banner at the top
-  const banner = document.createElement('div');
-  banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#1a1a2e;' +
-    'border-bottom:2px solid #e04060;padding:10px 16px;font-size:.78rem;color:#e0e0f0;text-align:center;' +
-    'font-family:Inter,sans-serif;line-height:1.5';
-  banner.innerHTML = '⚠️ <strong>Service Worker indisponível</strong> — ' +
-    'O app não funcionará offline. No celular, aceite o certificado SSL nas configurações do navegador ou ' +
-    'acesse <code>chrome://flags</code> e ative "Allow invalid certificates for resources loaded from localhost". ' +
-    '<button style="background:#e04060;color:#fff;border:none;border-radius:4px;padding:2px 8px;margin-left:8px;cursor:pointer;font-family:inherit" ' +
-    'onclick="this.parentElement.remove()">✕</button>';
-  document.body.prepend(banner);
-}
-
-// ═══════════════════════════════════════════════════════════
-//  INDEXEDDB — Local offline storage
-// ═══════════════════════════════════════════════════════════
-const IDB = {
-  db: null,
-  DB_NAME: 'marvel-reader',
-  DB_VERSION: 1,
-
-  open() {
-    return new Promise((resolve, reject) => {
-      if (this.db) return resolve(this.db);
-      const req = indexedDB.open(this.DB_NAME, this.DB_VERSION);
-      req.onupgradeneeded = (e) => {
-        const db = e.target.result;
-        if (!db.objectStoreNames.contains('progress'))
-          db.createObjectStore('progress', { keyPath: 'issue_order' });
-        if (!db.objectStoreNames.contains('library'))
-          db.createObjectStore('library', { keyPath: 'order_num' });
-        if (!db.objectStoreNames.contains('meta'))
-          db.createObjectStore('meta', { keyPath: 'key' });
-      };
-      req.onsuccess = (e) => { this.db = e.target.result; resolve(this.db); };
-      req.onerror = (e) => reject(e);
-    });
-  },
-
-  async getAll(store) {
-    const db = await this.open();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(store, 'readonly');
-      const req = tx.objectStore(store).getAll();
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => reject(req.error);
-    });
-  },
-
-  async get(store, key) {
-    const db = await this.open();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(store, 'readonly');
-      const req = tx.objectStore(store).get(key);
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => reject(req.error);
-    });
-  },
-
-  async put(store, value) {
-    const db = await this.open();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(store, 'readwrite');
-      tx.objectStore(store).put(value);
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-  },
-
-  async putAll(store, items) {
-    const db = await this.open();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(store, 'readwrite');
-      const os = tx.objectStore(store);
-      items.forEach(item => os.put(item));
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-  },
-
-  async clear(store) {
-    const db = await this.open();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(store, 'readwrite');
-      tx.objectStore(store).clear();
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-  },
-};
-
-// ═══════════════════════════════════════════════════════════
-//  CONNECTION & SYNC MANAGER
-// ═══════════════════════════════════════════════════════════
-const Sync = {
-  online: navigator.onLine,
-  syncInterval: null,
-  pendingChanges: [],
-
-  init() {
-    window.addEventListener('online', () => this.setOnline(true));
-    window.addEventListener('offline', () => this.setOnline(false));
-    this.updateIndicator();
-    // Periodic sync check every 30s
-    this.syncInterval = setInterval(() => this.checkSync(), 30000);
-    // Initial sync
-    this.checkSync();
-  },
-
-  setOnline(val) {
-    this.online = val;
-    this.updateIndicator();
-    if (val) this.checkSync();
-  },
-
-  updateIndicator() {
-    const el = document.getElementById('connIndicator');
-    if (this.online) {
-      el.textContent = '🟢';
-      el.title = 'Conectado';
-    } else {
-      el.textContent = '🔴';
-      el.title = 'Sem conexão';
-    }
-  },
-
-  async checkSync() {
-    if (!this.online) return;
-    try {
-      // 1. Get server version
-      const res = await fetch(apiUrl('/api/sync/version'), { signal: AbortSignal.timeout(5000) });
-      if (!res.ok) throw new Error('offline');
-      const { version: serverVersion } = await res.json();
-
-      // 2. Get local version
-      const localMeta = await IDB.get('meta', 'sync_version');
-      const localVersion = localMeta ? localMeta.value : null;
-
-      if (!localVersion) {
-        // First time — pull everything from server
-        await this.pullFromServer();
-      } else if (serverVersion > localVersion) {
-        // Server is newer — overwrite local
-        await this.pullFromServer();
-      } else if (localVersion > serverVersion) {
-        // Local is newer — push to server
-        await this.pushToServer();
-      }
-      // else: versions match, nothing to do
-
-      // Flush any queued offline changes
-      await this.flushPending();
-
-      if (!this.online) return;
-      this.setOnline(true);
-    } catch (e) {
-      // Can't reach server — go offline mode
-      this.setOnline(false);
-    }
-  },
-
-  async pullFromServer() {
-    try {
-      const res = await fetch(apiUrl('/api/sync/state'), { signal: AbortSignal.timeout(10000) });
-      if (!res.ok) return;
-      const state = await res.json();
-
-      // Save progress to local DB
-      if (state.progress && state.progress.length > 0) {
-        await IDB.clear('progress');
-        await IDB.putAll('progress', state.progress);
-      }
-      // Save version
-      await IDB.put('meta', { key: 'sync_version', value: state.version });
-
-      // Save image counts for verification
-      if (state.image_counts) {
-        await IDB.put('meta', { key: 'image_counts', value: JSON.stringify(state.image_counts) });
-      }
-    } catch (e) {
-      console.warn('Pull failed:', e);
-    }
-  },
-
-  async pushToServer() {
-    try {
-      const progress = await IDB.getAll('progress');
-      const res = await fetch(apiUrl('/api/sync/state'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ progress }),
-        signal: AbortSignal.timeout(10000),
-      });
-      if (!res.ok) return;
-      const { version } = await res.json();
-      await IDB.put('meta', { key: 'sync_version', value: version });
-    } catch (e) {
-      console.warn('Push failed:', e);
-    }
-  },
-
-  async flushPending() {
-    while (this.pendingChanges.length > 0) {
-      const change = this.pendingChanges[0];
-      try {
-        await fetch(change.url.startsWith('http') ? change.url : apiUrl(change.url), { method: change.method, signal: AbortSignal.timeout(5000) });
-        this.pendingChanges.shift();
-      } catch {
-        break; // Stop flushing if still offline
-      }
-    }
-  },
-
-  // Queue a change when offline
-  queueChange(url, method) {
-    this.pendingChanges.push({ url, method });
-  },
-
-  // Save progress locally and bump local version
-  async saveProgressLocal(orderNum, currentPage, isRead) {
-    const now = new Date().toISOString();
-    const existing = await IDB.get('progress', orderNum);
-    const entry = {
-      issue_order: orderNum,
-      current_page: currentPage !== null && currentPage !== undefined ? currentPage : (existing ? existing.current_page : 1),
-      is_read: isRead !== null && isRead !== undefined ? (isRead ? 1 : 0) : (existing ? existing.is_read : 0),
-      last_read_at: now,
-    };
-    await IDB.put('progress', entry);
-    await IDB.put('meta', { key: 'sync_version', value: now });
-  },
-};
 
 // ═══════════════════════════════════════════════════════════
 //  STATE
@@ -687,41 +281,21 @@ const PALETTE = [
 ];
 let colorIdx = 0;
 function seriesColor(s) {
-  if (!SERIES_COLORS[s]) { SERIES_COLORS[s] = PALETTE[colorIdx++ % PALETTE.length]; }
+  if (!SERIES_COLORS[s]) SERIES_COLORS[s] = PALETTE[colorIdx++ % PALETTE.length];
   return SERIES_COLORS[s];
 }
 
 let library = [];
 let stats = {};
+let flaggedIssues = new Set();
 let reader = { order: 0, page: 1, totalPages: 0, issue: null, preloaded: {} };
 let controlsVisible = true;
 let scrollMode = false;
 let zoomLevel = 100;
 
 // ═══════════════════════════════════════════════════════════
-//  API — with offline fallback
-// ═══════════════════════════════════════════════════════════
-async function api(path, method = 'GET') {
-  try {
-    const res = await fetch(apiUrl('/api' + path), { method });
-    if (!res.ok) throw new Error(`API ${res.status}`);
-    const data = await res.json();
-    if (!Sync.online) Sync.setOnline(true);
-    return data;
-  } catch (e) {
-    // If it was a network error, mark offline
-    if (e.name === 'TypeError' || e.message === 'Failed to fetch') {
-      Sync.setOnline(false);
-    }
-    throw e;
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
 //  ROUTING
 // ═══════════════════════════════════════════════════════════
-function navigate(hash) { window.location.hash = hash; }
-
 window.addEventListener('hashchange', handleRoute);
 window.addEventListener('load', handleRoute);
 
@@ -746,65 +320,26 @@ async function loadLibrary() {
     ]);
     library = lib;
     stats = st;
-    // Save library to IndexedDB for offline use
-    IDB.putAll('library', lib).catch(() => {});
-    // Load flagged issues
     loadFlaggedIssues().catch(() => {});
     populateFilters(lib, eras);
     renderLibrary();
   } catch (e) {
-    console.warn('Load from server failed, trying local...', e);
-    // Offline fallback: load from IndexedDB
-    try {
-      const localLib = await IDB.getAll('library');
-      const localProgress = await IDB.getAll('progress');
-      if (localLib.length > 0) {
-        // Merge local progress into library
-        const progMap = {};
-        localProgress.forEach(p => { progMap[p.issue_order] = p; });
-        localLib.forEach(item => {
-          const p = progMap[item.order_num];
-          if (p) {
-            item.current_page = p.current_page;
-            item.is_read = p.is_read;
-            item.last_read_at = p.last_read_at;
-          }
-        });
-        library = localLib;
-        const readCount = library.filter(i => i.is_read).length;
-        stats = {
-          total_issues: library.length,
-          read_issues: readCount,
-          unread_issues: library.length - readCount,
-          downloaded_issues: 0,
-          progress_percent: library.length > 0 ? Math.round(readCount / library.length * 100 * 10) / 10 : 0,
-        };
-        const eraMap = {};
-        library.forEach(i => {
-          if (!eraMap[i.phase]) eraMap[i.phase] = { phase: i.phase, count: 0, read_count: 0, downloaded_count: 0 };
-          eraMap[i.phase].count++;
-          if (i.is_read) eraMap[i.phase].read_count++;
-        });
-        populateFilters(library, Object.values(eraMap));
-        renderLibrary();
-      }
-    } catch (err) {
-      console.error('Local load also failed:', err);
-    }
+    console.error('Failed to load library:', e);
   }
 }
 
 function populateFilters(lib, eras) {
   const pSel = document.getElementById('filterPhase');
   const sSel = document.getElementById('filterSeries');
-  // Keep current selections
   const pVal = pSel.value, sVal = sSel.value;
   pSel.innerHTML = '<option value="">Todas as Fases</option>';
   sSel.innerHTML = '<option value="">Todas as Séries</option>';
-  const phases = eras.map(e => e.phase);
-  const series = [...new Set(lib.map(i => i.title))].sort();
-  phases.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; pSel.appendChild(o); });
-  series.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sSel.appendChild(o); });
+  eras.map(e => e.phase).forEach(p => {
+    const o = document.createElement('option'); o.value = p; o.textContent = p; pSel.appendChild(o);
+  });
+  [...new Set(lib.map(i => i.title))].sort().forEach(s => {
+    const o = document.createElement('option'); o.value = s; o.textContent = s; sSel.appendChild(o);
+  });
   pSel.value = pVal; sSel.value = sVal;
 }
 
@@ -824,21 +359,18 @@ function renderLibrary() {
   const issues = getFiltered();
   const total = library.length;
   const readCount = library.filter(i => i.is_read).length;
-  const unread = total - readCount;
   const pct = total > 0 ? Math.round(readCount / total * 100) : 0;
 
   document.getElementById('stats').innerHTML = `
     <div class="stat"><div class="num">${total}</div><div class="label">Total</div></div>
     <div class="stat success"><div class="num">${readCount}</div><div class="label">Lidas</div></div>
-    <div class="stat danger"><div class="num">${unread}</div><div class="label">Faltam</div></div>
-    <div class="stat"><div class="num">${stats.downloaded_issues||0}</div><div class="label">Baixadas</div></div>
+    <div class="stat danger"><div class="num">${total - readCount}</div><div class="label">Faltam</div></div>
     <div class="stat"><div class="num">${pct}%</div><div class="label">Progresso</div></div>
   `;
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressRead').textContent = readCount + ' lidas';
   document.getElementById('progressTotal').textContent = total + ' total';
 
-  // Group by phase
   const phases = [];
   let cur = null;
   issues.forEach(iss => {
@@ -868,10 +400,7 @@ function renderLibrary() {
     grid.className = 'issues-grid open';
 
     let lastEvent = '';
-    let bookmarkShown = false;
-
     phase.issues.forEach(iss => {
-      // Event banner
       if (iss.event && iss.event !== lastEvent) {
         lastEvent = iss.event;
         const eb = document.createElement('div');
@@ -882,10 +411,7 @@ function renderLibrary() {
         lastEvent = '';
       }
 
-      // Bookmark banner
-      const isBookmark = !iss.is_read && !bookmarkShown && getBookmarkOrder() === iss.order_num;
-      if (isBookmark) {
-        bookmarkShown = true;
+      if (!iss.is_read && getBookmarkOrder() === iss.order_num) {
         const bb = document.createElement('div');
         bb.className = 'bookmark-banner';
         bb.textContent = '📍 Continuar leitura aqui';
@@ -901,7 +427,7 @@ function renderLibrary() {
         <div class="series-dot" style="background:${sColor}"></div>
         <div class="issue-info">
           <div class="issue-title">${iss.title} #${iss.issue}${flagIcon}</div>
-          <div class="issue-num">${iss.year}${iss.total_pages > 0 ? ' · ' + iss.total_pages + ' pgs' : ''}</div>
+          <div class="issue-num">${iss.year}</div>
         </div>
         <span class="order-badge">#${iss.order_num}</span>
         <button class="read-toggle" title="${iss.is_read ? 'Marcar como não lido' : 'Marcar como lido'}">${iss.is_read ? '✓' : '○'}</button>
@@ -910,12 +436,8 @@ function renderLibrary() {
         e.stopPropagation();
         toggleReadState(iss.order_num);
       });
-      card.addEventListener('click', (e) => {
-        if (iss.total_pages > 0) {
-          navigate('#/read/' + iss.order_num + '/' + (iss.is_read ? 1 : iss.current_page));
-        } else {
-          toggleReadState(iss.order_num);
-        }
+      card.addEventListener('click', () => {
+        navigate('#/read/' + iss.order_num + '/' + (iss.is_read ? 1 : iss.current_page));
       });
       card.addEventListener('contextmenu', (e) => {
         e.preventDefault();
@@ -935,6 +457,8 @@ function renderLibrary() {
   });
 }
 
+function navigate(hash) { window.location.hash = hash; }
+
 function getBookmarkOrder() {
   for (const iss of library) {
     if (!iss.is_read) return iss.order_num;
@@ -947,21 +471,8 @@ async function toggleReadState(order) {
     const res = await api('/progress/' + order + '/toggle-read', 'POST');
     const idx = library.findIndex(i => i.order_num === order);
     if (idx >= 0) library[idx].is_read = res.is_read ? 1 : 0;
-    // Save locally too
-    const iss = library[idx];
-    if (iss) Sync.saveProgressLocal(order, iss.current_page, res.is_read);
     renderLibrary();
-  } catch (e) {
-    // Offline: toggle locally
-    const idx = library.findIndex(i => i.order_num === order);
-    if (idx >= 0) {
-      const newState = library[idx].is_read ? 0 : 1;
-      library[idx].is_read = newState;
-      await Sync.saveProgressLocal(order, library[idx].current_page, newState);
-      Sync.queueChange(apiUrl('/api/progress/' + order + '/toggle-read'), 'POST');
-      renderLibrary();
-    }
-  }
+  } catch (e) { console.error(e); }
 }
 
 async function jumpToBookmark() {
@@ -980,27 +491,10 @@ async function markAllBefore() {
   if (!confirm(`Marcar edições #1 até #${bm - 1} como lidas?`)) return;
   try {
     await api('/progress/mark-before/' + (bm - 1), 'POST');
-    // Also save locally
-    for (const iss of library) {
-      if (iss.order_num < bm) {
-        await Sync.saveProgressLocal(iss.order_num, iss.current_page || 1, true);
-      }
-    }
     await loadLibrary();
-  } catch (e) {
-    // Offline: mark locally
-    for (const iss of library) {
-      if (iss.order_num < bm) {
-        iss.is_read = 1;
-        await Sync.saveProgressLocal(iss.order_num, iss.current_page || 1, true);
-      }
-    }
-    Sync.queueChange(apiUrl('/api/progress/mark-before/' + (bm - 1)), 'POST');
-    renderLibrary();
-  }
+  } catch (e) { console.error(e); }
 }
 
-// Bind controls
 document.getElementById('filterPhase').addEventListener('change', renderLibrary);
 document.getElementById('filterSeries').addEventListener('change', renderLibrary);
 document.getElementById('searchBox').addEventListener('input', renderLibrary);
@@ -1012,27 +506,11 @@ document.getElementById('markAllBefore').addEventListener('click', markAllBefore
 // ═══════════════════════════════════════════════════════════
 async function openReader(order, page) {
   document.getElementById('library-view').style.display = 'none';
-  const rv = document.getElementById('reader-view');
-  rv.classList.add('active');
-
-  // Reset scroll mode when opening a new issue
-  if (scrollMode) {
-    scrollMode = false;
-    document.getElementById('scrollModeBtn').classList.remove('active');
-    const canvas = document.getElementById('readerCanvas');
-    canvas.classList.remove('scroll-mode');
-    canvas.removeEventListener('scroll', onScrollTrack);
-    canvas.querySelectorAll('.comic-page-scroll, .scroll-chapter-sep').forEach(el => el.remove());
-    document.getElementById('pageSlider').disabled = false;
-    document.getElementById('nextChapterBtn').classList.remove('visible');
-  }
+  document.getElementById('reader-view').classList.add('active');
+  if (scrollMode) exitScrollMode();
 
   try {
-    // Ensure library is loaded (needed for next chapter button)
-    if (library.length === 0) {
-      library = await api('/library');
-    }
-
+    if (library.length === 0) library = await api('/library');
     const issue = await api('/issues/' + order);
     reader.order = order;
     reader.issue = issue;
@@ -1042,15 +520,11 @@ async function openReader(order, page) {
 
     document.getElementById('readerTitle').textContent = `${issue.title} #${issue.issue}`;
     document.getElementById('pageSlider').max = reader.totalPages;
-
     resetZoom();
     updateMarkReadBtn(issue.is_read);
     showPage(reader.page);
     showControls(true);
     updateNextChapterBtn();
-    // Pre-cache all pages for offline
-    preCacheIssueImages(order, reader.totalPages);
-    // Update report button state
     updateReportBtn();
   } catch (e) {
     console.error('Open reader failed:', e);
@@ -1059,17 +533,7 @@ async function openReader(order, page) {
 }
 
 function closeReader() {
-  // Reset scroll mode if active
-  if (scrollMode) {
-    scrollMode = false;
-    document.getElementById('scrollModeBtn').classList.remove('active');
-    const canvas = document.getElementById('readerCanvas');
-    canvas.classList.remove('scroll-mode');
-    canvas.removeEventListener('scroll', onScrollTrack);
-    canvas.querySelectorAll('.comic-page-scroll, .scroll-chapter-sep').forEach(el => el.remove());
-    document.getElementById('pageSlider').disabled = false;
-    document.getElementById('nextChapterBtn').classList.remove('visible');
-  }
+  if (scrollMode) exitScrollMode();
   document.getElementById('reader-view').classList.remove('active');
   document.getElementById('library-view').style.display = '';
   document.getElementById('issueComplete').classList.remove('active');
@@ -1078,90 +542,58 @@ function closeReader() {
 function showPage(num) {
   if (num < 1 || num > reader.totalPages) return;
   reader.page = num;
-
   const img = document.getElementById('comicPage');
   const loading = document.getElementById('pageLoading');
-  const complete = document.getElementById('issueComplete');
-  complete.classList.remove('active');
-
+  document.getElementById('issueComplete').classList.remove('active');
   loading.style.display = '';
   img.style.display = 'none';
 
-  const src = apiUrl(`/api/issues/${reader.order}/page/${num}`);
-  img.onload = () => {
-    loading.style.display = 'none';
-    img.style.display = '';
-  };
-  img.onerror = () => {
-    loading.textContent = 'Página não encontrada';
-  };
-  img.src = src;
+  img.onload = () => { loading.style.display = 'none'; img.style.display = ''; };
+  img.onerror = () => { loading.textContent = 'Página não encontrada'; };
+  img.src = `/api/issues/${reader.order}/page/${num}`;
 
   document.getElementById('readerPageInfo').textContent = `${num} / ${reader.totalPages}`;
   document.getElementById('pageSlider').value = num;
   document.getElementById('prevPageBtn').disabled = (num <= 1);
   document.getElementById('nextPageBtn').disabled = (num >= reader.totalPages);
 
-  // Save progress (server + local)
-  api(`/progress/${reader.order}?current_page=${num}`, 'POST').catch(() => {
-    Sync.queueChange(apiUrl(`/api/progress/${reader.order}?current_page=${num}`), 'POST');
-  });
-  Sync.saveProgressLocal(reader.order, num, null).catch(() => {});
-
-  // Preload adjacent pages
+  api(`/progress/${reader.order}?current_page=${num}`, 'POST').catch(() => {});
   preloadPage(num + 1);
   preloadPage(num + 2);
 
-  // Update hash without triggering route
   const newHash = `#/read/${reader.order}/${num}`;
-  if (window.location.hash !== newHash) {
-    history.replaceState(null, '', newHash);
-  }
+  if (window.location.hash !== newHash) history.replaceState(null, '', newHash);
 }
 
 function preloadPage(num) {
   if (num < 1 || num > reader.totalPages || reader.preloaded[num]) return;
   reader.preloaded[num] = true;
-  const img = new Image();
-  img.src = apiUrl(`/api/issues/${reader.order}/page/${num}`);
+  new Image().src = `/api/issues/${reader.order}/page/${num}`;
 }
 
 function nextPage() {
-  if (reader.page < reader.totalPages) {
-    showPage(reader.page + 1);
-  } else {
-    showIssueComplete();
-  }
+  if (reader.page < reader.totalPages) showPage(reader.page + 1);
+  else showIssueComplete();
 }
-
-function prevPage() {
-  if (reader.page > 1) showPage(reader.page - 1);
-}
+function prevPage() { if (reader.page > 1) showPage(reader.page - 1); }
 
 function showIssueComplete() {
-  const complete = document.getElementById('issueComplete');
-  complete.classList.add('active');
+  document.getElementById('issueComplete').classList.add('active');
   document.getElementById('completeInfo').textContent =
     `${reader.issue.title} #${reader.issue.issue} — ${reader.totalPages} páginas`;
 
-  // Auto-mark as read
   if (!reader.issue.is_read) {
-    api(`/progress/${reader.order}?is_read=true`, 'POST').catch(() => {
-      Sync.queueChange(apiUrl(`/api/progress/${reader.order}?is_read=true`), 'POST');
-    });
-    Sync.saveProgressLocal(reader.order, reader.totalPages, true).catch(() => {});
+    api(`/progress/${reader.order}?is_read=true`, 'POST').catch(() => {});
     reader.issue.is_read = 1;
     updateMarkReadBtn(true);
   }
 
-  // Find next issue with pages and show its name
   const nextOrder = findNextReadableIssue(reader.order);
   const nextBtn = document.getElementById('nextIssueBtn');
   const nextInfo = document.getElementById('nextIssueInfo');
   if (nextOrder) {
     const nextIss = library.find(i => i.order_num === nextOrder);
     nextBtn.style.display = '';
-    nextBtn.textContent = `Próxima Edição →`;
     nextInfo.textContent = nextIss ? `Próximo: ${nextIss.title} #${nextIss.issue}` : '';
     nextBtn.onclick = () => navigate('#/read/' + nextOrder);
   } else {
@@ -1177,11 +609,7 @@ function findNextReadableIssue(currentOrder) {
   return null;
 }
 
-function toggleControls() {
-  controlsVisible = !controlsVisible;
-  showControls(controlsVisible);
-}
-
+function toggleControls() { controlsVisible = !controlsVisible; showControls(controlsVisible); }
 function showControls(show) {
   controlsVisible = show;
   document.getElementById('readerTop').classList.toggle('hidden', !show);
@@ -1202,13 +630,9 @@ document.getElementById('nextPageBtn').addEventListener('click', nextPage);
 document.getElementById('pageSlider').addEventListener('input', (e) => {
   const page = parseInt(e.target.value);
   if (scrollMode) {
-    // In scroll mode, scroll to that page instead
-    const canvas = document.getElementById('readerCanvas');
-    const targetImg = canvas.querySelector(`img[data-page="${page}"]`);
-    if (targetImg) targetImg.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } else {
-    showPage(page);
-  }
+    const t = document.getElementById('readerCanvas').querySelector(`img[data-page="${page}"]`);
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else showPage(page);
 });
 document.getElementById('navLeft').addEventListener('click', prevPage);
 document.getElementById('navRight').addEventListener('click', nextPage);
@@ -1217,51 +641,33 @@ document.getElementById('markReadBtn').addEventListener('click', async () => {
     const res = await api('/progress/' + reader.order + '/toggle-read', 'POST');
     reader.issue.is_read = res.is_read ? 1 : 0;
     updateMarkReadBtn(res.is_read);
-    Sync.saveProgressLocal(reader.order, reader.page, res.is_read);
-  } catch (e) {
-    // Offline toggle
-    const newState = reader.issue.is_read ? 0 : 1;
-    reader.issue.is_read = newState;
-    updateMarkReadBtn(newState);
-    Sync.saveProgressLocal(reader.order, reader.page, newState);
-    Sync.queueChange(apiUrl('/api/progress/' + reader.order + '/toggle-read'), 'POST');
-  }
+  } catch (e) { console.error(e); }
 });
 
-// ── Scroll mode toggle ─────────────────────
+// ── Scroll mode ─────────────────────────
 document.getElementById('scrollModeBtn').addEventListener('click', () => {
   scrollMode = !scrollMode;
   document.getElementById('scrollModeBtn').classList.toggle('active', scrollMode);
-  if (scrollMode) {
-    enterScrollMode();
-  } else {
-    exitScrollMode();
-  }
+  scrollMode ? enterScrollMode() : exitScrollMode();
 });
 
 function enterScrollMode() {
   const canvas = document.getElementById('readerCanvas');
   canvas.classList.add('scroll-mode');
   resetZoom();
-
-  // Remove existing scroll pages if any
   canvas.querySelectorAll('.comic-page-scroll, .scroll-chapter-sep').forEach(el => el.remove());
-
-  // Hide single-page elements
   document.getElementById('comicPage').style.display = 'none';
   document.getElementById('pageLoading').style.display = 'none';
 
-  // Load all pages
   for (let i = 1; i <= reader.totalPages; i++) {
     const img = document.createElement('img');
     img.className = 'comic-page-scroll';
-    img.src = apiUrl(`/api/issues/${reader.order}/page/${i}`);
+    img.src = `/api/issues/${reader.order}/page/${i}`;
     img.alt = `Página ${i}`;
     img.dataset.page = i;
     canvas.appendChild(img);
   }
 
-  // Add "next chapter" separator at the end
   const nextOrder = findNextReadableIssue(reader.order);
   if (nextOrder) {
     const nextIss = library.find(i => i.order_num === nextOrder);
@@ -1272,80 +678,45 @@ function enterScrollMode() {
     canvas.appendChild(sep);
   }
 
-  // Show next chapter button in bottom bar
   updateNextChapterBtn();
-
-  // Slider works in scroll mode — jumps to that page on change
-  document.getElementById('pageSlider').disabled = false;
   document.getElementById('prevPageBtn').disabled = true;
   document.getElementById('nextPageBtn').disabled = true;
-
-  // Track scroll position to update page indicator
   canvas.addEventListener('scroll', onScrollTrack);
-
-  // Scroll to current page
-  const targetImg = canvas.querySelector(`img[data-page="${reader.page}"]`);
-  if (targetImg) {
-    setTimeout(() => targetImg.scrollIntoView({ behavior: 'instant' }), 50);
-  }
+  const t = canvas.querySelector(`img[data-page="${reader.page}"]`);
+  if (t) setTimeout(() => t.scrollIntoView({ behavior: 'instant' }), 50);
 }
 
 function onScrollTrack() {
   const canvas = document.getElementById('readerCanvas');
-  const scrollPages = canvas.querySelectorAll('.comic-page-scroll');
-  const canvasRect = canvas.getBoundingClientRect();
-  const canvasCenter = canvasRect.top + canvasRect.height / 2;
-
-  let closestPage = 1;
-  let closestDist = Infinity;
-  scrollPages.forEach(img => {
-    const rect = img.getBoundingClientRect();
-    const center = rect.top + rect.height / 2;
-    const dist = Math.abs(center - canvasCenter);
-    if (dist < closestDist) {
-      closestDist = dist;
-      closestPage = parseInt(img.dataset.page);
-    }
+  const pages = canvas.querySelectorAll('.comic-page-scroll');
+  const center = canvas.getBoundingClientRect().top + canvas.getBoundingClientRect().height / 2;
+  let closest = 1, minDist = Infinity;
+  pages.forEach(img => {
+    const d = Math.abs(img.getBoundingClientRect().top + img.getBoundingClientRect().height / 2 - center);
+    if (d < minDist) { minDist = d; closest = parseInt(img.dataset.page); }
   });
-
-  if (closestPage !== reader.page) {
-    reader.page = closestPage;
-    document.getElementById('readerPageInfo').textContent = `${closestPage} / ${reader.totalPages}`;
-    document.getElementById('pageSlider').value = closestPage;
-    // Save progress
-    api(`/progress/${reader.order}?current_page=${closestPage}`, 'POST').catch(() => {
-      Sync.queueChange(apiUrl(`/api/progress/${reader.order}?current_page=${closestPage}`), 'POST');
-    });
-    Sync.saveProgressLocal(reader.order, closestPage, null).catch(() => {});
-    history.replaceState(null, '', `#/read/${reader.order}/${closestPage}`);
+  if (closest !== reader.page) {
+    reader.page = closest;
+    document.getElementById('readerPageInfo').textContent = `${closest} / ${reader.totalPages}`;
+    document.getElementById('pageSlider').value = closest;
+    api(`/progress/${reader.order}?current_page=${closest}`, 'POST').catch(() => {});
+    history.replaceState(null, '', `#/read/${reader.order}/${closest}`);
   }
-
-  // Auto-complete when scrolled to the end
-  if (canvas.scrollTop + canvas.clientHeight >= canvas.scrollHeight - 50) {
-    if (!reader.issue.is_read) {
-      api(`/progress/${reader.order}?is_read=true`, 'POST').catch(() => {
-        Sync.queueChange(apiUrl(`/api/progress/${reader.order}?is_read=true`), 'POST');
-      });
-      Sync.saveProgressLocal(reader.order, reader.totalPages, true).catch(() => {});
-      reader.issue.is_read = 1;
-      updateMarkReadBtn(true);
-    }
+  if (canvas.scrollTop + canvas.clientHeight >= canvas.scrollHeight - 50 && !reader.issue.is_read) {
+    api(`/progress/${reader.order}?is_read=true`, 'POST').catch(() => {});
+    reader.issue.is_read = 1;
+    updateMarkReadBtn(true);
   }
 }
 
 function exitScrollMode() {
+  scrollMode = false;
+  document.getElementById('scrollModeBtn').classList.remove('active');
   const canvas = document.getElementById('readerCanvas');
   canvas.classList.remove('scroll-mode');
   canvas.removeEventListener('scroll', onScrollTrack);
-
-  // Remove scroll pages and separators
   canvas.querySelectorAll('.comic-page-scroll, .scroll-chapter-sep').forEach(el => el.remove());
-
-  // Re-enable controls & hide next chapter btn
-  document.getElementById('pageSlider').disabled = false;
   document.getElementById('nextChapterBtn').classList.remove('visible');
-
-  // Show current page in single-page mode
   resetZoom();
   showPage(reader.page);
 }
@@ -1358,216 +729,78 @@ function updateNextChapterBtn() {
     btn.textContent = `${nextIss ? nextIss.title + ' #' + nextIss.issue : 'Próximo'} →`;
     btn.classList.add('visible');
     btn.onclick = () => navigate('#/read/' + nextOrder);
-  } else {
-    btn.classList.remove('visible');
-  }
+  } else btn.classList.remove('visible');
 }
 
-// ── Zoom controls ──────────────────────────
+// ── Zoom ───────────────────────────────────
 function applyZoom() {
   document.getElementById('zoomLabel').textContent = zoomLevel + '%';
   if (scrollMode) {
-    const canvas = document.getElementById('readerCanvas');
-    const imgs = document.querySelectorAll('.comic-page-scroll');
-    imgs.forEach(img => {
-      img.style.width = zoomLevel + '%';
-      img.style.margin = '0 auto';
+    document.querySelectorAll('.comic-page-scroll').forEach(img => {
+      img.style.width = zoomLevel + '%'; img.style.margin = '0 auto';
     });
-    // Center images when zoomed out, stretch when zoomed in
-    canvas.style.alignItems = zoomLevel <= 100 ? 'center' : 'stretch';
+    document.getElementById('readerCanvas').style.alignItems = zoomLevel <= 100 ? 'center' : 'stretch';
   } else {
     const img = document.getElementById('comicPage');
     if (zoomLevel === 100) {
-      img.style.maxWidth = '100%';
-      img.style.maxHeight = '100%';
-      img.style.width = '';
-      img.style.margin = '';
+      img.style.maxWidth = '100%'; img.style.maxHeight = '100%'; img.style.width = ''; img.style.margin = '';
     } else {
-      img.style.maxWidth = 'none';
-      img.style.maxHeight = 'none';
-      img.style.width = zoomLevel + '%';
-      img.style.margin = '0 auto';
+      img.style.maxWidth = 'none'; img.style.maxHeight = 'none'; img.style.width = zoomLevel + '%'; img.style.margin = '0 auto';
     }
   }
 }
+function resetZoom() { zoomLevel = 100; applyZoom(); }
+document.getElementById('zoomInBtn').addEventListener('click', () => { if (zoomLevel < 300) { zoomLevel += 25; applyZoom(); } });
+document.getElementById('zoomOutBtn').addEventListener('click', () => { if (zoomLevel > 25) { zoomLevel -= 25; applyZoom(); } });
 
-function resetZoom() {
-  zoomLevel = 100;
-  applyZoom();
-}
-
-document.getElementById('zoomInBtn').addEventListener('click', () => {
-  if (zoomLevel < 300) { zoomLevel += 25; applyZoom(); }
-});
-
-document.getElementById('zoomOutBtn').addEventListener('click', () => {
-  if (zoomLevel > 25) { zoomLevel -= 25; applyZoom(); }
-});
-
-// ── Tap center to toggle controls ──────────
+// ── Tap center = toggle controls ───────────
 document.getElementById('readerCanvas').addEventListener('click', (e) => {
-  const rect = e.currentTarget.getBoundingClientRect();
-  const x = (e.clientX - rect.left) / rect.width;
+  const x = (e.clientX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.getBoundingClientRect().width;
   if (x > 0.3 && x < 0.7) toggleControls();
 });
 
-// ── Keyboard navigation ────────────────────
+// ── Keyboard ───────────────────────────────
 document.addEventListener('keydown', (e) => {
   if (!document.getElementById('reader-view').classList.contains('active')) return;
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextPage(); }
   else if (e.key === 'ArrowLeft') { e.preventDefault(); prevPage(); }
-  else if (e.key === 'Escape') { navigate('#/'); }
+  else if (e.key === 'Escape') navigate('#/');
 });
 
-// ── Swipe navigation ──────────────────────
+// ── Swipe ──────────────────────────────────
 let touchStartX = 0, touchStartY = 0;
 document.getElementById('readerCanvas').addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
 }, { passive: true });
-
 document.getElementById('readerCanvas').addEventListener('touchend', (e) => {
   const dx = e.changedTouches[0].clientX - touchStartX;
   const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-    if (dx < 0) nextPage();
-    else prevPage();
-  }
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? nextPage() : prevPage(); }
 }, { passive: true });
 
 // ═══════════════════════════════════════════════════════════
-//  PWA INSTALL PROMPT
+//  REPORTS
 // ═══════════════════════════════════════════════════════════
-let deferredInstallPrompt = null;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredInstallPrompt = e;
-  // Show a pulsing indicator that native install is available
-  const icon = document.getElementById('installIcon');
-  icon.style.animation = 'pulse 2s ease-in-out infinite';
-  icon.title = 'Instalar app (disponível!)';
-});
-
-document.getElementById('installIcon').addEventListener('click', async () => {
-  if (deferredInstallPrompt) {
-    deferredInstallPrompt.prompt();
-    const { outcome } = await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-    document.getElementById('installIcon').style.animation = '';
-    return;
-  }
-  // No native prompt — show styled install modal
-  showInstallModal();
-});
-
-function showInstallModal() {
-  const existing = document.getElementById('installModal');
-  if (existing) existing.remove();
-
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isAndroid = /android/i.test(navigator.userAgent);
-
-  let content;
-  if (isAndroid) {
-    content = `
-      <div style="border-bottom:1px solid #2a2a3e;padding-bottom:16px;margin-bottom:16px">
-        <p style="color:#40e080;font-weight:600;margin-bottom:8px">📦 Opção 1: Baixar APK (Recomendado)</p>
-        <p style="color:#8888aa;font-size:.8rem;margin-bottom:10px">Instale diretamente como app nativo no seu celular.</p>
-        <a href="${apiUrl('/download-apk')}" download="MarvelReader.apk"
-           style="display:inline-block;background:linear-gradient(135deg,#40e080,#30b060);color:#000;border:none;border-radius:8px;
-           padding:10px 20px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:inherit"
-           onclick="setTimeout(()=>document.getElementById('installModal').remove(),500)">
-           ⬇️ Baixar APK
-        </a>
-        <p style="font-size:.68rem;color:#666;margin-top:8px">
-          Após baixar: abra o arquivo → "Instalar" → Permitir fontes desconhecidas se pedido
-        </p>
-      </div>
-      <p style="color:#8888aa;font-weight:600;margin-bottom:8px">📱 Opção 2: Instalar via navegador</p>
-      <div style="text-align:left;margin:8px 0">
-        <p style="margin:6px 0;font-size:.82rem"><strong>1.</strong> Toque nos <strong>3 pontinhos</strong> <span style="font-size:1.2rem">⋮</span></p>
-        <p style="margin:6px 0;font-size:.82rem"><strong>2.</strong> Selecione <strong>"Instalar app"</strong> ou <strong>"Adicionar à tela inicial"</strong></p>
-      </div>`;
-  } else if (isIOS) {
-    content = `
-      <div style="text-align:left;margin:12px 0">
-        <p style="margin:8px 0"><strong>1.</strong> Toque em <span style="font-size:1.2rem">⬆️</span> (compartilhar) na barra inferior</p>
-        <p style="margin:8px 0"><strong>2.</strong> Selecione <strong>"Adicionar à Tela de Início"</strong></p>
-        <p style="margin:8px 0"><strong>3.</strong> Toque em <strong>"Adicionar"</strong></p>
-      </div>`;
-  } else {
-    content = `
-      <div style="border-bottom:1px solid #2a2a3e;padding-bottom:16px;margin-bottom:16px">
-        <p style="color:#40e080;font-weight:600;margin-bottom:8px">📦 Baixar APK (Android)</p>
-        <p style="color:#8888aa;font-size:.8rem;margin-bottom:10px">Transfira para seu celular Android e instale.</p>
-        <a href="${apiUrl('/download-apk')}" download="MarvelReader.apk"
-           style="display:inline-block;background:linear-gradient(135deg,#40e080,#30b060);color:#000;border:none;border-radius:8px;
-           padding:10px 20px;font-weight:600;font-size:.85rem;text-decoration:none;font-family:inherit">
-           ⬇️ Baixar APK
-        </a>
-      </div>
-      <p style="color:#8888aa;font-weight:600;margin-bottom:8px">Ou instale via navegador:</p>
-      <div style="text-align:left;margin:8px 0">
-        <p style="margin:6px 0;font-size:.82rem">Chrome/Edge: Menu ⋮ → "Instalar app"</p>
-      </div>`;
-  }
-
-  const modal = document.createElement('div');
-  modal.id = 'installModal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:5000;display:flex;align-items:center;justify-content:center;padding:16px';
-  modal.innerHTML = `
-    <div style="background:#12121a;border:1px solid #2a2a3e;border-radius:12px;padding:24px;max-width:400px;width:100%;color:#e0e0f0;font-family:Inter,sans-serif">
-      <h3 style="color:#f0c040;font-size:1.1rem;margin-bottom:12px">📲 Instalar Marvel Reader</h3>
-      ${content}
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
-        <button onclick="this.closest('#installModal').remove()" style="background:#1a1a2e;color:#e0e0f0;border:1px solid #2a2a3e;border-radius:8px;padding:8px 16px;font-size:.8rem;cursor:pointer;font-family:inherit">Fechar</button>
-      </div>
-    </div>`;
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
-  document.body.appendChild(modal);
-}
-
-// Hide install icon if already running as standalone app
-if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
-  document.getElementById('installIcon').style.display = 'none';
-}
-
-// ═══════════════════════════════════════════════════════════
-//  REPORT SYSTEM
-// ═══════════════════════════════════════════════════════════
-let flaggedIssues = new Set();
 let selectedReportType = null;
 
 async function loadFlaggedIssues() {
-  try {
-    const flags = await api('/reports/flagged');
-    flaggedIssues = new Set(flags);
-  } catch { /* offline, keep current set */ }
+  try { flaggedIssues = new Set(await api('/reports/flagged')); } catch {}
 }
 
-// Report modal
 document.getElementById('reportBtn').addEventListener('click', () => {
-  openReportModal();
-});
-
-function openReportModal() {
-  const modal = document.getElementById('reportModal');
-  modal.classList.add('active');
+  document.getElementById('reportModal').classList.add('active');
   document.getElementById('reportPageHint').textContent =
     `${reader.issue.title} #${reader.issue.issue} — Página ${reader.page}/${reader.totalPages}`;
   document.getElementById('reportDesc').value = '';
   selectedReportType = null;
   document.querySelectorAll('.report-type-btn').forEach(b => b.classList.remove('selected'));
-}
+});
 
-function closeReportModal() {
+document.getElementById('reportCancel').addEventListener('click', () => {
   document.getElementById('reportModal').classList.remove('active');
-}
-
-document.getElementById('reportCancel').addEventListener('click', closeReportModal);
+});
 document.getElementById('reportModal').addEventListener('click', (e) => {
-  if (e.target === e.currentTarget) closeReportModal();
+  if (e.target === e.currentTarget) document.getElementById('reportModal').classList.remove('active');
 });
 
 document.querySelectorAll('.report-type-btn').forEach(btn => {
@@ -1584,402 +817,28 @@ document.getElementById('reportSubmit').addEventListener('click', async () => {
     setTimeout(() => { document.getElementById('reportSubmit').textContent = 'Enviar Report'; }, 1500);
     return;
   }
-  const desc = document.getElementById('reportDesc').value.trim();
   try {
-    await fetch(apiUrl('/api/reports'), {
+    await fetch('/api/reports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         issue_order: reader.order,
         page_num: reader.page,
         report_type: selectedReportType,
-        description: desc,
+        description: document.getElementById('reportDesc').value.trim(),
       }),
     });
     flaggedIssues.add(reader.order);
     updateReportBtn();
-    closeReportModal();
-  } catch {
-    // Offline — save to local queue
-    Sync.queueChange(apiUrl('/api/reports'), 'POST');
-    flaggedIssues.add(reader.order);
-    updateReportBtn();
-    closeReportModal();
-  }
+    document.getElementById('reportModal').classList.remove('active');
+  } catch (e) { console.error(e); }
 });
 
 function updateReportBtn() {
   const btn = document.getElementById('reportBtn');
-  if (flaggedIssues.has(reader.order)) {
-    btn.classList.add('has-reports');
-    btn.textContent = '⚠️ Reportado';
-  } else {
-    btn.classList.remove('has-reports');
-    btn.textContent = '⚠️ Reportar';
-  }
+  btn.classList.toggle('has-reports', flaggedIssues.has(reader.order));
+  btn.textContent = flaggedIssues.has(reader.order) ? '⚠️ Reportado' : '⚠️ Reportar';
 }
-
-// ═══════════════════════════════════════════════════════════
-//  INIT SYNC
-// ═══════════════════════════════════════════════════════════
-IDB.open().then(() => {
-  Sync.init();
-}).catch(e => console.warn('IDB init failed:', e));
-
-// Pre-cache images of current reading issue after opening reader
-async function preCacheIssueImages(order, totalPages) {
-  if (!navigator.serviceWorker || !navigator.serviceWorker.controller) return;
-  const urls = [];
-  for (let i = 1; i <= totalPages; i++) {
-    urls.push(apiUrl(`/api/issues/${order}/page/${i}`));
-  }
-  navigator.serviceWorker.controller.postMessage({ type: 'CACHE_IMAGES', urls });
-}
-
-// ═══════════════════════════════════════════════════════════
-//  STORAGE MANAGEMENT
-// ═══════════════════════════════════════════════════════════
-const StorageManager = {
-  overlay: null,
-  isOpen: false,
-
-  downloading: false,
-  selectedPhases: new Set(),
-
-  init() {
-    this.overlay = document.getElementById('storageOverlay');
-
-    document.getElementById('menuIcon').addEventListener('click', () => this.open());
-    document.getElementById('storageClose').addEventListener('click', () => this.close());
-    this.overlay.addEventListener('click', (e) => {
-      if (e.target === this.overlay) this.close();
-    });
-
-    document.getElementById('clearAllCacheBtn').addEventListener('click', () => this.clearAll());
-    document.getElementById('downloadPhasesBtn').addEventListener('click', () => this.startBatchDownload());
-    document.getElementById('downloadCancelBtn').addEventListener('click', () => this.cancelDownload());
-
-    // Listen for SW messages
-    if (navigator.serviceWorker) {
-      navigator.serviceWorker.addEventListener('message', (e) => {
-        if (e.data.type === 'CACHE_DETAILS') this.onCacheDetails(e.data);
-        if (e.data.type === 'CACHE_CLEARED') this.onCacheCleared();
-        if (e.data.type === 'ISSUE_CACHE_CLEARED') this.onIssueCacheCleared(e.data);
-        if (e.data.type === 'BATCH_CACHE_PROGRESS') this.onBatchProgress(e.data);
-        if (e.data.type === 'BATCH_CACHE_DONE') this.onBatchDone(e.data);
-      });
-    }
-  },
-
-  open() {
-    this.isOpen = true;
-    this.overlay.classList.add('active');
-    this.loadDetails();
-    this.populatePhases();
-  },
-
-  close() {
-    this.isOpen = false;
-    this.overlay.classList.remove('active');
-  },
-
-  async loadDetails() {
-    document.getElementById('storageIssueList').innerHTML =
-      '<div class="storage-loading">Analisando cache...</div>';
-
-    // Storage estimate from browser
-    if (navigator.storage && navigator.storage.estimate) {
-      try {
-        const est = await navigator.storage.estimate();
-        document.getElementById('storageAvailable').textContent = this.formatSize(est.quota - est.usage);
-      } catch {
-        document.getElementById('storageAvailable').textContent = 'N/A';
-      }
-    } else {
-      document.getElementById('storageAvailable').textContent = 'N/A';
-    }
-
-    // Request detailed info from SW
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: 'GET_CACHE_DETAILS' });
-    } else {
-      document.getElementById('storageCachedCount').textContent = '0';
-      document.getElementById('storageUsedSize').textContent = '0 B';
-      document.getElementById('storageCachedIssues').textContent = '0';
-      document.getElementById('storageIssueList').innerHTML =
-        '<div class="storage-empty">Nenhuma imagem em cache</div>';
-    }
-  },
-
-  onCacheDetails(data) {
-    document.getElementById('storageCachedCount').textContent = data.totalCount;
-    document.getElementById('storageUsedSize').textContent = this.formatSize(data.totalSize);
-    const issueKeys = Object.keys(data.issues);
-    document.getElementById('storageCachedIssues').textContent = issueKeys.length;
-
-    const list = document.getElementById('storageIssueList');
-    if (issueKeys.length === 0) {
-      list.innerHTML = '<div class="storage-empty">Nenhuma imagem em cache</div>';
-      return;
-    }
-
-    // Sort by order number
-    issueKeys.sort((a, b) => parseInt(a) - parseInt(b));
-
-    list.innerHTML = '';
-    issueKeys.forEach(orderNum => {
-      const info = data.issues[orderNum];
-      const iss = library.find(i => i.order_num === parseInt(orderNum));
-      const title = iss ? `${iss.title} #${iss.issue}` : `Edição #${orderNum}`;
-
-      const item = document.createElement('div');
-      item.className = 'storage-issue-item';
-      item.innerHTML = `
-        <div class="si-info">
-          <div class="si-title">${title}</div>
-          <div class="si-detail">${info.count} pgs · ${this.formatSize(info.size)}</div>
-        </div>
-        <button class="si-delete" data-order="${orderNum}">Limpar</button>
-      `;
-      item.querySelector('.si-delete').addEventListener('click', () => {
-        this.clearIssue(parseInt(orderNum));
-      });
-      list.appendChild(item);
-    });
-  },
-
-  clearAll() {
-    if (!confirm('Limpar todas as imagens do cache? Você precisará estar online para ler novamente.')) return;
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: 'CLEAR_ALL_CACHE' });
-    }
-  },
-
-  onCacheCleared() {
-    document.getElementById('storageCachedCount').textContent = '0';
-    document.getElementById('storageUsedSize').textContent = '0 B';
-    document.getElementById('storageCachedIssues').textContent = '0';
-    document.getElementById('storageIssueList').innerHTML =
-      '<div class="storage-empty">Cache limpo ✅</div>';
-  },
-
-  clearIssue(orderNum) {
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: 'CLEAR_ISSUE_CACHE', orderNum });
-      // Optimistic: remove from list
-      const btn = document.querySelector(`.si-delete[data-order="${orderNum}"]`);
-      if (btn) {
-        const item = btn.closest('.storage-issue-item');
-        if (item) {
-          item.style.opacity = '0.3';
-          btn.textContent = '...';
-          btn.disabled = true;
-        }
-      }
-    }
-  },
-
-  onIssueCacheCleared(data) {
-    // Refresh the full details
-    this.loadDetails();
-  },
-
-  // ── Phase download ──────────────────────
-  populatePhases() {
-    const container = document.getElementById('downloadPhases');
-    if (library.length === 0) {
-      container.innerHTML = '<div class="storage-loading">Carregue a biblioteca primeiro</div>';
-      return;
-    }
-
-    // Group by phase
-    const phaseMap = {};
-    library.forEach(iss => {
-      if (!phaseMap[iss.phase]) phaseMap[iss.phase] = { name: iss.phase, issues: 0, pages: 0 };
-      phaseMap[iss.phase].issues++;
-      if (iss.total_pages > 0) phaseMap[iss.phase].pages += iss.total_pages;
-    });
-    const phases = Object.values(phaseMap);
-
-    container.innerHTML = '';
-    phases.forEach(p => {
-      const item = document.createElement('label');
-      item.className = 'download-phase-item' + (this.selectedPhases.has(p.name) ? ' selected' : '');
-      item.innerHTML = `
-        <input type="checkbox" value="${p.name}" ${this.selectedPhases.has(p.name) ? 'checked' : ''}>
-        <span class="dp-name">${p.name}</span>
-        <span class="dp-count">${p.issues} eds · ~${p.pages} pgs</span>
-      `;
-      const cb = item.querySelector('input');
-      cb.addEventListener('change', () => {
-        if (cb.checked) {
-          this.selectedPhases.add(p.name);
-          item.classList.add('selected');
-        } else {
-          this.selectedPhases.delete(p.name);
-          item.classList.remove('selected');
-        }
-        this.updateDownloadBtn();
-      });
-      container.appendChild(item);
-    });
-    this.updateDownloadBtn();
-  },
-
-  updateDownloadBtn() {
-    const btn = document.getElementById('downloadPhasesBtn');
-    const count = this.selectedPhases.size;
-    btn.disabled = count === 0 || this.downloading;
-    if (count === 0) {
-      btn.textContent = '⬇️ Baixar Selecionadas';
-    } else {
-      // Count total pages
-      let totalPages = 0;
-      library.forEach(iss => {
-        if (this.selectedPhases.has(iss.phase) && iss.total_pages > 0) totalPages += iss.total_pages;
-      });
-      btn.textContent = `⬇️ Baixar ${count} fase${count > 1 ? 's' : ''} (~${totalPages} pgs)`;
-    }
-  },
-
-  startBatchDownload() {
-    if (!navigator.serviceWorker || !navigator.serviceWorker.controller) {
-      alert('Service Worker não disponível. Recarregue a página.');
-      return;
-    }
-    if (this.selectedPhases.size === 0) return;
-
-    // Collect all issues from selected phases that have pages
-    const issues = library
-      .filter(iss => this.selectedPhases.has(iss.phase) && iss.total_pages > 0)
-      .map(iss => ({
-        orderNum: iss.order_num,
-        totalPages: iss.total_pages,
-        title: `${iss.title} #${iss.issue}`,
-      }));
-
-    if (issues.length === 0) {
-      alert('Nenhuma edição com páginas disponíveis nas fases selecionadas.');
-      return;
-    }
-
-    this.downloading = true;
-    document.getElementById('downloadProgress').classList.add('active');
-    document.getElementById('downloadProgressFill').style.width = '0%';
-    document.getElementById('downloadProgressLabel').textContent = 'Preparando...';
-    document.getElementById('downloadProgressPct').textContent = '0%';
-    document.getElementById('downloadPhasesBtn').disabled = true;
-    document.getElementById('downloadCancelBtn').style.display = '';
-
-    navigator.serviceWorker.controller.postMessage({ type: 'BATCH_CACHE_IMAGES', issues, apiBase: API_BASE });
-  },
-
-  cancelDownload() {
-    // SW doesn't support cancellation directly, but we can unregister and re-register
-    // For now, just hide progress and reset state
-    this.downloading = false;
-    document.getElementById('downloadProgress').classList.remove('active');
-    document.getElementById('downloadCancelBtn').style.display = 'none';
-    this.updateDownloadBtn();
-  },
-
-  onBatchProgress(data) {
-    const pct = data.total > 0 ? Math.round(data.current / data.total * 100) : 0;
-    document.getElementById('downloadProgressFill').style.width = pct + '%';
-    document.getElementById('downloadProgressPct').textContent = pct + '%';
-    document.getElementById('downloadProgressLabel').textContent =
-      `${data.currentIssue} (pg ${data.currentPage}/${data.issuePages}) — ${data.current}/${data.total}`;
-  },
-
-  onBatchDone(data) {
-    this.downloading = false;
-    document.getElementById('downloadCancelBtn').style.display = 'none';
-    document.getElementById('downloadProgressFill').style.width = '100%';
-    document.getElementById('downloadProgressPct').textContent = '✅';
-    const newImages = data.cached - data.skipped;
-    document.getElementById('downloadProgressLabel').textContent =
-      `Concluído! ${newImages} novas imagens baixadas` + (data.skipped > 0 ? ` (${data.skipped} já em cache)` : '');
-    this.updateDownloadBtn();
-    // Refresh cache details
-    this.loadDetails();
-  },
-
-  formatSize(bytes) {
-    if (!bytes || bytes <= 0) return '0 B';
-    const units = ['B', 'KB', 'MB', 'GB'];
-    let i = 0;
-    let size = bytes;
-    while (size >= 1024 && i < units.length - 1) { size /= 1024; i++; }
-    return size.toFixed(i > 0 ? 1 : 0) + ' ' + units[i];
-  },
-};
-
-// Init storage manager
-StorageManager.init();
-
-// ═══════════════════════════════════════════════════════════
-//  SERVER SETTINGS MODAL
-// ═══════════════════════════════════════════════════════════
-(function() {
-  const modal = document.getElementById('serverSettingsModal');
-  const input = document.getElementById('serverUrlInput');
-  const result = document.getElementById('serverTestResult');
-
-  input.value = localStorage.getItem('marvel_api_server') || '';
-
-  document.getElementById('settingsIcon').addEventListener('click', () => {
-    modal.style.display = 'flex';
-    input.value = localStorage.getItem('marvel_api_server') || '';
-    result.textContent = '';
-  });
-
-  document.getElementById('serverCloseBtn').addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.style.display = 'none';
-  });
-
-  document.getElementById('serverTestBtn').addEventListener('click', async () => {
-    const url = input.value.trim().replace(/\/+$/, '');
-    if (!url) { result.textContent = '⚠️ Digite a URL do servidor'; result.style.color = '#e04060'; return; }
-    result.textContent = '🔄 Testando...'; result.style.color = '#f0c040';
-    try {
-      const res = await fetch(url + '/api/stats', { signal: AbortSignal.timeout(5000) });
-      if (res.ok) {
-        const data = await res.json();
-        result.textContent = `✅ Conectado! ${data.total || 0} edições, ${data.read || 0} lidas`;
-        result.style.color = '#40e080';
-      } else {
-        result.textContent = '❌ Servidor respondeu com erro ' + res.status;
-        result.style.color = '#e04060';
-      }
-    } catch (e) {
-      result.innerHTML = '❌ Não foi possível conectar. Clique em "Aceitar Certificado" primeiro.';
-      result.style.color = '#e04060';
-    }
-  });
-
-  document.getElementById('serverAcceptCertBtn').addEventListener('click', () => {
-    const url = input.value.trim().replace(/\/+$/, '');
-    if (!url) { result.textContent = '⚠️ Digite a URL do servidor primeiro'; result.style.color = '#e04060'; return; }
-    result.innerHTML = '🔓 Abrindo servidor em nova aba... Aceite o aviso de segurança e volte aqui.';
-    result.style.color = '#f0c040';
-    window.open(url, '_blank');
-  });
-
-  document.getElementById('serverSaveBtn').addEventListener('click', () => {
-    const url = input.value.trim().replace(/\/+$/, '');
-    if (url) {
-      localStorage.setItem('marvel_api_server', url);
-    } else {
-      localStorage.removeItem('marvel_api_server');
-    }
-    modal.style.display = 'none';
-    location.reload();
-  });
-})();
 </script>
 </body>
 </html>

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Marvel Reader</string>
-    <string name="server_url">https://192.168.1.100:8000</string>
-</resources>
