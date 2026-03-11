@@ -23,11 +23,11 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ImageNotSupported
@@ -52,6 +52,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -107,6 +108,7 @@ class ReaderViewModel(
     var isFlagged by mutableStateOf(false)
     var showComplete by mutableStateOf(false)
     var nextIssue by mutableStateOf<IssueEntity?>(null)
+    var prevIssue by mutableStateOf<IssueEntity?>(null)
 
     init {
         viewModelScope.launch {
@@ -117,11 +119,14 @@ class ReaderViewModel(
                 isRead = progress?.isRead == true
                 currentPage = startPage.coerceIn(1, maxOf(totalPages, 1))
             }
-            // Find next readable issue
             val all = repo.getAllIssues()
             nextIssue = all.firstOrNull {
                 it.orderNum > orderNum && (it.downloadedPages > 0 || it.availablePages > 0)
             }
+            prevIssue = all.lastOrNull {
+                it.orderNum < orderNum && (it.downloadedPages > 0 || it.availablePages > 0)
+            }
+            scrollMode = repo.getSetting("reader_scroll_mode") == "true"
         }
     }
 
@@ -137,6 +142,13 @@ class ReaderViewModel(
     fun onPageChanged(page: Int) {
         currentPage = page.coerceIn(1, maxOf(totalPages, 1))
         viewModelScope.launch { repo.updateProgress(orderNum, currentPage) }
+    }
+
+    fun toggleScrollMode() {
+        scrollMode = !scrollMode
+        viewModelScope.launch {
+            repo.setSetting("reader_scroll_mode", scrollMode.toString())
+        }
     }
 
     fun toggleRead() {
@@ -183,7 +195,6 @@ fun ReaderScreen(
         },
     )
 
-    // Loading state
     val issue = vm.issue
     if (issue == null) {
         Box(Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
@@ -192,7 +203,6 @@ fun ReaderScreen(
         return
     }
 
-    // No pages state
     if (vm.totalPages == 0) {
         Box(Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -274,7 +284,17 @@ fun ReaderScreen(
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        // Read toggle
+                        vm.prevIssue?.let { prev ->
+                            FilledTonalButton(
+                                onClick = { onNavigateToIssue(prev.orderNum) },
+                                modifier = Modifier.height(34.dp),
+                                contentPadding = PaddingValues(horizontal = 10.dp),
+                                colors = ButtonDefaults.filledTonalButtonColors(containerColor = Surface2),
+                            ) {
+                                Text("←", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+                            }
+                        }
+
                         FilledTonalButton(
                             onClick = { vm.toggleRead() },
                             modifier = Modifier.height(34.dp),
@@ -290,9 +310,8 @@ fun ReaderScreen(
                             )
                         }
 
-                        // Scroll mode toggle
                         FilledTonalButton(
-                            onClick = { vm.scrollMode = !vm.scrollMode },
+                            onClick = { vm.toggleScrollMode() },
                             modifier = Modifier.height(34.dp),
                             contentPadding = PaddingValues(horizontal = 10.dp),
                             colors = ButtonDefaults.filledTonalButtonColors(
@@ -308,7 +327,6 @@ fun ReaderScreen(
 
                         Spacer(Modifier.weight(1f))
 
-                        // Report
                         FilledTonalButton(
                             onClick = { vm.showReport = true },
                             modifier = Modifier.height(34.dp),
@@ -317,13 +335,14 @@ fun ReaderScreen(
                                 containerColor = if (vm.isFlagged) Danger.copy(alpha = 0.2f) else Surface2,
                             ),
                         ) {
-                            Text(
-                                if (vm.isFlagged) "⚠️ Reportado" else "⚠️",
-                                style = MaterialTheme.typography.labelMedium,
+                            Icon(
+                                imageVector = Icons.Default.ImageNotSupported,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = if (vm.isFlagged) Danger else TextSecondary,
                             )
                         }
 
-                        // Next issue shortcut
                         vm.nextIssue?.let { next ->
                             FilledTonalButton(
                                 onClick = { onNavigateToIssue(next.orderNum) },
@@ -407,7 +426,7 @@ fun ReaderScreen(
 }
 
 // ═══════════════════════════════════════════════════════════
-//  Paged Reader (HorizontalPager with pinch-zoom & double-tap)
+//  Paged Reader — eager: carrega TODAS as páginas de uma vez
 // ═══════════════════════════════════════════════════════════
 
 @Composable
@@ -427,7 +446,8 @@ private fun PagedReader(vm: ReaderViewModel) {
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize(),
-        beyondViewportPageCount = 2,
+        // Pré-carrega todas as páginas do capítulo de uma vez
+        beyondViewportPageCount = vm.totalPages,
     ) { index ->
         val page = index + 1
         var scale by remember { mutableFloatStateOf(1f) }
@@ -466,7 +486,11 @@ private fun PagedReader(vm: ReaderViewModel) {
         ) {
             val model = vm.getPageModel(page)
             AsyncImage(
-                model = ImageRequest.Builder(context).data(model).crossfade(true).build(),
+                model = ImageRequest.Builder(context)
+                    .data(model)
+                    .memoryCacheKey("reader_page_${vm.orderNum}_$page")
+                    .crossfade(true)
+                    .build(),
                 contentDescription = "Página $page",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -481,59 +505,66 @@ private fun PagedReader(vm: ReaderViewModel) {
 }
 
 // ═══════════════════════════════════════════════════════════
-//  Scroll Reader (continuous vertical scroll)
+//  Scroll Reader — eager: Column normal, sem lazy loading
 // ═══════════════════════════════════════════════════════════
 
 @Composable
 private fun ScrollReader(vm: ReaderViewModel) {
     val context = LocalContext.current
-    val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = (vm.currentPage - 1).coerceAtLeast(0),
+    val scrollState = rememberScrollState(
+        initial = 0, // posição inicial; scroll por pixel não mapeia 1:1 com página
     )
 
-    LaunchedEffect(listState.firstVisibleItemIndex) {
-        val page = listState.firstVisibleItemIndex + 1
-        vm.onPageChanged(page)
-        if (page >= vm.totalPages) vm.onLastPage()
+    // Atualiza currentPage conforme o usuário rola
+    // Estimativa: divide o scroll total pelo número de páginas
+    LaunchedEffect(scrollState.value) {
+        if (scrollState.maxValue > 0 && vm.totalPages > 0) {
+            val fraction = scrollState.value.toFloat() / scrollState.maxValue.toFloat()
+            val page = (fraction * (vm.totalPages - 1)).toInt() + 1
+            vm.onPageChanged(page)
+            if (scrollState.value >= scrollState.maxValue) vm.onLastPage()
+        }
     }
 
-    LazyColumn(
-        state = listState,
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { vm.controlsVisible = !vm.controlsVisible })
             },
     ) {
-        items(vm.totalPages) { index ->
+        // Renderiza TODAS as páginas de uma vez — sem lazy loading
+        repeat(vm.totalPages) { index ->
             val page = index + 1
             val model = vm.getPageModel(page)
             AsyncImage(
-                model = ImageRequest.Builder(context).data(model).crossfade(true).build(),
+                model = ImageRequest.Builder(context)
+                    .data(model)
+                    .memoryCacheKey("reader_page_${vm.orderNum}_$page")
+                    .crossfade(true)
+                    .build(),
                 contentDescription = "Página $page",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
 
-        // Next issue separator at the bottom
+        // Próxima edição no final do scroll
         vm.nextIssue?.let { next ->
-            item {
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .clickable { /* handled by navigation */ }
-                        .background(Surface)
-                        .padding(20.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
-                        "Próximo: ${next.title} #${next.issue} →",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Accent,
-                        fontWeight = FontWeight.SemiBold,
-                    )
-                }
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .background(Surface)
+                    .padding(20.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    "Próximo: ${next.title} #${next.issue} →",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Accent,
+                    fontWeight = FontWeight.SemiBold,
+                )
             }
         }
     }

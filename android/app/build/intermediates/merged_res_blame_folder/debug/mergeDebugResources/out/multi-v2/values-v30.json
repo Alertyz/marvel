@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.marvel.reader.app-mergeDebugResources-57:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\alec_\\.gradle\\caches\\transforms-4\\f0febb9b2d489c398604e87c56d148bb\\transformed\\material3-release\\res\\values-v30\\values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}
