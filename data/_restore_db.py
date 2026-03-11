@@ -7,7 +7,7 @@ from pathlib import Path
 
 DB = "comics.db"
 BACKUP = "comics.db.broken_backup"
-CSV_DIR = Path("data")
+CSV_DIR = Path("data\exported_all_db")
 
 if os.path.exists(DB):
     shutil.copy2(DB, BACKUP)

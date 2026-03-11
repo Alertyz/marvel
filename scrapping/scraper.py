@@ -1,10 +1,14 @@
 """
 Phase 1 — Browser-based URL extraction (Selenium).
 
-Each worker gets its own Chrome instance and scrapes one issue at a time.
-Extracted image URLs are saved atomically per-issue to prevent cross-contamination.
+FIXES vs original:
+  • Hard per-issue timeout  → travado nunca bloqueia para sempre
+  • _stop_event global       → Ctrl+C encerra workers imediatamente
+  • Cleanup por PID          → Chrome nunca fica aberto após saída
+  • Abort on consecutive fails → capítulos ruins são pulados rápido
 """
 
+import os
 import sys
 import time
 import atexit
@@ -12,7 +16,7 @@ import signal
 import logging
 import subprocess
 import threading
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed, wait as futures_wait, FIRST_COMPLETED
 
 from .config import DELAY_BETWEEN_ISSUES, MAX_RETRIES, PAGE_LOAD_TIMEOUT, IMAGE_WAIT_TIMEOUT
 from .db import ComicDB
@@ -29,40 +33,97 @@ try:
 except ImportError:
     HAS_SELENIUM = False
 
-# ── Chrome lifecycle ────────────────────────────────────────
-_active_drivers: list = []
+# ── Configurações de timeout ────────────────────────────────
+# Tempo máximo total por issue (segundos). Ajuste conforme a quantidade
+# de páginas esperada. Issues que ultrapassarem isso são marcadas como falha.
+ISSUE_HARD_TIMEOUT = int(os.environ.get("ISSUE_HARD_TIMEOUT", 300))  # 5 min default
+
+# Quantas páginas consecutivas sem imagem antes de abortar o issue
+MAX_CONSECUTIVE_FAILS = int(os.environ.get("MAX_CONSECUTIVE_FAILS", 5))
+
+# ── Estado global de parada ─────────────────────────────────
+_stop_event = threading.Event()
+
+# ── Chrome lifecycle (track por PID) ────────────────────────
+_driver_pids: dict[int, object] = {}   # {browser_pid: driver}
 _drivers_lock = threading.Lock()
 
 
 def _register_driver(driver):
-    with _drivers_lock:
-        _active_drivers.append(driver)
+    try:
+        pid = driver.service.process.pid
+        with _drivers_lock:
+            _driver_pids[pid] = driver
+    except Exception:
+        pass
 
 
 def _unregister_driver(driver):
-    with _drivers_lock:
+    try:
+        pid = driver.service.process.pid
+        with _drivers_lock:
+            _driver_pids.pop(pid, None)
+    except Exception:
+        pass
+
+
+def _quit_driver_safe(driver):
+    """Quit driver; se travar, mata o processo pelo PID."""
+    pid = None
+    try:
+        pid = driver.service.process.pid
+    except Exception:
+        pass
+
+    try:
+        driver.quit()
+    except Exception:
+        pass
+
+    # Garante que o chromedriver filho morreu
+    if pid:
         try:
-            _active_drivers.remove(driver)
-        except ValueError:
+            if sys.platform == "win32":
+                subprocess.run(
+                    ["taskkill", "/F", "/PID", str(pid)],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                )
+            else:
+                os.kill(pid, signal.SIGKILL)
+        except Exception:
             pass
+
+    _unregister_driver(driver)
 
 
 def cleanup_chrome():
-    """Quit all tracked drivers, then kill any remaining chrome/chromedriver."""
+    """Mata todos os drivers rastreados + qualquer chrome/chromedriver residual."""
     with _drivers_lock:
-        for d in _active_drivers:
-            try:
-                d.quit()
-            except Exception:
-                pass
-        _active_drivers.clear()
+        drivers = list(_driver_pids.values())
+        _driver_pids.clear()
+
+    for d in drivers:
+        try:
+            d.quit()
+        except Exception:
+            pass
+
+    # Força kill por nome de processo como fallback
     if sys.platform == "win32":
         for proc_name in ("chromedriver.exe", "chrome.exe"):
             try:
                 subprocess.run(
                     ["taskkill", "/F", "/IM", proc_name],
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL,
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                )
+            except Exception:
+                pass
+    else:
+        for proc_name in ("chromedriver", "chromium", "google-chrome"):
+            try:
+                subprocess.run(
+                    ["pkill", "-9", "-f", proc_name],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                 )
             except Exception:
                 pass
@@ -70,9 +131,15 @@ def cleanup_chrome():
 
 def _setup_signal_handlers():
     def handler(sig, frame):
-        log.info("\nInterrompido — fechando browsers...")
-        cleanup_chrome()
-        sys.exit(1)
+        if _stop_event.is_set():
+            # Segunda vez: força saída imediata
+            log.warning("\nForçando saída imediata...")
+            cleanup_chrome()
+            os._exit(1)
+
+        log.info("\n[Ctrl+C] Sinalizando parada — aguarde workers terminarem...")
+        _stop_event.set()
+
     atexit.register(cleanup_chrome)
     signal.signal(signal.SIGINT, handler)
     signal.signal(signal.SIGTERM, handler)
@@ -100,11 +167,7 @@ def _create_browser(headless: bool = True):
     return driver
 
 
-# ── JavaScript for image extraction ─────────────────────────
-# Queries only the FIRST visible image inside #divImage that has a blogspot
-# src AND whose natural dimensions indicate it is fully loaded.
-# We avoid querySelectorAll + loop-over-all because the site may preload
-# images from adjacent issues elsewhere in the DOM.
+# ── JavaScript para extração de imagem ──────────────────────
 JS_GET_VISIBLE_IMAGE = """
     var container = document.getElementById('divImage');
     if (!container) return null;
@@ -141,9 +204,10 @@ JS_GET_FALLBACK = """
 
 def _extract_all_image_urls(url: str, headless: bool = True) -> dict[int, str]:
     """
-    Open one browser, navigate all pages, extract image URLs.
-    Returns dict {page_number: image_url} or empty dict on failure.
-    Special key "__captcha__" indicates CAPTCHA detection.
+    Abre um browser, navega todas as páginas, extrai URLs das imagens.
+    Retorna dict {page_number: image_url} ou vazio em caso de falha.
+    Chave especial "__captcha__" indica detecção de CAPTCHA.
+    Respeita _stop_event para encerramento limpo.
     """
     driver = None
     try:
@@ -153,20 +217,24 @@ def _extract_all_image_urls(url: str, headless: bool = True) -> dict[int, str]:
         WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.ID, "divImage"))
         )
+
+        if _stop_event.is_set():
+            return {}
+
         time.sleep(2)
 
         if "are you human" in driver.page_source.lower():
             log.warning("  [!!] CAPTCHA detectado")
             return {"__captcha__": True}
 
-        # Detect page count
+        # Detecta contagem de páginas
+        total_pages = 0
         try:
             select_el = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.ID, "selectPage"))
             )
             total_pages = len(Select(select_el).options)
         except Exception:
-            total_pages = 0
             for sel_el in driver.find_elements(By.TAG_NAME, "select"):
                 try:
                     opts = [o.text.strip() for o in Select(sel_el).options]
@@ -177,43 +245,42 @@ def _extract_all_image_urls(url: str, headless: bool = True) -> dict[int, str]:
                     continue
 
         if total_pages == 0:
-            log.warning("  [!!] Nao encontrou seletor de paginas")
+            log.warning("  [!!] Não encontrou seletor de páginas")
             return {}
 
-        log.info(f"  [OK] {total_pages} paginas detectadas")
+        log.info(f"  [OK] {total_pages} páginas detectadas")
 
         def wait_for_image(page_num: int, prev_src: str,
                            timeout_s: int = IMAGE_WAIT_TIMEOUT) -> str | None:
             """
-            Wait until the visible image in #divImage changes from prev_src.
-
-            The comparison against prev_src guards against the browser still
-            showing the previous page while the new one loads.  However, some
-            comics have genuinely duplicated page images (same URL on two
-            consecutive pages).  To avoid waiting forever in that case, we
-            track the URL that appears to be loading and accept it once it is
-            fully loaded, regardless of whether it equals prev_src.
+            Aguarda até a imagem visível em #divImage mudar de prev_src.
+            Retorna None se timeout ou _stop_event ativado.
             """
             loading_src: str | None = None
-            for tick in range(timeout_s * 2):
-                result = driver.execute_script(JS_GET_VISIBLE_IMAGE)
+            deadline = time.monotonic() + timeout_s
+
+            while time.monotonic() < deadline:
+                # ── Respeita Ctrl+C ──────────────────────────
+                if _stop_event.is_set():
+                    return None
+
+                try:
+                    result = driver.execute_script(JS_GET_VISIBLE_IMAGE)
+                except Exception:
+                    return None  # browser morreu
+
                 if result is None:
                     time.sleep(0.5)
                     continue
 
                 if result.startswith("__loading__:"):
-                    candidate = result[len("__loading__:"):]
-                    loading_src = candidate
+                    loading_src = result[len("__loading__:"):]
                     time.sleep(0.5)
                     continue
 
-                # result is a fully-loaded src
                 if result != prev_src:
                     return result.strip()
 
-                # result == prev_src: could be a duplicate page or a stale image.
-                # If we saw this same URL arrive via __loading__ it IS the new page
-                # (a genuine duplicate), so accept it.
                 if loading_src and loading_src == result:
                     log.debug(
                         f"    Página {page_num}: URL idêntica à anterior "
@@ -223,43 +290,60 @@ def _extract_all_image_urls(url: str, headless: bool = True) -> dict[int, str]:
 
                 time.sleep(0.5)
 
-            # Timeout — try the fallback JS (no naturalWidth check)
-            fallback = driver.execute_script(JS_GET_FALLBACK)
+            # Timeout — tenta fallback JS (sem checagem de naturalWidth)
+            try:
+                fallback = driver.execute_script(JS_GET_FALLBACK)
+            except Exception:
+                return None
+
             if fallback and fallback != prev_src:
-                log.warning(
-                    f"    Página {page_num}: timeout aguardando imagem, "
-                    f"usando fallback src"
-                )
+                log.warning(f"    Página {page_num}: timeout, usando fallback src")
                 return fallback.strip()
             if fallback and fallback == prev_src and loading_src:
-                log.warning(
-                    f"    Página {page_num}: timeout — aceitando URL duplicada via fallback"
-                )
+                log.warning(f"    Página {page_num}: timeout — aceitando URL duplicada via fallback")
                 return fallback.strip()
             return None
 
         image_urls: dict[int, str] = {}
+        consecutive_fails = 0
 
-        # Page 1
+        # Página 1
         src = wait_for_image(1, "", timeout_s=20)
         if src:
             image_urls[1] = src
+            consecutive_fails = 0
+        else:
+            consecutive_fails = 1
 
-        # Remaining pages
+        # Páginas restantes
         for page_num in range(2, total_pages + 1):
+            if _stop_event.is_set():
+                break
+
+            # ── Abort rápido se muitas páginas consecutivas falharam ──
+            if consecutive_fails >= MAX_CONSECUTIVE_FAILS:
+                log.warning(
+                    f"  [ABORT] {consecutive_fails} páginas consecutivas sem imagem "
+                    f"(página {page_num}/{total_pages}) — pulando issue"
+                )
+                break
+
             prev_src = image_urls.get(page_num - 1, "")
             try:
                 select_el = driver.find_element(By.ID, "selectPage")
                 Select(select_el).select_by_index(page_num - 1)
             except Exception as e:
-                log.warning(f"    Pagina {page_num}: erro ao navegar: {e}")
+                log.warning(f"    Página {page_num}: erro ao navegar: {e}")
+                consecutive_fails += 1
                 continue
 
             src = wait_for_image(page_num, prev_src, timeout_s=IMAGE_WAIT_TIMEOUT)
             if src:
                 image_urls[page_num] = src
+                consecutive_fails = 0
             else:
-                log.warning(f"    Pagina {page_num}: imagem nao encontrada")
+                log.warning(f"    Página {page_num}: imagem não encontrada ({consecutive_fails + 1}/{MAX_CONSECUTIVE_FAILS})")
+                consecutive_fails += 1
 
             if page_num % 10 == 0:
                 log.info(f"    ... {page_num}/{total_pages}")
@@ -268,15 +352,11 @@ def _extract_all_image_urls(url: str, headless: bool = True) -> dict[int, str]:
         return image_urls
 
     except Exception as e:
-        log.error(f"  [ERRO] Extracao falhou: {e}")
+        log.error(f"  [ERRO] Extração falhou: {e}")
         return {}
     finally:
         if driver:
-            try:
-                driver.quit()
-            except Exception:
-                pass
-            _unregister_driver(driver)
+            _quit_driver_safe(driver)   # ← garante fechamento mesmo em crash
 
 
 # ════════════════════════════════════════════════════════════
@@ -286,84 +366,147 @@ class ParallelScraper:
     """
     Phase 1: scrape image URLs from the comic site using parallel browsers.
 
-    Each issue is handled by a single browser instance. The scraped URLs
-    are written to the DB atomically per-issue — no shared state between
-    workers that could cause cross-contamination.
+    Cada issue é tratada por um único browser. Os URLs são gravados
+    no DB atomicamente por issue — sem estado compartilhado entre workers.
     """
 
     def __init__(self, db: ComicDB, num_workers: int = 3, headless: bool = True):
         if not HAS_SELENIUM:
-            raise RuntimeError("Selenium nao instalado. Execute: pip install selenium")
+            raise RuntimeError("Selenium não instalado. Execute: pip install selenium")
         self.db = db
         self.num_workers = num_workers
         self.headless = headless
-        self._stats = {"ok": 0, "fail": 0, "captcha": 0}
+        self._stats = {"ok": 0, "fail": 0, "captcha": 0, "aborted": 0}
         self._lock = threading.Lock()
 
     def scrape_all(self, filters: dict | None = None) -> dict:
         _setup_signal_handlers()
+        _stop_event.clear()
 
         issues = self.db.get_issues_to_scrape(filters)
         if not issues:
             log.info("Scrape: nada pendente")
             return self._stats
 
-        log.info(f"Scrape: {len(issues)} issues pendentes, {self.num_workers} workers")
+        log.info(
+            f"Scrape: {len(issues)} issues pendentes, "
+            f"{self.num_workers} workers, "
+            f"timeout por issue: {ISSUE_HARD_TIMEOUT}s"
+        )
 
-        with ThreadPoolExecutor(max_workers=self.num_workers) as pool:
-            futures = {}
-            for iss in issues:
-                f = pool.submit(self._scrape_one, iss)
-                futures[f] = iss
+        with ThreadPoolExecutor(
+            max_workers=self.num_workers,
+            thread_name_prefix="scraper",
+        ) as pool:
+            futures = {pool.submit(self._scrape_one, iss): iss for iss in issues}
 
-            for f in as_completed(futures):
-                iss = futures[f]
-                try:
-                    f.result()
-                except Exception as e:
-                    log.error(f"  Worker exception [{iss['title']} #{iss['issue']}]: {e}")
-                    with self._lock:
-                        self._stats["fail"] += 1
+            try:
+                for f in as_completed(futures):
+                    if _stop_event.is_set():
+                        # Cancela os futuros ainda pendentes
+                        for pending in futures:
+                            pending.cancel()
+                        break
+
+                    iss = futures[f]
+                    try:
+                        f.result()
+                    except Exception as e:
+                        log.error(
+                            f"  Worker exception [{iss['title']} "
+                            f"#{iss['issue']}]: {e}"
+                        )
+                        with self._lock:
+                            self._stats["fail"] += 1
+
+            except KeyboardInterrupt:
+                log.info("\n[Ctrl+C] Aguardando workers encerrarem...")
+                _stop_event.set()
+
+        cleanup_chrome()   # garantia final — mata qualquer chrome restante
 
         log.info(
             f"Scrape finalizado: {self._stats['ok']} ok, "
-            f"{self._stats['fail']} falhas, {self._stats['captcha']} captchas"
+            f"{self._stats['fail']} falhas, "
+            f"{self._stats['captcha']} captchas, "
+            f"{self._stats['aborted']} abortados"
         )
         return self._stats
 
     def _scrape_one(self, issue_row):
-        """Scrape a single issue. All state is local to this call."""
-        order = issue_row["order_num"]
-        title = issue_row["title"]
+        """
+        Scrape de um único issue com hard timeout.
+        Se ultrapassar ISSUE_HARD_TIMEOUT, marca falha e retorna.
+        """
+        if _stop_event.is_set():
+            return
+
+        order   = issue_row["order_num"]
+        title   = issue_row["title"]
         iss_num = issue_row["issue"]
-        url = issue_row["url"]
+        url     = issue_row["url"]
 
-        for attempt in range(1, MAX_RETRIES + 1):
-            label = f"  [SCRAPE #{order}] {title} #{iss_num}"
-            if attempt > 1:
-                label += f" (tentativa {attempt}/{MAX_RETRIES})"
-            log.info(label)
+        print(f"\n{'─'*50}")
+        print(f"  ISSUE   : {title} #{iss_num}")
+        print(f"  URL     : {url}")
+        print(f"{'─'*50}")
 
-            urls = _extract_all_image_urls(url, self.headless)
+        # ── Hard timeout via thread auxiliar ────────────────
+        # Usamos um Event interno para coordenar com o timer.
+        _done = threading.Event()
 
-            if urls.get("__captcha__"):
-                self.db.mark_scrape_failed(order, "captcha")
-                with self._lock:
-                    self._stats["captcha"] += 1
-                return
+        def _timeout_bomb():
+            """Dispara após ISSUE_HARD_TIMEOUT se o issue não terminou."""
+            if not _done.wait(ISSUE_HARD_TIMEOUT):
+                log.warning(
+                    f"  [TIMEOUT] {title} #{iss_num} travou por "
+                    f"{ISSUE_HARD_TIMEOUT}s — abortando"
+                )
+                _stop_event.set()          # encerra wait_for_image loops
+                # Dá 3s para o driver se fechar graciosamente, depois mata tudo
+                time.sleep(3)
+                cleanup_chrome()
+                _stop_event.clear()        # reseta para próximas issues
 
-            if urls:
-                # Atomic save: all URLs for this issue in one transaction
-                self.db.save_scraped_urls(order, urls)
-                with self._lock:
-                    self._stats["ok"] += 1
-                time.sleep(DELAY_BETWEEN_ISSUES)
-                return
+        timer = threading.Thread(target=_timeout_bomb, daemon=True)
+        timer.start()
 
-            if attempt < MAX_RETRIES:
-                log.warning(f"  [RETRY #{order}] falhou, tentando novamente...")
-                time.sleep(2)
+        try:
+            for attempt in range(1, MAX_RETRIES + 1):
+                if _stop_event.is_set():
+                    with self._lock:
+                        self._stats["aborted"] += 1
+                    return
 
-        self.db.mark_scrape_failed(order, "failed")
-        with self._lock:
-            self._stats["fail"] += 1
+                label = f"  [SCRAPE #{order}] {title} #{iss_num}"
+                if attempt > 1:
+                    label += f" (tentativa {attempt}/{MAX_RETRIES})"
+                log.info(label)
+
+                urls = _extract_all_image_urls(url, self.headless)
+
+                if urls.get("__captcha__"):
+                    self.db.mark_scrape_failed(order, "captcha")
+                    with self._lock:
+                        self._stats["captcha"] += 1
+                    return
+
+                if urls:
+                    save_path = self.db.save_scraped_urls(order, urls)
+                    print(f"  SALVO   : {save_path}  ({len(urls)} páginas)")
+                    with self._lock:
+                        self._stats["ok"] += 1
+                    time.sleep(DELAY_BETWEEN_ISSUES)
+                    return
+
+                if attempt < MAX_RETRIES and not _stop_event.is_set():
+                    log.warning(f"  [RETRY #{order}] falhou, tentando novamente...")
+                    time.sleep(2)
+
+            self.db.mark_scrape_failed(order, "failed")
+            print(f"  FALHOU  : {title} #{iss_num} após {MAX_RETRIES} tentativas")
+            with self._lock:
+                self._stats["fail"] += 1
+
+        finally:
+            _done.set()   # cancela o timer se o issue terminou normalmente

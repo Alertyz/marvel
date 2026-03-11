@@ -116,7 +116,8 @@ class ComicDB:
                         title=excluded.title, issue=excluded.issue,
                         phase=excluded.phase, event=excluded.event,
                         year=excluded.year, slug=excluded.slug,
-                        url=excluded.url, bookmark=excluded.bookmark
+                        url=CASE WHEN excluded.url != '' THEN excluded.url ELSE issues.url END,
+                        bookmark=excluded.bookmark
                 """, (
                     iss["order"], iss["title"], iss["issue"],
                     iss.get("phase", ""), iss.get("event", ""),
@@ -211,6 +212,7 @@ class ComicDB:
                 WHERE order_num=?
             """, (len(image_urls), datetime.now().isoformat(), order_num))
             c.commit()
+        return self.db_path
 
     def mark_scrape_failed(self, order_num: int, reason: str = "failed"):
         c = self._conn()
