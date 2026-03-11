@@ -15,7 +15,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.4"
     }
 
     buildTypes {
@@ -63,5 +63,7 @@ dependencies {
     implementation(libs.coil.network)
     implementation(libs.okhttp)
     implementation(libs.kotlinx.serialization.json)
+    implementation("androidx.core:core-ktx:1.15.0")
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation("me.saket.telephoto:zoomable-image-coil3:0.18.0")
 }

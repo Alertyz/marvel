@@ -1,0 +1,8 @@
+com.marvel.reader.app-pngs-0 C:\Users\alec_\StudioProjects\marvel\android\app\build\generated\res\pngs\debug
+com.marvel.reader.app-resValues-1 C:\Users\alec_\StudioProjects\marvel\android\app\build\generated\res\resValues\debug
+com.marvel.reader.app-updated_navigation_xml-2 C:\Users\alec_\StudioProjects\marvel\android\app\build\generated\updated_navigation_xml\debug
+com.marvel.reader.app-packageDebugResources-3 C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.marvel.reader.app-packageDebugResources-4 C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.marvel.reader.app-debug-5 C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.marvel.reader.app-debug-6 C:\Users\alec_\StudioProjects\marvel\android\app\src\debug\res
+com.marvel.reader.app-main-7 C:\Users\alec_\StudioProjects\marvel\android\app\src\main\res

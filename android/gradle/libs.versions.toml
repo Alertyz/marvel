@@ -1,9 +1,9 @@
 [versions]
-agp = "8.5.2"
-kotlin = "2.0.21"
-ksp = "2.0.21-1.0.28"
+agp = "9.1.0"
+kotlin = "2.1.0"
+ksp = "2.1.0-1.0.29"
 compose-bom = "2024.10.01"
-room = "2.6.1"
+room = "2.7.0-alpha11"
 navigation = "2.8.4"
 coil = "3.0.4"
 okhttp = "4.12.0"
@@ -11,6 +11,7 @@ serialization = "1.7.3"
 lifecycle = "2.8.7"
 core-ktx = "1.15.0"
 activity-compose = "1.9.3"
+zoomable-image-coil3 = "0.18.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -33,6 +34,7 @@ coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref 
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+zoomable-image-coil3 = { module = "me.saket.telephoto:zoomable-image-coil3", version.ref = "zoomable-image-coil3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

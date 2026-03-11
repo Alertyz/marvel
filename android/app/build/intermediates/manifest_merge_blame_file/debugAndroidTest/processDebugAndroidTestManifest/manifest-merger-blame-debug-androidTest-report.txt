@@ -3,32 +3,29 @@
 3    package="com.marvel.reader.test" >
 4
 5    <uses-sdk
-5-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:5:5-74
+5-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:5:5-74
 6        android:minSdkVersion="26"
-6-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:5:15-41
+6-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:5:15-41
 7        android:targetSdkVersion="35" />
-7-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:5:42-71
+7-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:5:42-71
 8
 9    <instrumentation
-9-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:11:5-15:67
-10        android:name="android.test.InstrumentationTestRunner"
-10-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:11:22-75
+9-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:7:5-11:67
+10        android:name="androidx.test.runner.AndroidJUnitRunner"
+10-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:7:22-76
 11        android:functionalTest="false"
-11-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:14:22-52
+11-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:10:22-52
 12        android:handleProfiling="false"
-12-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:13:22-53
+12-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:9:22-53
 13        android:label="Tests for com.marvel.reader"
-13-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:15:22-65
+13-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:11:22-65
 14        android:targetPackage="com.marvel.reader" />
-14-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:12:22-63
+14-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest15879327261361224237.xml:8:22-63
 15
 16    <application
-16-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:7:5-9:19
+16-->INJECTED
 17        android:debuggable="true"
-18        android:extractNativeLibs="false" >
-19        <uses-library android:name="android.test.runner" />
-19-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:8:9-60
-19-->C:\Users\alec_\StudioProjects\marvel\android\app\build\intermediates\tmp\manifest\androidTest\debug\tempFile1ProcessTestManifest8803939627529684708.xml:8:23-57
-20    </application>
-21
-22</manifest>
+18        android:extractNativeLibs="false" />
+18-->INJECTED
+19
+20</manifest>

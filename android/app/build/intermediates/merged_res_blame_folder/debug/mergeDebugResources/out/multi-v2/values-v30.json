@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.marvel.reader.app-mergeDebugResources-57:/values-v30/values-v30.xml",
+            "outputFile": "com.marvel.reader.app-mergeDebugResources-54:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\alec_\\.gradle\\caches\\transforms-4\\f0febb9b2d489c398604e87c56d148bb\\transformed\\material3-release\\res\\values-v30\\values-v30.xml",
+                    "source": "C:\\Users\\alec_\\.gradle\\caches\\9.3.1\\transforms\\6ecc364e2bb7d3fb6acd061c97a209b4\\workspace\\transformed\\material3-release\\res\\values-v30\\values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

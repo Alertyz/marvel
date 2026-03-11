@@ -9,7 +9,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,17 +51,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -88,6 +84,7 @@ import com.marvel.reader.ui.theme.Surface2
 import com.marvel.reader.ui.theme.TextPrimary
 import com.marvel.reader.ui.theme.TextSecondary
 import kotlinx.coroutines.launch
+import me.saket.telephoto.zoomable.coil3.ZoomableAsyncImage
 
 // ═══════════════════════════════════════════════════════════
 //  ViewModel
@@ -99,8 +96,8 @@ class ReaderViewModel(
     startPage: Int,
 ) : ViewModel() {
     var issue by mutableStateOf<IssueEntity?>(null)
-    var totalPages by mutableStateOf(0)
-    var currentPage by mutableStateOf(startPage)
+    var totalPages by mutableIntStateOf(0)
+    var currentPage by mutableIntStateOf(startPage)
     var isRead by mutableStateOf(false)
     var scrollMode by mutableStateOf(false)
     var controlsVisible by mutableStateOf(true)
@@ -208,8 +205,8 @@ fun ReaderScreen(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(Icons.Default.ImageNotSupported, null, tint = TextSecondary, modifier = Modifier.size(48.dp))
                 Spacer(Modifier.height(12.dp))
-                Text("Sem páginas disponíveis", color = TextSecondary)
-                Text("Baixe esta edição primeiro", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+                Text("Sem paginas disponiveis", color = TextSecondary)
+                Text("Baixe esta edicao primeiro", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
                 Spacer(Modifier.height(16.dp))
                 OutlinedButton(onClick = onBack) { Text("Voltar") }
             }
@@ -291,7 +288,7 @@ fun ReaderScreen(
                                 contentPadding = PaddingValues(horizontal = 10.dp),
                                 colors = ButtonDefaults.filledTonalButtonColors(containerColor = Surface2),
                             ) {
-                                Text("←", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+                                Text("\u2190", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
                             }
                         }
 
@@ -304,7 +301,7 @@ fun ReaderScreen(
                             ),
                         ) {
                             Text(
-                                if (vm.isRead) "✓ Lido" else "Marcar Lido",
+                                if (vm.isRead) "\u2713 Lido" else "Marcar Lido",
                                 style = MaterialTheme.typography.labelMedium,
                                 color = if (vm.isRead) Success else TextPrimary,
                             )
@@ -319,7 +316,7 @@ fun ReaderScreen(
                             ),
                         ) {
                             Text(
-                                if (vm.scrollMode) "📜 Scroll" else "📄 Página",
+                                if (vm.scrollMode) "\uD83D\uDCDC Scroll" else "\uD83D\uDCC4 Pagina",
                                 style = MaterialTheme.typography.labelMedium,
                                 color = if (vm.scrollMode) Info else TextPrimary,
                             )
@@ -352,7 +349,7 @@ fun ReaderScreen(
                                     containerColor = Info.copy(alpha = 0.2f),
                                 ),
                             ) {
-                                Text("→", style = MaterialTheme.typography.titleMedium, color = Info)
+                                Text("\u2192", style = MaterialTheme.typography.titleMedium, color = Info)
                             }
                         }
                     }
@@ -378,9 +375,9 @@ fun ReaderScreen(
                         Modifier.padding(24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text("🎉", style = MaterialTheme.typography.headlineLarge)
+                        Text("\uD83C\uDF89", style = MaterialTheme.typography.headlineLarge)
                         Spacer(Modifier.height(8.dp))
-                        Text("Edição concluída!", style = MaterialTheme.typography.titleLarge, color = Accent)
+                        Text("Edicao concluida!", style = MaterialTheme.typography.titleLarge, color = Accent)
                         Spacer(Modifier.height(4.dp))
                         Text(
                             "${issue.title} #${issue.issue}",
@@ -396,7 +393,7 @@ fun ReaderScreen(
                                 colors = ButtonDefaults.buttonColors(containerColor = Accent),
                             ) {
                                 Text(
-                                    "Próximo: ${next.title} #${next.issue}",
+                                    "Proximo: ${next.title} #${next.issue}",
                                     fontWeight = FontWeight.Bold,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
@@ -405,7 +402,7 @@ fun ReaderScreen(
                             Spacer(Modifier.height(8.dp))
                         }
                         OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth()) {
-                            Text("Voltar à Biblioteca")
+                            Text("Voltar a Biblioteca")
                         }
                     }
                 }
@@ -426,7 +423,7 @@ fun ReaderScreen(
 }
 
 // ═══════════════════════════════════════════════════════════
-//  Paged Reader — eager: carrega TODAS as páginas de uma vez
+//  Paged Reader
 // ═══════════════════════════════════════════════════════════
 
 @Composable
@@ -446,77 +443,33 @@ private fun PagedReader(vm: ReaderViewModel) {
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize(),
-        // Pré-carrega todas as páginas do capítulo de uma vez
         beyondViewportPageCount = vm.totalPages,
     ) { index ->
         val page = index + 1
-        var scale by remember { mutableFloatStateOf(1f) }
-        var offset by remember { mutableStateOf(Offset.Zero) }
 
-        Box(
-            Modifier
-                .fillMaxSize()
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onTap = { vm.controlsVisible = !vm.controlsVisible },
-                        onDoubleTap = { pos ->
-                            if (scale > 1f) {
-                                scale = 1f; offset = Offset.Zero
-                            } else {
-                                scale = 2.5f
-                                offset = Offset(
-                                    (size.width / 2f - pos.x) * 1.5f,
-                                    (size.height / 2f - pos.y) * 1.5f,
-                                )
-                            }
-                        },
-                    )
-                }
-                .pointerInput(Unit) {
-                    detectTransformGestures { _, pan, zoom, _ ->
-                        scale = (scale * zoom).coerceIn(1f, 5f)
-                        if (scale > 1f) {
-                            offset = Offset(offset.x + pan.x, offset.y + pan.y)
-                        } else {
-                            offset = Offset.Zero
-                        }
-                    }
-                },
-            contentAlignment = Alignment.Center,
-        ) {
-            val model = vm.getPageModel(page)
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(model)
-                    .memoryCacheKey("reader_page_${vm.orderNum}_$page")
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Página $page",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .graphicsLayer(
-                        scaleX = scale, scaleY = scale,
-                        translationX = offset.x, translationY = offset.y,
-                    ),
-            )
-        }
+        ZoomableAsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(vm.getPageModel(page))
+                .memoryCacheKey("reader_page_${vm.orderNum}_$page")
+                .crossfade(true)
+                .build(),
+            contentDescription = "Pagina $page",
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxSize(),
+            onClick = { vm.controlsVisible = !vm.controlsVisible },
+        )
     }
 }
 
 // ═══════════════════════════════════════════════════════════
-//  Scroll Reader — eager: Column normal, sem lazy loading
+//  Scroll Reader
 // ═══════════════════════════════════════════════════════════
 
 @Composable
 private fun ScrollReader(vm: ReaderViewModel) {
     val context = LocalContext.current
-    val scrollState = rememberScrollState(
-        initial = 0, // posição inicial; scroll por pixel não mapeia 1:1 com página
-    )
+    val scrollState = rememberScrollState(initial = 0)
 
-    // Atualiza currentPage conforme o usuário rola
-    // Estimativa: divide o scroll total pelo número de páginas
     LaunchedEffect(scrollState.value) {
         if (scrollState.maxValue > 0 && vm.totalPages > 0) {
             val fraction = scrollState.value.toFloat() / scrollState.maxValue.toFloat()
@@ -534,7 +487,6 @@ private fun ScrollReader(vm: ReaderViewModel) {
                 detectTapGestures(onTap = { vm.controlsVisible = !vm.controlsVisible })
             },
     ) {
-        // Renderiza TODAS as páginas de uma vez — sem lazy loading
         repeat(vm.totalPages) { index ->
             val page = index + 1
             val model = vm.getPageModel(page)
@@ -544,13 +496,12 @@ private fun ScrollReader(vm: ReaderViewModel) {
                     .memoryCacheKey("reader_page_${vm.orderNum}_$page")
                     .crossfade(true)
                     .build(),
-                contentDescription = "Página $page",
+                contentDescription = "Pagina $page",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
 
-        // Próxima edição no final do scroll
         vm.nextIssue?.let { next ->
             Box(
                 Modifier
@@ -560,7 +511,7 @@ private fun ScrollReader(vm: ReaderViewModel) {
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    "Próximo: ${next.title} #${next.issue} →",
+                    "Proximo: ${next.title} #${next.issue} \u2192",
                     style = MaterialTheme.typography.titleMedium,
                     color = Accent,
                     fontWeight = FontWeight.SemiBold,
@@ -586,21 +537,21 @@ private fun ReportDialog(
     var description by remember { mutableStateOf("") }
 
     val reportTypes = listOf(
-        "missing_images" to "🖼️ Imagens faltando",
-        "wrong_order" to "🔀 Ordem errada",
-        "bad_quality" to "👎 Qualidade ruim",
-        "wrong_issue" to "❌ Edição errada",
-        "other" to "📝 Outro",
+        "missing_images" to "\uD83D\uDDBC\uFE0F Imagens faltando",
+        "wrong_order" to "\uD83D\uDD00 Ordem errada",
+        "bad_quality" to "\uD83D\uDC4E Qualidade ruim",
+        "wrong_issue" to "\u274C Edicao errada",
+        "other" to "\uD83D\uDCDD Outro",
     )
 
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = Surface,
-        title = { Text("⚠️ Reportar Problema", color = Danger) },
+        title = { Text("\u26A0\uFE0F Reportar Problema", color = Danger) },
         text = {
             Column {
                 Text(
-                    "${issue.title} #${issue.issue} — Página $page/$totalPages",
+                    "${issue.title} #${issue.issue} \u2014 Pagina $page/$totalPages",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                 )
