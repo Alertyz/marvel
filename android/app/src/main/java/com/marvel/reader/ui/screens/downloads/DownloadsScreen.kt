@@ -1,6 +1,7 @@
 package com.marvel.reader.ui.screens.downloads
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.DeleteOutline
@@ -33,6 +35,8 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,6 +44,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -48,6 +53,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.marvel.reader.data.db.IssueEntity
+import com.marvel.reader.data.db.ProgressEntity
 import com.marvel.reader.data.repository.ComicRepository
 import com.marvel.reader.ui.theme.Accent
 import com.marvel.reader.ui.theme.Border
@@ -61,24 +67,34 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 
-private enum class DlFilter { ALL, DOWNLOADED, PENDING }
+enum class DlFilter { ALL, DOWNLOADED, PENDING }
 
 class DownloadsViewModel(private val repo: ComicRepository) : ViewModel() {
     var issues by mutableStateOf<List<IssueEntity>>(emptyList())
+    var progressMap by mutableStateOf<Map<Int, ProgressEntity>>(emptyMap())
     var filter by mutableStateOf(DlFilter.ALL)
+    var selectedPhase by mutableStateOf("")
     var activeDownloads by mutableStateOf<Map<Int, Float>>(emptyMap())
     var searchQuery by mutableStateOf("")
     private val semaphore = Semaphore(3)
 
     init {
         viewModelScope.launch { repo.issuesFlow().collect { issues = it } }
+        viewModelScope.launch {
+            repo.progressFlow().collect { list -> progressMap = list.associateBy { it.orderNum } }
+        }
     }
 
     val isConnected get() = repo.isConnected
 
+    val phases get() = issues.map { it.phase }.distinct().filter { it.isNotEmpty() }
+
     val filteredIssues: List<IssueEntity>
         get() {
             var list = issues.filter { it.availablePages > 0 }
+            if (selectedPhase.isNotEmpty()) {
+                list = list.filter { it.phase == selectedPhase }
+            }
             if (searchQuery.isNotEmpty()) {
                 list = list.filter {
                     it.title.contains(searchQuery, ignoreCase = true) ||
@@ -127,6 +143,18 @@ class DownloadsViewModel(private val repo: ComicRepository) : ViewModel() {
         filteredIssues
             .filter { it.downloadedPages < it.availablePages }
             .forEach { downloadIssue(it.orderNum) }
+    }
+
+    fun deleteAllVisible() {
+        filteredIssues
+            .filter { it.downloadedPages > 0 }
+            .forEach { deleteIssue(it.orderNum) }
+    }
+
+    fun deleteReadInVisible() {
+        filteredIssues
+            .filter { it.downloadedPages > 0 && progressMap[it.orderNum]?.isRead == true }
+            .forEach { deleteIssue(it.orderNum) }
     }
 }
 
@@ -190,6 +218,30 @@ fun DownloadsScreen(repository: ComicRepository) {
             )
             Spacer(Modifier.height(8.dp))
 
+            if (vm.phases.isNotEmpty()) {
+                val allPhases = listOf("") + vm.phases
+                ScrollableTabRow(
+                    selectedTabIndex = allPhases.indexOf(vm.selectedPhase).coerceAtLeast(0),
+                    edgePadding = 0.dp,
+                    containerColor = Color.Transparent,
+                    divider = {},
+                ) {
+                    allPhases.forEach { phase ->
+                        Tab(
+                            selected = vm.selectedPhase == phase,
+                            onClick = { vm.selectedPhase = phase },
+                        ) {
+                            Text(
+                                if (phase.isEmpty()) "Todas" else phase,
+                                Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                        }
+                    }
+                }
+                Spacer(Modifier.height(8.dp))
+            }
+
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 FilterChip(
                     selected = vm.filter == DlFilter.ALL,
@@ -207,26 +259,64 @@ fun DownloadsScreen(repository: ComicRepository) {
                     label = { Text("Pendentes") },
                 )
             }
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(8.dp))
 
-            if (hasConnection && filtered.any { it.downloadedPages < it.availablePages }) {
-                Button(
-                    onClick = { vm.downloadAllVisible() },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Info),
-                ) {
-                    Icon(Icons.Default.CloudDownload, null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(6.dp))
-                    Text("Baixar tudo visível", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondary)
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                if (hasConnection && filtered.any { it.downloadedPages < it.availablePages }) {
+                    Button(
+                        onClick = { vm.downloadAllVisible() },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = Info),
+                        shape = RoundedCornerShape(8.dp),
+                    ) {
+                        Icon(Icons.Default.CloudDownload, null, modifier = Modifier.size(18.dp))
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            if (vm.selectedPhase.isEmpty()) "Baixar tudo visível" else "Baixar fase: ${vm.selectedPhase}",
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
                 }
-                Spacer(Modifier.height(6.dp))
+
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    if (filtered.any { it.downloadedPages > 0 }) {
+                        Button(
+                            onClick = { vm.deleteAllVisible() },
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(containerColor = Danger.copy(alpha = 0.8f)),
+                            shape = RoundedCornerShape(8.dp),
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            Icon(Icons.Default.DeleteOutline, null, modifier = Modifier.size(16.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text("Excluir visíveis", style = MaterialTheme.typography.labelMedium, color = Color.White)
+                        }
+                    }
+
+                    if (filtered.any { it.downloadedPages > 0 && vm.progressMap[it.orderNum]?.isRead == true }) {
+                        Button(
+                            onClick = { vm.deleteReadInVisible() },
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(containerColor = Success.copy(alpha = 0.8f)),
+                            shape = RoundedCornerShape(8.dp),
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            Icon(Icons.Default.CheckCircle, null, modifier = Modifier.size(16.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text("Excluir lidos", style = MaterialTheme.typography.labelMedium, color = Color.White)
+                        }
+                    }
+                }
             }
+            Spacer(Modifier.height(12.dp))
         }
 
         items(filtered, key = { it.orderNum }) { issue ->
             DownloadCard(
                 issue = issue,
                 isDownloaded = issue.downloadedPages >= issue.availablePages && issue.availablePages > 0,
+                isRead = vm.progressMap[issue.orderNum]?.isRead == true,
                 progress = vm.activeDownloads[issue.orderNum],
                 hasConnection = hasConnection,
                 onDownload = { vm.downloadIssue(issue.orderNum) },
@@ -242,6 +332,7 @@ fun DownloadsScreen(repository: ComicRepository) {
 private fun DownloadCard(
     issue: IssueEntity,
     isDownloaded: Boolean,
+    isRead: Boolean,
     progress: Float?,
     hasConnection: Boolean,
     onDownload: () -> Unit,
@@ -249,7 +340,9 @@ private fun DownloadCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = Surface),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isRead) Surface.copy(alpha = 0.6f) else Surface
+        ),
         border = BorderStroke(
             1.dp,
             when {
@@ -264,9 +357,9 @@ private fun DownloadCard(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
                     Text(
-                        "${issue.title} #${issue.issue}",
+                        "${issue.title} #${issue.issue}${if (isRead) " ✓" else ""}",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Medium,
+                        fontWeight = if (isRead) FontWeight.Normal else FontWeight.Medium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

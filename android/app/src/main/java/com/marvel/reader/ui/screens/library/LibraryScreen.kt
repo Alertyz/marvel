@@ -69,7 +69,7 @@ private val SERIES_COLORS = listOf(
     Color(0xFF80A0E0), Color(0xFFA0E040), Color(0xFFE0A060), Color(0xFF6080E0),
 )
 
-private data class IssueWithProgress(
+data class IssueWithProgress(
     val issue: IssueEntity,
     val progress: ProgressEntity?,
 ) {
