@@ -9,6 +9,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,6 +53,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,6 +61,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -462,7 +465,7 @@ private fun PagedReader(vm: ReaderViewModel) {
 }
 
 // ═══════════════════════════════════════════════════════════
-//  Scroll Reader
+//  Scroll Reader (with pinch-to-zoom)
 // ═══════════════════════════════════════════════════════════
 
 @Composable
@@ -470,6 +473,20 @@ private fun ScrollReader(vm: ReaderViewModel) {
     val context = LocalContext.current
     val scrollState = rememberScrollState(initial = 0)
 
+    // ── Zoom state ──
+    var scale by remember { mutableFloatStateOf(1f) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
+    var offsetY by remember { mutableFloatStateOf(0f) }
+
+    // Reset offsets when scale returns to 1
+    LaunchedEffect(scale) {
+        if (scale <= 1f) {
+            offsetX = 0f
+            offsetY = 0f
+        }
+    }
+
+    // ── Page tracking ──
     LaunchedEffect(scrollState.value) {
         if (scrollState.maxValue > 0 && vm.totalPages > 0) {
             val fraction = scrollState.value.toFloat() / scrollState.maxValue.toFloat()
@@ -479,43 +496,89 @@ private fun ScrollReader(vm: ReaderViewModel) {
         }
     }
 
-    Column(
+    // ── Zoomable container ──
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
             .pointerInput(Unit) {
-                detectTapGestures(onTap = { vm.controlsVisible = !vm.controlsVisible })
+                detectTapGestures(
+                    onTap = { vm.controlsVisible = !vm.controlsVisible },
+                    onDoubleTap = { tapOffset ->
+                        if (scale > 1.5f) {
+                            // Zoom out → reset
+                            scale = 1f
+                            offsetX = 0f
+                            offsetY = 0f
+                        } else {
+                            // Zoom in to 2.5x centered on tap point
+                            val targetScale = 2.5f
+                            val centerX = size.width / 2f
+                            val centerY = size.height / 2f
+                            offsetX = (centerX - tapOffset.x) * (targetScale - 1f)
+                            offsetY = (centerY - tapOffset.y) * (targetScale - 1f)
+                            scale = targetScale
+                        }
+                    },
+                )
+            }
+            .pointerInput(Unit) {
+                detectTransformGestures { _, pan, zoom, _ ->
+                    val newScale = (scale * zoom).coerceIn(1f, 4f)
+                    scale = newScale
+
+                    if (newScale > 1f) {
+                        val maxX = (size.width * (newScale - 1f)) / 2f
+                        val maxY = (size.height * (newScale - 1f)) / 2f
+                        offsetX = (offsetX + pan.x).coerceIn(-maxX, maxX)
+                        offsetY = (offsetY + pan.y).coerceIn(-maxY, maxY)
+                    } else {
+                        offsetX = 0f
+                        offsetY = 0f
+                    }
+                }
+            }
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+                translationX = offsetX
+                translationY = offsetY
             },
     ) {
-        repeat(vm.totalPages) { index ->
-            val page = index + 1
-            val model = vm.getPageModel(page)
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(model)
-                    .memoryCacheKey("reader_page_${vm.orderNum}_$page")
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Pagina $page",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-
-        vm.nextIssue?.let { next ->
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .background(Surface)
-                    .padding(20.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    "Proximo: ${next.title} #${next.issue} \u2192",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Accent,
-                    fontWeight = FontWeight.SemiBold,
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+        ) {
+            repeat(vm.totalPages) { index ->
+                val page = index + 1
+                val model = vm.getPageModel(page)
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(model)
+                        .memoryCacheKey("reader_page_${vm.orderNum}_$page")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "Pagina $page",
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxWidth(),
                 )
+            }
+
+            vm.nextIssue?.let { next ->
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .background(Surface)
+                        .padding(20.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        "Proximo: ${next.title} #${next.issue} \u2192",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Accent,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
             }
         }
     }
