@@ -15,7 +15,7 @@ class ReaderDB:
         self._local = threading.local()
         self._write_lock = threading.Lock()
         self._init_schema()
-        self._ensure_populated()
+        self.sync_with_json()
 
     def _conn(self):
         if not hasattr(self._local, "conn"):
@@ -77,29 +77,41 @@ class ReaderDB:
                 )
                 c.commit()
 
-    def _ensure_populated(self):
-        c = self._conn()
-        count = c.execute("SELECT COUNT(*) FROM issues").fetchone()[0]
-        if count == 0:
-            self._populate_from_json()
-
-    def _populate_from_json(self):
+    def sync_with_json(self):
         if not READING_ORDER_PATH.exists():
             return
         with open(str(READING_ORDER_PATH), "r", encoding="utf-8") as f:
             data = json.load(f)
+        
+        valid_orders = []
         c = self._conn()
         with self._write_lock:
             for iss in data["issues"]:
+                valid_orders.append(iss["order"])
                 c.execute("""
-                    INSERT OR IGNORE INTO issues
+                    INSERT INTO issues
                         (order_num, title, issue, phase, event, year, bookmark)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(order_num) DO UPDATE SET
+                        title=excluded.title, issue=excluded.issue,
+                        phase=excluded.phase, event=excluded.event,
+                        year=excluded.year, bookmark=excluded.bookmark
                 """, (
                     iss["order"], iss["title"], iss["issue"],
                     iss.get("phase", ""), iss.get("event", ""),
                     iss.get("year", ""), int(iss.get("bookmark", False)),
                 ))
+            
+            if valid_orders:
+                existing_orders = [r[0] for r in c.execute("SELECT order_num FROM issues").fetchall()]
+                to_delete = set(existing_orders) - set(valid_orders)
+                for chunk in [list(to_delete)[i:i+500] for i in range(0, len(to_delete), 500)]:
+                    if not chunk: continue
+                    placeholders = ",".join("?" for _ in chunk)
+                    c.execute(f"DELETE FROM reading_progress WHERE issue_order IN ({placeholders})", chunk)
+                    c.execute(f"DELETE FROM reports WHERE issue_order IN ({placeholders})", chunk)
+                    c.execute(f"DELETE FROM issues WHERE order_num IN ({placeholders})", chunk)
+                    
             c.commit()
 
     def _bump_version(self):

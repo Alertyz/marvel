@@ -93,8 +93,10 @@ class ComicDB:
         """
         c = self._conn()
         skipped = 0
+        valid_orders = []
         with self._write_lock:
             for iss in issues_list:
+                valid_orders.append(iss["order"])
                 url = build_issue_url(iss["title"], iss["issue"])
                 if url is None:
                     slug = iss["title"]
@@ -125,6 +127,17 @@ class ComicDB:
                     int(iss.get("bookmark", False)),
                     initial_status,
                 ))
+
+            if valid_orders:
+                existing_orders = [r[0] for r in c.execute("SELECT order_num FROM issues").fetchall()]
+                to_delete = set(existing_orders) - set(valid_orders)
+                for chunk in [list(to_delete)[i:i+500] for i in range(0, len(to_delete), 500)]:
+                    if not chunk: continue
+                    placeholders = ",".join("?" for _ in chunk)
+                    c.execute(f"DELETE FROM pages WHERE issue_order IN ({placeholders})", chunk)
+                    c.execute(f"DELETE FROM validation_flags WHERE issue_order IN ({placeholders})", chunk)
+                    c.execute(f"DELETE FROM issues WHERE order_num IN ({placeholders})", chunk)
+
             c.commit()
         log.info(f"DB: {len(issues_list)} issues sincronizadas ({skipped} indisponiveis)")
 
