@@ -1,0 +1,1256 @@
+{
+  "section": "2019 a 2021",
+  "issues": [
+    {
+      "order": 1,
+      "title": "House of X",
+      "issue": 1,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 2,
+      "title": "Powers of X",
+      "issue": 1,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 3,
+      "title": "House of X",
+      "issue": 2,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 4,
+      "title": "Powers of X",
+      "issue": 2,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 5,
+      "title": "Powers of X",
+      "issue": 3,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 6,
+      "title": "House of X",
+      "issue": 3,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 7,
+      "title": "House of X",
+      "issue": 4,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 8,
+      "title": "Powers of X",
+      "issue": 4,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 9,
+      "title": "House of X",
+      "issue": 5,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 10,
+      "title": "Powers of X",
+      "issue": 5,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 11,
+      "title": "House of X",
+      "issue": 6,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 12,
+      "title": "Powers of X",
+      "issue": 6,
+      "phase": "House of X / Powers of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 13,
+      "title": "X-Men",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 14,
+      "title": "Marauders",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 15,
+      "title": "X-Men",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 16,
+      "title": "Excalibur",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 17,
+      "title": "Excalibur",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 18,
+      "title": "Excalibur",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 19,
+      "title": "Excalibur",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 20,
+      "title": "Excalibur",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 21,
+      "title": "Excalibur",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 22,
+      "title": "New Mutants",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 23,
+      "title": "X-Force",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2019",
+      "category": "essencial"
+    },
+    {
+      "order": 24,
+      "title": "X-Force",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 25,
+      "title": "Marauders",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 26,
+      "title": "Marauders",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 27,
+      "title": "X-Men",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 28,
+      "title": "Fallen Angels",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2019",
+      "category": "recomendado"
+    },
+    {
+      "order": 29,
+      "title": "X-Force",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 30,
+      "title": "Fallen Angels",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 31,
+      "title": "Fallen Angels",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 32,
+      "title": "Fallen Angels",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 33,
+      "title": "Fallen Angels",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 34,
+      "title": "Fallen Angels",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 35,
+      "title": "New Mutants",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 36,
+      "title": "New Mutants",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 37,
+      "title": "New Mutants",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 38,
+      "title": "New Mutants",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 39,
+      "title": "New Mutants",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 40,
+      "title": "New Mutants",
+      "issue": 7,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 41,
+      "title": "New Mutants",
+      "issue": 8,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 42,
+      "title": "New Mutants",
+      "issue": 9,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 43,
+      "title": "New Mutants",
+      "issue": 10,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 44,
+      "title": "New Mutants",
+      "issue": 11,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 45,
+      "title": "X-Men",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 46,
+      "title": "X-Men + Fantastic Four: 4X",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 47,
+      "title": "X-Men + Fantastic Four: 4X",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 48,
+      "title": "X-Men + Fantastic Four: 4X",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 49,
+      "title": "X-Men + Fantastic Four: 4X",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 50,
+      "title": "Marauders",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 51,
+      "title": "X-Force",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 52,
+      "title": "X-Force",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 53,
+      "title": "X-Force",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 54,
+      "title": "Wolverine",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 55,
+      "title": "Excalibur",
+      "issue": 7,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 56,
+      "title": "Excalibur",
+      "issue": 8,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 57,
+      "title": "X-Men",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 58,
+      "title": "Giant-Size X-Men: Jean Grey & Emma Frost",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 59,
+      "title": "X-Men",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 60,
+      "title": "X-Men",
+      "issue": 7,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 61,
+      "title": "Giant-Size X-Men: Nightcrawler",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 62,
+      "title": "X-Force",
+      "issue": 7,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 63,
+      "title": "X-Force",
+      "issue": 8,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 64,
+      "title": "X-Force",
+      "issue": 9,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 65,
+      "title": "X-Force",
+      "issue": 10,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 66,
+      "title": "Wolverine",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 67,
+      "title": "Wolverine",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 68,
+      "title": "Wolverine",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 69,
+      "title": "Wolverine",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 70,
+      "title": "Marauders",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 71,
+      "title": "Marauders",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 72,
+      "title": "Marauders",
+      "issue": 7,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 73,
+      "title": "Marauders",
+      "issue": 8,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 74,
+      "title": "Marauders",
+      "issue": 9,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 75,
+      "title": "Cable",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 76,
+      "title": "Marauders",
+      "issue": 10,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 77,
+      "title": "Marauders",
+      "issue": 11,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 78,
+      "title": "Marauders",
+      "issue": 12,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 79,
+      "title": "New Mutants",
+      "issue": 12,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 80,
+      "title": "Giant-Size X-Men: Fantomex",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 81,
+      "title": "Giant-Size X-Men: Storm",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 82,
+      "title": "Cable",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 83,
+      "title": "Cable",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 84,
+      "title": "Cable",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 85,
+      "title": "X-Force",
+      "issue": 11,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 86,
+      "title": "X-Force",
+      "issue": 12,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 87,
+      "title": "X-Force",
+      "issue": 15,
+      "phase": "Reign of X",
+      "event": "",
+      "year": "2021",
+      "category": "essencial"
+    },
+    {
+      "order": 88,
+      "title": "X-Force",
+      "issue": 16,
+      "phase": "Reign of X",
+      "event": "",
+      "year": "2021",
+      "category": "essencial"
+    },
+    {
+      "order": 89,
+      "title": "Deadpool",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "completista"
+    },
+    {
+      "order": 90,
+      "title": "X-Factor",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 91,
+      "title": "X-Factor",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 92,
+      "title": "X-Factor",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 93,
+      "title": "Giant-Size X-Men: Magneto",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "recomendado"
+    },
+    {
+      "order": 94,
+      "title": "Hellions",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 95,
+      "title": "Hellions",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 96,
+      "title": "Hellions",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 97,
+      "title": "Hellions",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 98,
+      "title": "X-Men",
+      "issue": 8,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 99,
+      "title": "X-Men",
+      "issue": 9,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 100,
+      "title": "Empyre: X-Men",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "completista"
+    },
+    {
+      "order": 101,
+      "title": "Empyre: X-Men",
+      "issue": 2,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "completista"
+    },
+    {
+      "order": 102,
+      "title": "Empyre: X-Men",
+      "issue": 3,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "completista"
+    },
+    {
+      "order": 103,
+      "title": "Empyre: X-Men",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "completista"
+    },
+    {
+      "order": 104,
+      "title": "X-Men",
+      "issue": 10,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 105,
+      "title": "X-Men",
+      "issue": 11,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 106,
+      "title": "Fantastic Four",
+      "issue": 24,
+      "phase": "",
+      "event": "",
+      "year": "",
+      "category": "essencial"
+    },
+    {
+      "order": 107,
+      "title": "Excalibur",
+      "issue": 9,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 108,
+      "title": "Excalibur",
+      "issue": 10,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 109,
+      "title": "Excalibur",
+      "issue": 11,
+      "phase": "Dawn of X",
+      "event": "",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 110,
+      "title": "Excalibur",
+      "issue": 12,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 111,
+      "title": "X-Men",
+      "issue": 12,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 112,
+      "title": "X of Swords: Creation",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 113,
+      "title": "X-Factor",
+      "issue": 4,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 114,
+      "title": "Wolverine",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 115,
+      "title": "X-Force",
+      "issue": 13,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 116,
+      "title": "Marauders",
+      "issue": 13,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 117,
+      "title": "Hellions",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 118,
+      "title": "New Mutants",
+      "issue": 13,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 119,
+      "title": "Cable",
+      "issue": 5,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 120,
+      "title": "Excalibur",
+      "issue": 13,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 121,
+      "title": "X-Men",
+      "issue": 13,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 122,
+      "title": "X of Swords: Stasis",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 123,
+      "title": "X-Men",
+      "issue": 14,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 124,
+      "title": "Marauders",
+      "issue": 14,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 125,
+      "title": "Marauders",
+      "issue": 15,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 126,
+      "title": "Excalibur",
+      "issue": 14,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 127,
+      "title": "Wolverine",
+      "issue": 7,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 128,
+      "title": "X-Force",
+      "issue": 14,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 129,
+      "title": "Hellions",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 130,
+      "title": "Cable",
+      "issue": 6,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 131,
+      "title": "X-Men",
+      "issue": 15,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 132,
+      "title": "Excalibur",
+      "issue": 15,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 133,
+      "title": "X of Swords: Destruction",
+      "issue": 1,
+      "phase": "Dawn of X",
+      "event": "X of Swords",
+      "year": "2020",
+      "category": "essencial"
+    },
+    {
+      "order": 134,
+      "title": "X-Men",
+      "issue": 16,
+      "phase": "Reign of X",
+      "event": "",
+      "year": "2021",
+      "category": "essencial"
+    },
+    {
+      "order": 135,
+      "title": "Hellions",
+      "issue": 7,
+      "phase": "Reign of X",
+      "event": "",
+      "year": "2021",
+      "category": "essencial"
+    },
+    {
+      "order": 136,
+      "title": "Hellions",
+      "issue": 8,
+      "phase": "Reign of X",
+      "event": "",
+      "year": "2021",
+      "category": "essencial"
+    },
+    {
+      "order": 137,
+      "title": "Marauders",
+      "issue": 16,
+      "phase": "Reign of X",
+      "event": "",
+      "year": "2021",
+      "category": "essencial"
+    },
+    {
+      "order": 138,
+      "title": "Cable",
+      "issue": 7,
+      "phase": "Reign of X",
+      "event": "",
+      "year": "2021",
+      "category": "completista"
+    },
+    {
+      "order": 139,
+      "title": "Cable",
+      "issue": 8,
+      "phase": "Reign of X",
+      "event": "",
+      "year": "2021",
+      "category": "completista"
+    }
+  ]
+}
