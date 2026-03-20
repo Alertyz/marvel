@@ -1,0 +1,64 @@
+{
+    "columns": [
+        "Order",
+        "Book",
+        "Events/Characters/Universes",
+        "Published",
+        "Era",
+        "Writer(s)",
+        "Penciller(s)",
+        "Main?"
+    ],
+    "first_5_rows": [
+        {
+            "Order": NaN,
+            "Book": "House of X #1",
+            "Events/Characters/Universes": "House of X/Powers of X",
+            "Published": "2019-07-24",
+            "Era": "Krakoa: Dawn of X",
+            "Writer(s)": "Jonathan Hickman",
+            "Penciller(s)": "Pepe Larraz",
+            "Main?": "Yes"
+        },
+        {
+            "Order": NaN,
+            "Book": "Powers of X #1",
+            "Events/Characters/Universes": "House of X/Powers of X",
+            "Published": "2019-07-31",
+            "Era": "Krakoa: Dawn of X",
+            "Writer(s)": "Jonathan Hickman",
+            "Penciller(s)": "R.B. Silva",
+            "Main?": "Yes"
+        },
+        {
+            "Order": NaN,
+            "Book": "House of X #2",
+            "Events/Characters/Universes": "House of X/Powers of X",
+            "Published": "2019-08-07",
+            "Era": "Krakoa: Dawn of X",
+            "Writer(s)": "Jonathan Hickman",
+            "Penciller(s)": "Pepe Larraz",
+            "Main?": "Yes"
+        },
+        {
+            "Order": NaN,
+            "Book": "Powers of X #2",
+            "Events/Characters/Universes": "House of X/Powers of X",
+            "Published": "2019-08-14",
+            "Era": "Krakoa: Dawn of X",
+            "Writer(s)": "Jonathan Hickman",
+            "Penciller(s)": "R.B. Silva",
+            "Main?": "Yes"
+        },
+        {
+            "Order": NaN,
+            "Book": "Powers of X #3",
+            "Events/Characters/Universes": "House of X/Powers of X",
+            "Published": "2019-08-21",
+            "Era": "Krakoa: Dawn of X",
+            "Writer(s)": "Jonathan Hickman",
+            "Penciller(s)": "R.B. Silva",
+            "Main?": "Yes"
+        }
+    ]
+}
