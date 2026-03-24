@@ -1,7 +1,38 @@
+# Python
 /.venv
 __pycache__/
 *.pyc
+*.pyo
+
+# Comics data (large files, downloaded locally)
 comics/
-.certs/
+
+# Database (generated locally)
+*.db
 *.db-shm
 *.db-wal
+*.db.*backup*
+
+# Certificates
+.certs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Android Studio / Gradle build artifacts
+android/app/build/
+android/.gradle/
+android/build/
+android/local.properties
+*.apk
+*.aab
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Exported data (generated)
+data/exported_all_db/
+data/exported_all_db.zip
